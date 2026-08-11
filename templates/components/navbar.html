@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<header class="site-header sticky-top" x-data="{ open: false }">
+  <nav class="navbar navbar-expand-lg navbar-custom" aria-label="{% translate 'Primary navigation' %}">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand site-brand" href="{% url 'home' %}">
+        Sojourn Baptist Church
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        aria-controls="site-navigation"
+        aria-expanded="false"
+        aria-label="{% translate 'Toggle navigation' %}"
+        @click="open = !open"
+        :aria-expanded="open.toString()"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="site-navigation" class="navbar-collapse" :class="open ? 'show' : ''" x-cloak>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}" @click="open = false">
+              {% translate "Home" %}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

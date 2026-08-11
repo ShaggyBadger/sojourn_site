@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <main>
+    <section class="hero-section">
+      {% if site_settings and site_settings.hero_image %}
+        <div class="hero-image">
+          <img src="{{ site_settings.hero_image.url }}" alt="{{ site_settings.hero_image_alt }}">
+        </div>
+      {% else %}
+        <div class="hero-image hero-image-placeholder" aria-hidden="true"></div>
+      {% endif %}
+
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="container hero-content">
+        <div class="hero-cross" aria-hidden="true">&#10013;</div>
+        <p class="hero-kicker">{% translate "Sojourn Baptist Church" %}</p>
+        <h1 class="hero-title">
+          {% translate "Bienvenidos a casa" %}<br>
+          <span>{% translate "Welcome home" %}</span>
+        </h1>
+        <p class="hero-subtitle">
+          {% translate "Una comunidad bilingüe" %}<br>
+          {% translate "Walking together in faith" %}
+        </p>
+        <a class="btn btn-custom-gold" href="#welcome">
+          {% translate "Conoce nuestra iglesia" %}
+        </a>
+      </div>
+    </section>
+
+    <section class="features-section" id="welcome">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <article class="feature-card h-100">
+              <p class="feature-number">01</p>
+              <h2 class="feature-title">{% translate "¿Nuevo aquí?" %}</h2>
+              <div class="feature-icon-circle" aria-hidden="true">&#10013;</div>
+              <p class="feature-text">
+                {% translate "We would love to welcome you. Find a place to begin and learn what to expect when you visit." %}
+              </p>
+            </article>
+          </div>
+          <div class="col-md-4">
+            <article class="feature-card h-100">
+              <p class="feature-number">02</p>
+              <h2 class="feature-title">{% translate "Último sermón" %}</h2>
+              <div class="feature-icon-circle" aria-hidden="true">&#9654;</div>
+              <p class="feature-text">
+                {% translate "Sermon recordings and teaching from our church family will be available here soon." %}
+              </p>
+            </article>
+          </div>
+          <div class="col-md-4">
+            <article class="feature-card h-100">
+              <p class="feature-number">03</p>
+              <h2 class="feature-title">{% translate "Dar" %}</h2>
+              <div class="feature-icon-circle" aria-hidden="true">&#9829;</div>
+              <p class="feature-text">
+                {% translate "Give as an act of worship and help strengthen the work God is doing through our church." %}
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

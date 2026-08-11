@@ -3,3 +3,4 @@ psycopg[binary]
 gunicorn
 django-storages
 boto3
+Pillow
