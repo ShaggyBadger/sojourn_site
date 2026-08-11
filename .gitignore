@@ -4,5 +4,7 @@ __pycache__/
 db.sqlite3
 .env
 .env.example
+.env.production
 instructions/
 graphify-out/
+staticfiles/

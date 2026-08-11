@@ -3,4 +3,7 @@
 __pycache__
 *.py[cod]
 db.sqlite3
-.env
+.env*
+!.env.example
+staticfiles/
+graphify-out/
