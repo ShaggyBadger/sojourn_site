@@ -4,3 +4,4 @@ gunicorn
 django-storages
 boto3
 Pillow
+whitenoise>=6.9,<7.0
