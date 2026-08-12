@@ -39,6 +39,13 @@ body {
   letter-spacing: 0.04em;
 }
 
+.site-brand-icon {
+  display: block;
+  height: 2.25rem;
+  object-fit: contain;
+  width: 2.25rem;
+}
+
 .navbar-custom .nav-link {
   letter-spacing: 0.5px;
 }
@@ -51,7 +58,7 @@ body {
 .language-item {
   align-items: center;
   display: flex;
-  margin-left: 1rem;
+  margin-left: auto;
 }
 
 .language-switcher fieldset {
@@ -120,6 +127,7 @@ body {
 
 .navbar-toggler {
   border-color: rgba(197, 168, 128, 0.45);
+  margin-left: 0;
 }
 
 .navbar-toggler-icon {
@@ -333,7 +341,6 @@ body {
   }
 
   .language-item {
-    margin-left: 0;
-    margin-top: 0.75rem;
+    margin-left: auto;
   }
 }

@@ -3,10 +3,6 @@
 <header class="site-header sticky-top" x-data="{ open: false }">
   <nav class="navbar navbar-expand-lg navbar-custom" aria-label="{% translate 'Primary navigation' %}">
     <div class="container-fluid px-4">
-      <a class="navbar-brand site-brand" href="{% url 'home' %}">
-        Sojourn Baptist Church
-      </a>
-
       <button
         class="navbar-toggler"
         type="button"
@@ -19,54 +15,53 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div id="site-navigation" class="navbar-collapse" :class="open ? 'show' : ''" x-cloak>
-        <ul class="navbar-nav ms-auto">
+      <div id="site-navigation" class="collapse navbar-collapse" :class="open ? 'show' : ''" x-cloak>
+        <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="{% url 'home' %}" @click="open = false">
               {% translate "Home" %}
             </a>
           </li>
-          <li class="nav-item language-item">
-            <form
-              class="language-switcher"
-              action="{% url 'set_language' %}"
-              method="post"
-              x-data="{ language: '{{ current_language }}' }"
-            >
-              {% csrf_token %}
-              <input type="hidden" name="next" value="{{ request.get_full_path }}">
-              <fieldset>
-                <legend class="visually-hidden">{% translate "Choose language" %}</legend>
-                <div class="language-rocker" aria-label="{% translate 'Choose language' %}">
-                  <label class="language-label" for="language-toggle">English</label>
-                  <input
-                    id="language-toggle"
-                    class="language-toggle"
-                    type="checkbox"
-                    role="switch"
-                    :checked="language === 'es'"
-                    aria-checked="{% if current_language == 'es' %}true{% else %}false{% endif %}"
-                    :aria-checked="language === 'es'"
-                    aria-label="{% translate 'Toggle between English and Spanish' %}"
-                    @change="language = $event.target.checked ? 'es' : 'en'; $refs.languageInput.value = language; $event.target.form.submit()"
-                  >
-                  <label class="language-track" for="language-toggle" aria-hidden="true"><span class="language-thumb"></span></label>
-                  <label class="language-label" for="language-toggle">Español</label>
-                  <input x-ref="languageInput" type="hidden" value="{{ current_language }}" x-bind:name="'language'">
-                </div>
-                <noscript>
-                  <label for="language-select" class="visually-hidden">{% translate "Choose language" %}</label>
-                  <select id="language-select" name="language">
-                    <option value="en"{% if current_language == 'en' %} selected{% endif %}>English</option>
-                    <option value="es"{% if current_language == 'es' %} selected{% endif %}>Español</option>
-                  </select>
-                  <button type="submit">{% translate "Change language" %}</button>
-                </noscript>
-              </fieldset>
-            </form>
-          </li>
         </ul>
       </div>
+
+      <form
+        class="language-switcher language-item"
+        action="{% url 'set_language' %}"
+        method="post"
+        x-data="{ language: '{{ current_language }}' }"
+      >
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <fieldset>
+          <legend class="visually-hidden">{% translate "Choose language" %}</legend>
+          <div class="language-rocker" aria-label="{% translate 'Choose language' %}">
+            <label class="language-label" for="language-toggle">English</label>
+            <input
+              id="language-toggle"
+              class="language-toggle"
+              type="checkbox"
+              role="switch"
+              :checked="language === 'es'"
+              aria-checked="{% if current_language == 'es' %}true{% else %}false{% endif %}"
+              :aria-checked="language === 'es'"
+              aria-label="{% translate 'Toggle between English and Spanish' %}"
+              @change="language = $event.target.checked ? 'es' : 'en'; $refs.languageInput.value = language; $event.target.form.submit()"
+            >
+            <label class="language-track" for="language-toggle" aria-hidden="true"><span class="language-thumb"></span></label>
+            <label class="language-label" for="language-toggle">Español</label>
+            <input x-ref="languageInput" type="hidden" value="{{ current_language }}" x-bind:name="'language'">
+          </div>
+          <noscript>
+            <label for="language-select" class="visually-hidden">{% translate "Choose language" %}</label>
+            <select id="language-select" name="language">
+              <option value="en"{% if current_language == 'en' %} selected{% endif %}>English</option>
+              <option value="es"{% if current_language == 'es' %} selected{% endif %}>Español</option>
+            </select>
+            <button type="submit">{% translate "Change language" %}</button>
+          </noscript>
+        </fieldset>
+      </form>
     </div>
   </nav>
 </header>
