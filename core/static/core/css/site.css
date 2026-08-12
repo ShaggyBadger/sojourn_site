@@ -48,6 +48,76 @@ body {
   color: var(--accent-gold);
 }
 
+.language-item {
+  align-items: center;
+  display: flex;
+  margin-left: 1rem;
+}
+
+.language-switcher fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.language-rocker {
+  align-items: center;
+  display: flex;
+  gap: 0.45rem;
+}
+
+.language-label {
+  border-radius: 50rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.language-toggle {
+  height: 1px;
+  opacity: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.language-track {
+  background: rgba(244, 241, 234, 0.18);
+  border: 1px solid rgba(197, 168, 128, 0.55);
+  border-radius: 50rem;
+  cursor: pointer;
+  display: block;
+  height: 1.65rem;
+  padding: 0.15rem;
+  position: relative;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  width: 3rem;
+}
+
+.language-thumb {
+  background: var(--accent-gold);
+  border-radius: 50%;
+  display: block;
+  height: 1.15rem;
+  left: 0.15rem;
+  position: absolute;
+  top: 0.15rem;
+  transition: transform 0.2s ease;
+  width: 1.15rem;
+}
+
+.language-toggle:checked + .language-track {
+  background: rgba(197, 168, 128, 0.25);
+}
+
+.language-toggle:checked + .language-track .language-thumb {
+  transform: translateX(1.35rem);
+}
+
+.language-toggle:focus-visible + .language-track {
+  outline: 2px solid var(--text-light);
+  outline-offset: 2px;
+}
+
 .navbar-toggler {
   border-color: rgba(197, 168, 128, 0.45);
 }
@@ -160,6 +230,56 @@ body {
   padding: 5rem 1rem;
 }
 
+.leadership-section {
+  background: var(--bg-card);
+  padding: 5rem 1rem;
+}
+
+.section-heading {
+  margin: 0 auto 3rem;
+  max-width: 40rem;
+  text-align: center;
+}
+
+.section-heading h2 {
+  color: var(--text-light);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 300;
+}
+
+.team-card {
+  color: var(--text-light);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.team-photo {
+  border: 1px solid rgba(197, 168, 128, 0.45);
+  border-radius: 50%;
+  height: 150px;
+  margin-bottom: 1.25rem;
+  object-fit: cover;
+  width: 150px;
+}
+
+.team-name {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.35rem;
+}
+
+.team-role {
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+}
+
+.team-bio {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 30rem;
+}
+
 .feature-card {
   background: transparent;
   border: none;
@@ -210,5 +330,10 @@ body {
   .navbar-collapse {
     padding-bottom: 0.75rem;
     padding-top: 0.75rem;
+  }
+
+  .language-item {
+    margin-left: 0;
+    margin-top: 0.75rem;
   }
 }

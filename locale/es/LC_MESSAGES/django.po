@@ -1,0 +1,67 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Sojourn Baptist Church\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Primary navigation"
+msgstr "Navegación principal"
+
+msgid "Toggle navigation"
+msgstr "Mostrar u ocultar la navegación"
+
+msgid "Home"
+msgstr "Inicio"
+
+msgid "Choose language"
+msgstr "Elegir idioma"
+
+msgid "Toggle between English and Spanish"
+msgstr "Cambiar entre inglés y español"
+
+msgid "Change language"
+msgstr "Cambiar idioma"
+
+msgid "Sojourn Baptist Church"
+msgstr "Iglesia Bautista Sojourn"
+
+msgid "Welcome home"
+msgstr "Bienvenidos a casa"
+
+msgid "Find your place"
+msgstr "Encuentra tu lugar"
+
+msgid "A bilingual community"
+msgstr "Una comunidad bilingüe"
+
+msgid "Walking together in faith"
+msgstr "Caminando juntos en la fe"
+
+msgid "Learn about our church"
+msgstr "Conoce nuestra iglesia"
+
+msgid "Our leadership"
+msgstr "Nuestro liderazgo"
+
+msgid "Meet the people who serve our church"
+msgstr "Conoce a las personas que sirven a nuestra iglesia"
+
+msgid "New here?"
+msgstr "¿Eres nuevo aquí?"
+
+msgid "We would love to welcome you. Find a place to begin and learn what to expect when you visit."
+msgstr "Nos encantaría darte la bienvenida. Encuentra un lugar para comenzar y descubre qué esperar cuando nos visites."
+
+msgid "Latest sermon"
+msgstr "Último sermón"
+
+msgid "Sermon recordings and teaching from our church family will be available here soon."
+msgstr "Pronto encontrarás aquí grabaciones de sermones y enseñanzas de nuestra familia de la iglesia."
+
+msgid "Give"
+msgstr "Dar"
+
+msgid "Give as an act of worship and help strengthen the work God is doing through our church."
+msgstr "Da como un acto de adoración y ayuda a fortalecer la obra que Dios realiza a través de nuestra iglesia."

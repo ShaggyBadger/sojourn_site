@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block content %}
+  {% get_current_language as current_language %}
   <main>
     <section class="hero-section">
       {% if site_settings and site_settings.hero_image %}
@@ -17,18 +18,49 @@
         <div class="hero-cross" aria-hidden="true">&#10013;</div>
         <p class="hero-kicker">{% translate "Sojourn Baptist Church" %}</p>
         <h1 class="hero-title">
-          {% translate "Bienvenidos a casa" %}<br>
-          <span>{% translate "Welcome home" %}</span>
+          {% translate "Welcome home" %}<br>
+          <span>{% translate "Find your place" %}</span>
         </h1>
         <p class="hero-subtitle">
-          {% translate "Una comunidad bilingüe" %}<br>
+          {% translate "A bilingual community" %}<br>
           {% translate "Walking together in faith" %}
         </p>
         <a class="btn btn-custom-gold" href="#welcome">
-          {% translate "Conoce nuestra iglesia" %}
+          {% translate "Learn about our church" %}
         </a>
       </div>
     </section>
+
+    {% if team_members %}
+      <section class="leadership-section" id="leadership">
+        <div class="container">
+          <div class="section-heading">
+            <p class="hero-kicker">{% translate "Our leadership" %}</p>
+            <h2>{% translate "Meet the people who serve our church" %}</h2>
+          </div>
+          <div class="row g-4 justify-content-center">
+            {% for member in team_members %}
+              <div class="col-md-6 col-lg-4">
+                <article class="team-card">
+                  {% if member.photo %}
+                    <img class="team-photo" src="{{ member.photo.url }}" alt="{{ member.photo_alt }}">
+                  {% endif %}
+                  <h3 class="team-name">{{ member.name }}</h3>
+                  <p class="team-role">
+                    {% if current_language == "es" and member.role_es %}{{ member.role_es }}{% else %}{{ member.role }}{% endif %}
+                  </p>
+                  {% if member.bio or member.bio_es %}
+                    <p class="team-bio">
+                      {% if current_language == "es" and member.bio_es %}{{ member.bio_es }}{% else %}{{ member.bio }}{% endif %}
+                    </p>
+                  {% endif %}
+                </article>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    {% endif %}
 
     <section class="features-section" id="welcome">
       <div class="container">
@@ -36,7 +68,7 @@
           <div class="col-md-4">
             <article class="feature-card h-100">
               <p class="feature-number">01</p>
-              <h2 class="feature-title">{% translate "¿Nuevo aquí?" %}</h2>
+                  <h2 class="feature-title">{% translate "New here?" %}</h2>
               <div class="feature-icon-circle" aria-hidden="true">&#10013;</div>
               <p class="feature-text">
                 {% translate "We would love to welcome you. Find a place to begin and learn what to expect when you visit." %}
@@ -46,7 +78,7 @@
           <div class="col-md-4">
             <article class="feature-card h-100">
               <p class="feature-number">02</p>
-              <h2 class="feature-title">{% translate "Último sermón" %}</h2>
+                  <h2 class="feature-title">{% translate "Latest sermon" %}</h2>
               <div class="feature-icon-circle" aria-hidden="true">&#9654;</div>
               <p class="feature-text">
                 {% translate "Sermon recordings and teaching from our church family will be available here soon." %}
@@ -56,7 +88,7 @@
           <div class="col-md-4">
             <article class="feature-card h-100">
               <p class="feature-number">03</p>
-              <h2 class="feature-title">{% translate "Dar" %}</h2>
+                  <h2 class="feature-title">{% translate "Give" %}</h2>
               <div class="feature-icon-circle" aria-hidden="true">&#9829;</div>
               <p class="feature-text">
                 {% translate "Give as an act of worship and help strengthen the work God is doing through our church." %}
