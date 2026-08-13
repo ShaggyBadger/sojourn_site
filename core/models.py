@@ -35,6 +35,8 @@ class SiteSettings(models.Model):
     def save(self, *args, **kwargs):
         """Keep site settings as one predictable database record."""
         self.pk = 1
+        if type(self).objects.filter(pk=1).exists():
+            kwargs["force_insert"] = False
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):

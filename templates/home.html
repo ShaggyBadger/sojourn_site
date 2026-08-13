@@ -10,7 +10,9 @@
           <img src="{{ site_settings.hero_image.url }}" alt="{{ site_settings.hero_image_alt }}">
         </div>
       {% else %}
-        <div class="hero-image hero-image-placeholder" aria-hidden="true"></div>
+        <div class="hero-image hero-image-placeholder">
+          <span class="visually-hidden">{% translate "No hero image has been selected yet." %}</span>
+        </div>
       {% endif %}
 
       <div class="hero-overlay" aria-hidden="true"></div>
@@ -25,7 +27,7 @@
           {% translate "A bilingual community" %}<br>
           {% translate "Walking together in faith" %}
         </p>
-        <a class="btn btn-custom-gold" href="#welcome">
+         <a class="btn btn-custom-gold" href="{% url 'about' %}">
           {% translate "Learn about our church" %}
         </a>
       </div>

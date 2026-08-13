@@ -34,8 +34,14 @@ class Migration(migrations.Migration):
                         max_length=100,
                     ),
                 ),
-                ("bio", models.TextField(blank=True, help_text="Biography in English.")),
-                ("bio_es", models.TextField(blank=True, help_text="Biography in Spanish.")),
+                (
+                    "bio",
+                    models.TextField(blank=True, help_text="Biography in English."),
+                ),
+                (
+                    "bio_es",
+                    models.TextField(blank=True, help_text="Biography in Spanish."),
+                ),
                 ("photo", models.ImageField(blank=True, upload_to="team/")),
                 (
                     "photo_alt",

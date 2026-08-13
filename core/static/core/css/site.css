@@ -238,6 +238,139 @@ body {
   padding: 5rem 1rem;
 }
 
+.about-hero {
+  align-items: end;
+  background: linear-gradient(135deg, var(--accent-burgundy), var(--bg-charcoal));
+  display: flex;
+  min-height: 48svh;
+  padding: 7rem 1rem 4rem;
+}
+
+.about-hero-content {
+  max-width: 52rem;
+}
+
+.about-hero h1 {
+  color: var(--text-light);
+  font-size: clamp(2.75rem, 9vw, 5.5rem);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.about-lede {
+  color: var(--text-muted);
+  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 42rem;
+}
+
+.about-section {
+  padding: 4.5rem 1rem;
+}
+
+.about-copy-grid {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+  margin: 0 auto;
+  max-width: 72rem;
+}
+
+.section-eyebrow {
+  color: var(--accent-gold);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+}
+
+.about-section h2 {
+  color: var(--text-light);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.about-copy {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 42rem;
+}
+
+.about-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.about-section-dark {
+  background: var(--bg-card);
+}
+
+.about-leadership {
+  background: var(--bg-charcoal);
+}
+
+.about-section-heading {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.about-pastor-card {
+  align-items: center;
+  background: var(--bg-card);
+  border-left: 2px solid var(--accent-gold);
+  display: flex;
+  gap: 1.25rem;
+  height: 100%;
+  padding: 1.5rem;
+}
+
+.about-pastor-card h3 {
+  font-size: 1.45rem;
+  font-weight: 400;
+  margin-bottom: 0.35rem;
+}
+
+.about-pastor-card .team-role {
+  margin-bottom: 0.75rem;
+}
+
+.about-pastor-photo {
+  border: 1px solid rgba(197, 168, 128, 0.45);
+  border-radius: 50%;
+  flex: 0 0 auto;
+  height: 88px;
+  object-fit: cover;
+  width: 88px;
+}
+
+.about-pastor-bio {
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.about-visit-section {
+  background: var(--accent-burgundy);
+}
+
+.about-visit-card {
+  max-width: 52rem;
+  text-align: center;
+}
+
+.about-visit-card p:not(.section-eyebrow) {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0 auto 1.75rem;
+  max-width: 38rem;
+}
+
 .leadership-section {
   background: var(--bg-card);
   padding: 5rem 1rem;
@@ -342,5 +475,19 @@ body {
 
   .language-item {
     margin-left: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .about-copy-grid {
+    align-items: start;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .about-pastor-card {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

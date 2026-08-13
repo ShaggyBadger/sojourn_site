@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "About Sojourn Baptist Church" %}{% endblock %}
+
+{% block meta_description %}
+  <meta name="description" content="{% translate 'Learn about Sojourn Baptist Church, our beliefs, bilingual ministry, and pastoral leadership.' %}">
+{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="about-hero">
+      <div class="container about-hero-content">
+        <p class="hero-kicker">{% translate "About Sojourn" %}</p>
+        <h1>{% translate "A church for our neighbors" %}</h1>
+        <p class="about-lede">
+          {% translate "Sojourn Baptist Church is a Christian, Baptist church learning to walk faithfully together as a fully bilingual church in our local community." %}
+        </p>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <div class="container about-copy-grid">
+        <div>
+          <p class="section-eyebrow">{% translate "Our mission" %}</p>
+          <h2>{% translate "Worship, faith, and welcome" %}</h2>
+        </div>
+        <div class="about-copy">
+          <p>
+            {% translate "Sojourn Baptist Church exists to worship Jesus Christ, grow together in faith, and serve our local community as a fully bilingual church, with a particular desire to welcome and reach our Latino neighbors." %}
+          </p>
+          <p>
+            {% translate "Pastor Blake brings a bilingual ministry shaped by his missionary service in Mexico. We want English- and Spanish-speaking neighbors to find a genuine welcome, faithful teaching, and a place to grow together." %}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section about-section-dark">
+      <div class="container about-copy-grid">
+        <div>
+          <p class="section-eyebrow">{% translate "What we believe" %}</p>
+          <h2>{% translate "Rooted in the historic Christian faith" %}</h2>
+        </div>
+        <div class="about-copy">
+          <p>
+            {% translate "We affirm the historic Christian faith expressed in the Apostles' Creed and the Nicene Creed. As a Baptist church, our teaching is also shaped by the 1689 London Baptist Confession of Faith and the Heidelberg Catechism. Together, these documents help us understand and faithfully communicate what we believe about God, Scripture, salvation, the church, and Christian living." %}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {% if team_members %}
+      <section class="about-section about-leadership">
+        <div class="container">
+          <div class="section-heading about-section-heading">
+            <p class="section-eyebrow">{% translate "Pastoral leadership" %}</p>
+            <h2>{% translate "People who serve our church" %}</h2>
+          </div>
+          <div class="row g-4 justify-content-center">
+            {% get_current_language as current_language %}
+            {% for member in team_members %}
+              <div class="col-md-6">
+                <article class="about-pastor-card">
+                  {% if member.photo %}
+                    <img class="about-pastor-photo" src="{{ member.photo.url }}" alt="{{ member.photo_alt }}">
+                  {% endif %}
+                  <div>
+                    <h3>{{ member.name }}</h3>
+                    <p class="team-role">
+                      {% if current_language == "es" and member.role_es %}{{ member.role_es }}{% else %}{{ member.role }}{% endif %}
+                    </p>
+                    {% if member.bio or member.bio_es %}
+                      <p class="about-pastor-bio">
+                        {% if current_language == "es" and member.bio_es %}{{ member.bio_es }}{% else %}{{ member.bio }}{% endif %}
+                      </p>
+                    {% endif %}
+                  </div>
+                </article>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    {% endif %}
+
+    <section class="about-section about-visit-section">
+      <div class="container about-visit-card">
+        <p class="section-eyebrow">{% translate "You are welcome here" %}</p>
+        <h2>{% translate "Come and learn more about our church" %}</h2>
+        <p>
+          {% translate "We would be glad to meet you, worship with you, and help you find a place to begin." %}
+        </p>
+        <a class="btn btn-custom-gold" href="{% url 'home' %}#welcome">
+          {% translate "Learn what to expect" %}
+        </a>
+      </div>
+    </section>
+  </main>
+{% endblock %}

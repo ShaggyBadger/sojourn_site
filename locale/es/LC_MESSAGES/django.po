@@ -15,6 +15,9 @@ msgstr "Mostrar u ocultar la navegación"
 msgid "Home"
 msgstr "Inicio"
 
+msgid "About"
+msgstr "Acerca de"
+
 msgid "Choose language"
 msgstr "Elegir idioma"
 
@@ -65,3 +68,57 @@ msgstr "Dar"
 
 msgid "Give as an act of worship and help strengthen the work God is doing through our church."
 msgstr "Da como un acto de adoración y ayuda a fortalecer la obra que Dios realiza a través de nuestra iglesia."
+
+msgid "About Sojourn Baptist Church"
+msgstr "Acerca de la Iglesia Bautista Sojourn"
+
+msgid "Learn about Sojourn Baptist Church, our beliefs, bilingual ministry, and pastoral leadership."
+msgstr "Conoce la Iglesia Bautista Sojourn, nuestras creencias, nuestro ministerio bilingüe y nuestro liderazgo pastoral."
+
+msgid "About Sojourn"
+msgstr "Acerca de Sojourn"
+
+msgid "A church for our neighbors"
+msgstr "Una iglesia para nuestros vecinos"
+
+msgid "Sojourn Baptist Church is a Christian, Baptist church learning to walk faithfully together as a fully bilingual church in our local community."
+msgstr "La Iglesia Bautista Sojourn es una iglesia cristiana y bautista que aprende a caminar fielmente como una iglesia plenamente bilingüe en nuestra comunidad local."
+
+msgid "Our mission"
+msgstr "Nuestra misión"
+
+msgid "Worship, faith, and welcome"
+msgstr "Adoración, fe y bienvenida"
+
+msgid "Sojourn Baptist Church exists to worship Jesus Christ, grow together in faith, and serve our local community as a fully bilingual church, with a particular desire to welcome and reach our Latino neighbors."
+msgstr "La Iglesia Bautista Sojourn existe para adorar a Jesucristo, crecer juntos en la fe y servir a nuestra comunidad local como una iglesia plenamente bilingüe, con un deseo especial de dar la bienvenida y alcanzar a nuestros vecinos latinos."
+
+msgid "Pastor Blake brings a bilingual ministry shaped by his missionary service in Mexico. We want English- and Spanish-speaking neighbors to find a genuine welcome, faithful teaching, and a place to grow together."
+msgstr "El pastor Blake trae un ministerio bilingüe formado por su servicio misionero en México. Queremos que nuestros vecinos de habla inglesa y española encuentren una bienvenida sincera, enseñanza fiel y un lugar para crecer juntos."
+
+msgid "What we believe"
+msgstr "Lo que creemos"
+
+msgid "Rooted in the historic Christian faith"
+msgstr "Arraigados en la fe cristiana histórica"
+
+msgid "We affirm the historic Christian faith expressed in the Apostles' Creed and the Nicene Creed. As a Baptist church, our teaching is also shaped by the 1689 London Baptist Confession of Faith and the Heidelberg Catechism. Together, these documents help us understand and faithfully communicate what we believe about God, Scripture, salvation, the church, and Christian living."
+msgstr "Afirmamos la fe cristiana histórica expresada en el Credo de los Apóstoles y el Credo Niceno. Como iglesia bautista, nuestra enseñanza también está formada por la Confesión Bautista de Fe de Londres de 1689 y el Catecismo de Heidelberg. Juntos, estos documentos nos ayudan a entender y comunicar fielmente lo que creemos acerca de Dios, las Escrituras, la salvación, la iglesia y la vida cristiana."
+
+msgid "Pastoral leadership"
+msgstr "Liderazgo pastoral"
+
+msgid "People who serve our church"
+msgstr "Personas que sirven a nuestra iglesia"
+
+msgid "You are welcome here"
+msgstr "Eres bienvenido aquí"
+
+msgid "Come and learn more about our church"
+msgstr "Ven y conoce más acerca de nuestra iglesia"
+
+msgid "We would be glad to meet you, worship with you, and help you find a place to begin."
+msgstr "Nos alegrará conocerte, adoraremos contigo y te ayudaremos a encontrar un lugar para comenzar."
+
+msgid "Learn what to expect"
+msgstr "Conoce qué esperar"

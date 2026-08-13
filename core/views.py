@@ -7,3 +7,9 @@ def home(request):
     """Render the homepage using the current site-wide settings."""
     team_members = TeamMember.objects.filter(is_published=True)
     return render(request, "home.html", {"team_members": team_members})
+
+
+def about(request):
+    """Render the public About page with published pastoral profiles."""
+    team_members = TeamMember.objects.filter(is_published=True)
+    return render(request, "about.html", {"team_members": team_members})
