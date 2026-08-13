@@ -1,6 +1,8 @@
+from django.db import IntegrityError
 from django.test import TestCase
 
-from core.models import SiteSettings, TeamMember
+from core.models import AboutPage, AboutSection, SiteSettings, TeamMember
+from core.selectors import get_localized_about_content
 
 
 class HomePageTests(TestCase):
@@ -36,6 +38,62 @@ class HomePageTests(TestCase):
 
 
 class AboutPageTests(TestCase):
+    def test_about_page_is_a_singleton(self):
+        page = AboutPage.objects.get(pk=1)
+        AboutPage.objects.create(
+            title_en="Replacement",
+            meta_description_en="Replacement description",
+        )
+
+        page.refresh_from_db()
+
+        self.assertEqual(page.pk, 1)
+        self.assertEqual(AboutPage.objects.count(), 1)
+
+    def test_about_sections_have_unique_keys_per_page(self):
+        page = AboutPage.objects.get(pk=1)
+
+        with self.assertRaises(IntegrityError):
+            AboutSection.objects.create(
+                page=page,
+                key="mission",
+                title_en="Duplicate mission",
+            )
+
+    def test_about_page_uses_database_content_and_section_visibility(self):
+        page = AboutPage.objects.get(pk=1)
+        page.title_en = "Our Story"
+        page.save()
+        AboutSection.objects.filter(page=page, key="mission").update(
+            title_en="A shared mission",
+            body_en="Edited mission content.",
+        )
+        AboutSection.objects.filter(page=page, key="beliefs").update(
+            is_visible=False
+        )
+
+        response = self.client.get("/about/")
+
+        self.assertContains(response, "Our Story")
+        self.assertContains(response, "A shared mission")
+        self.assertContains(response, "Edited mission content.")
+        self.assertNotContains(response, "Rooted in the historic Christian faith")
+
+    def test_spanish_content_falls_back_and_reports_missing_fields(self):
+        page = AboutPage.objects.get(pk=1)
+        page.title_es = ""
+        page.save()
+        AboutSection.objects.filter(page=page, key="mission").update(
+            title_es="",
+            body_es="",
+        )
+
+        content = get_localized_about_content("es")
+
+        self.assertIn("page:title", content.fallback_keys)
+        self.assertIn("section:mission:title", content.fallback_keys)
+        self.assertIn("section:mission:body", content.fallback_keys)
+
     def test_about_page_loads_with_core_content(self):
         response = self.client.get("/about/")
 
@@ -73,4 +131,4 @@ class AboutPageTests(TestCase):
         self.assertContains(response, '<html lang="es">', html=False)
         self.assertContains(response, "Acerca de la Iglesia Bautista Sojourn")
         self.assertContains(response, "Una iglesia para nuestros vecinos")
-        self.assertContains(response, "Lo que creemos")
+        self.assertContains(response, "Arraigados en la fe cristiana histórica")

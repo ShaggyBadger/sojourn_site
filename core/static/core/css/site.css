@@ -267,6 +267,10 @@ body {
   max-width: 42rem;
 }
 
+.about-lede p {
+  margin: 0;
+}
+
 .about-section {
   padding: 4.5rem 1rem;
 }
