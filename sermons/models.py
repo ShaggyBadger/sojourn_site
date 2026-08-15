@@ -1,5 +1,6 @@
 import os
 import logging
+import re
 import uuid
 
 from django.core.exceptions import ValidationError
@@ -35,6 +36,17 @@ def validate_mp3(uploaded_file):
         content_type = getattr(stored_file, "content_type", None)
     if content_type is not None and content_type not in {"audio/mpeg", "audio/mp3"}:
         raise ValidationError(_("The uploaded file must be identified as MP3 audio."))
+
+
+def normalize_transcript(value):
+    """Store pasted transcript text with consistent paragraph separators."""
+    if not value:
+        return value
+
+    normalized = value.replace("\r\n", "\n").replace("\r", "\n")
+    normalized = re.sub(r"[ \t]*\n[ \t]*", "\n\n", normalized)
+    normalized = re.sub(r"\n{2,}", "\n\n", normalized)
+    return normalized.strip()
 
 
 class SermonCollection(models.Model):
@@ -111,6 +123,7 @@ class Sermon(models.Model):
 
     def clean(self):
         super().clean()
+        self.transcript = normalize_transcript(self.transcript)
         if self.is_published:
             missing = {
                 field: _("This field is required before publishing.")
@@ -137,6 +150,7 @@ class Sermon(models.Model):
             )
 
     def save(self, *args, **kwargs):
+        self.transcript = normalize_transcript(self.transcript)
         old_media_name = None
         if self.pk:
             old_media_name = (

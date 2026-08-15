@@ -359,6 +359,38 @@ body {
   margin: 0;
 }
 
+.sermon-filter-status a {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.sermon-active-filters {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: -1rem 0 2rem;
+}
+
+.sermon-active-filters-label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-right: 0.25rem;
+}
+
+.sermon-filter-chip {
+  border: 1px solid rgba(197, 168, 128, 0.45);
+  border-radius: 50rem;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.7rem;
+}
+
+.sermon-result-summary {
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+}
+
 .sermon-filter-status a,
 .sermon-card a,
 .sermon-aside-section a,
@@ -515,7 +547,26 @@ body {
 }
 
 .sermon-transcript .sermon-rich-text {
-  font-size: 1rem;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  max-width: 52rem;
+}
+
+.sermon-transcript .sermon-rich-text p {
+  margin: 0 0 1.35rem;
+  text-indent: 1.5em;
+}
+
+.sermon-transcript .sermon-rich-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Treat single newlines in pasted transcripts as paragraph breaks too. */
+.sermon-transcript .sermon-rich-text br {
+  content: "";
+  display: block;
+  margin-top: 1.35rem;
 }
 
 .sermon-scripture-card {
@@ -537,6 +588,51 @@ body {
 
 .sermon-aside-section a {
   text-decoration: none;
+}
+
+.sermon-related-section {
+  border-top: 1px solid rgba(244, 241, 234, 0.12);
+  margin-top: 4rem;
+  padding-top: 3rem;
+}
+
+.sermon-related-section h2 {
+  font-size: clamp(1.6rem, 4vw, 2.35rem);
+  margin-bottom: 1.5rem;
+}
+
+.sermon-related-list {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 52rem;
+}
+
+.sermon-related-link {
+  align-items: center;
+  border: 1px solid rgba(197, 168, 128, 0.2);
+  border-radius: 0.55rem;
+  color: var(--text-light);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem 1.15rem;
+  text-decoration: none;
+}
+
+.sermon-related-link:hover,
+.sermon-related-link:focus-visible {
+  border-color: var(--accent-gold);
+  color: var(--text-light);
+}
+
+.sermon-related-link strong,
+.sermon-related-link small {
+  display: block;
+}
+
+.sermon-related-link small {
+  color: var(--text-muted);
+  margin-top: 0.3rem;
 }
 
 .sermon-tags {
@@ -758,6 +854,16 @@ body {
   text-align: center;
 }
 
+.feature-card-link {
+  display: block;
+  text-decoration: none;
+}
+
+.feature-card-link:focus-visible {
+  outline: 2px solid var(--text-light);
+  outline-offset: 4px;
+}
+
 .feature-number {
   color: var(--accent-gold);
   font-size: 1.25rem;
@@ -768,6 +874,21 @@ body {
 .feature-title {
   font-size: 1.75rem;
   font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.feature-sermon-title {
+  color: var(--text-light);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 auto 0.35rem;
+  max-width: 18rem;
+}
+
+.feature-sermon-date {
+  color: var(--accent-gold);
+  font-size: 0.85rem;
   margin-bottom: 1rem;
 }
 

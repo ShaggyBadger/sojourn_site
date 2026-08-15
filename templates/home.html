@@ -78,14 +78,21 @@
             </article>
           </div>
           <div class="col-md-4">
-            <article class="feature-card h-100">
+            <a
+              class="feature-card feature-card-link h-100"
+              href="{% if latest_sermon %}{% url 'sermons:detail' latest_sermon.slug %}{% else %}{% url 'sermons:list' %}{% endif %}"
+            >
               <p class="feature-number">02</p>
                   <h2 class="feature-title">{% translate "Latest sermon" %}</h2>
               <div class="feature-icon-circle" aria-hidden="true">&#9654;</div>
-              <p class="feature-text">
-                {% translate "Sermon recordings and teaching from our church family will be available here soon." %}
-              </p>
-            </article>
+              {% if latest_sermon %}
+                <p class="feature-sermon-title">{{ latest_sermon.title }}</p>
+                <p class="feature-sermon-date">{{ latest_sermon.sermon_date|date:"F j, Y" }}</p>
+                <p class="feature-text">{% translate "Listen to the latest message from our church family." %}</p>
+              {% else %}
+                <p class="feature-text">{% translate "Listen to sermons and teaching from our church family." %}</p>
+              {% endif %}
+            </a>
           </div>
           <div class="col-md-4">
             <article class="feature-card h-100">

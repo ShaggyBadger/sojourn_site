@@ -60,6 +60,38 @@ class SermonViewTests(TestCase):
         self.assertContains(response, "God keeps his promises.")
         self.assertContains(response, "Welcome to the sermon.")
 
+    def test_detail_shows_other_published_sermons_in_same_collection(self):
+        related = Sermon.objects.create(
+            title="Related Message",
+            speaker="Pastor Jordan",
+            sermon_date="2026-08-16",
+            summary="A related summary.",
+            thesis="A related thesis.",
+            main_scripture="Genesis 13",
+            media_file="sermons/audio/related.mp3",
+            collection=self.published.collection,
+            is_published=True,
+        )
+        Sermon.objects.create(
+            title="Private Related Draft",
+            speaker="Pastor Jordan",
+            sermon_date="2026-08-17",
+            summary="Not public.",
+            thesis="Not public.",
+            main_scripture="Genesis 14",
+            media_file="sermons/audio/private-related.mp3",
+            collection=self.published.collection,
+            is_published=False,
+        )
+
+        response = self.client.get(
+            reverse("sermons:detail", kwargs={"slug": self.published.slug})
+        )
+
+        self.assertContains(response, "Related Message")
+        self.assertContains(response, f"/sermons/{related.slug}/", html=False)
+        self.assertNotContains(response, "Private Related Draft")
+
     def test_unpublished_detail_returns_404(self):
         response = self.client.get(
             reverse("sermons:detail", kwargs={"slug": self.unpublished.slug})

@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from core.models import AboutPage, AboutSection, SiteSettings, TeamMember
 from core.selectors import get_localized_about_content
+from sermons.models import Sermon
 
 
 class HomePageTests(TestCase):
@@ -35,6 +36,45 @@ class HomePageTests(TestCase):
         self.assertLess(
             response.content.index(b"First"), response.content.index(b"Second")
         )
+
+    def test_homepage_links_to_latest_published_sermon_by_sermon_date(self):
+        Sermon.objects.create(
+            title="Older Message",
+            speaker="Pastor",
+            sermon_date="2026-08-01",
+            summary="Summary",
+            thesis="Thesis",
+            main_scripture="John 1",
+            media_file="sermons/audio/older.mp3",
+            is_published=True,
+        )
+        latest = Sermon.objects.create(
+            title="Latest Message",
+            speaker="Pastor",
+            sermon_date="2026-08-10",
+            summary="Summary",
+            thesis="Thesis",
+            main_scripture="John 2",
+            media_file="sermons/audio/latest.mp3",
+            is_published=True,
+        )
+        Sermon.objects.create(
+            title="Future Message",
+            speaker="Pastor",
+            sermon_date="2099-01-01",
+            summary="Summary",
+            thesis="Thesis",
+            main_scripture="John 3",
+            media_file="sermons/audio/future.mp3",
+            is_published=True,
+        )
+
+        response = self.client.get("/")
+
+        self.assertContains(response, "Latest Message")
+        self.assertContains(response, f'href="/sermons/{latest.slug}/"', html=False)
+        self.assertNotContains(response, "Older Message")
+        self.assertNotContains(response, "Future Message")
 
 
 class AboutPageTests(TestCase):

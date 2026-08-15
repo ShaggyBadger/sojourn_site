@@ -2,7 +2,13 @@ from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-from sermons.models import MAX_AUDIO_FILE_SIZE, Sermon, SermonCollection, validate_mp3
+from sermons.models import (
+    MAX_AUDIO_FILE_SIZE,
+    Sermon,
+    SermonCollection,
+    normalize_transcript,
+    validate_mp3,
+)
 
 
 class SermonModelTests(TestCase):
@@ -50,3 +56,30 @@ class SermonModelTests(TestCase):
             size = 4
 
         validate_mp3(StoredFile())
+
+    def test_transcript_normalization_handles_mixed_line_endings_and_blank_lines(self):
+        transcript = " First paragraph.\r\n\r\n Second paragraph.\n\n\n Third paragraph. "
+
+        self.assertEqual(
+            normalize_transcript(transcript),
+            "First paragraph.\n\nSecond paragraph.\n\nThird paragraph.",
+        )
+
+    def test_saved_transcript_is_normalized(self):
+        sermon = Sermon.objects.create(
+            title="Transcript Test",
+            speaker="Pastor",
+            sermon_date="2026-08-09",
+            summary="A summary.",
+            thesis="A thesis.",
+            main_scripture="Genesis 12",
+            transcript="First paragraph.\nSecond paragraph.",
+            media_file="sermons/audio/transcript-test.mp3",
+        )
+
+        sermon.refresh_from_db()
+
+        self.assertEqual(
+            sermon.transcript,
+            "First paragraph.\n\nSecond paragraph.",
+        )

@@ -47,14 +47,33 @@ class SermonListView(PublishedSermonQuerySetMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["query"] = self.request.GET.get("q", "").strip()
-        context["selected_collection"] = self.request.GET.get("collection", "").strip()
-        context["selected_tag"] = self.request.GET.get("tag", "").strip()
+        query = self.request.GET.get("q", "").strip()
+        selected_collection = self.request.GET.get("collection", "").strip()
+        selected_tag = self.request.GET.get("tag", "").strip()
+        context["query"] = query
+        context["selected_collection"] = selected_collection
+        context["selected_tag"] = selected_tag
+        context["has_filters"] = bool(query or selected_collection or selected_tag)
+        context["result_count"] = context["paginator"].count
         context["collections"] = SermonCollection.objects.filter(
             is_published=True,
             sermons__is_published=True,
         ).distinct()
         context["tags"] = SermonTag.objects.filter(sermons__is_published=True).distinct()
+        context["selected_collection_name"] = (
+            SermonCollection.objects.filter(slug=selected_collection)
+            .values_list("name", flat=True)
+            .first()
+            if selected_collection
+            else ""
+        )
+        context["selected_tag_name"] = (
+            SermonTag.objects.filter(slug=selected_tag)
+            .values_list("name", flat=True)
+            .first()
+            if selected_tag
+            else ""
+        )
         return context
 
 
@@ -62,6 +81,20 @@ class SermonDetailView(PublishedSermonQuerySetMixin, DetailView):
     template_name = "sermons/sermon_detail.html"
     context_object_name = "sermon"
     slug_url_kwarg = "slug"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["related_sermons"] = Sermon.objects.none()
+        if self.object.collection:
+            context["related_sermons"] = (
+                Sermon.objects.filter(
+                    collection=self.object.collection,
+                    is_published=True,
+                )
+                .exclude(pk=self.object.pk)
+                .order_by("-sermon_date", "-created_at")
+            )
+        return context
 
 
 class SermonCollectionDetailView(PublishedSermonQuerySetMixin, DetailView):
@@ -83,6 +116,7 @@ class SermonCollectionDetailView(PublishedSermonQuerySetMixin, DetailView):
             .select_related("collection")
             .prefetch_related("tags")
         )
+        context["sermon_count"] = context["sermons"].count()
         return context
 
 
@@ -102,4 +136,5 @@ class SermonTagDetailView(PublishedSermonQuerySetMixin, DetailView):
             .select_related("collection")
             .prefetch_related("tags")
         )
+        context["sermon_count"] = context["sermons"].count()
         return context

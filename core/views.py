@@ -1,14 +1,31 @@
 from django.http import Http404
 from django.shortcuts import render
+from django.utils import timezone
 
 from .models import TeamMember
 from .selectors import get_localized_about_content
+from sermons.models import Sermon
 
 
 def home(request):
     """Render the homepage using the current site-wide settings."""
     team_members = TeamMember.objects.filter(is_published=True)
-    return render(request, "home.html", {"team_members": team_members})
+    latest_sermon = (
+        Sermon.objects.filter(
+            is_published=True,
+            sermon_date__lte=timezone.localdate(),
+        )
+        .order_by("-sermon_date", "-created_at")
+        .first()
+    )
+    return render(
+        request,
+        "home.html",
+        {
+            "team_members": team_members,
+            "latest_sermon": latest_sermon,
+        },
+    )
 
 
 def about(request):

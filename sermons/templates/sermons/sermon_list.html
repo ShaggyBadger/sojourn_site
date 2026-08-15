@@ -41,10 +41,17 @@
           <button class="btn btn-custom-gold" type="submit">{% translate "Find sermons" %}</button>
         </form>
 
-        {% if query or selected_collection or selected_tag %}
-          <div class="sermon-filter-status">
-            <p>{% blocktranslate count counter=page_obj.paginator.count %}{{ counter }} sermon found{% plural %}{{ counter }} sermons found{% endblocktranslate %}</p>
-            <a href="{% url 'sermons:list' %}">{% translate "Clear filters" %}</a>
+        <div class="sermon-filter-status">
+          <p>{% blocktranslate count counter=result_count %}{{ counter }} sermon found{% plural %}{{ counter }} sermons found{% endblocktranslate %}</p>
+          {% if has_filters %}<a href="{% url 'sermons:list' %}">{% translate "Clear all filters" %}</a>{% endif %}
+        </div>
+
+        {% if has_filters %}
+          <div class="sermon-active-filters" aria-label="{% translate 'Active filters' %}">
+            <span class="sermon-active-filters-label">{% translate "Filtering by" %}</span>
+            {% if query %}<span class="sermon-filter-chip">{% translate "Search" %}: {{ query }}</span>{% endif %}
+            {% if selected_collection %}<span class="sermon-filter-chip">{% translate "Collection" %}: {{ selected_collection_name|default:selected_collection }}</span>{% endif %}
+            {% if selected_tag %}<span class="sermon-filter-chip">{% translate "Tag" %}: {{ selected_tag_name|default:selected_tag }}</span>{% endif %}
           </div>
         {% endif %}
 

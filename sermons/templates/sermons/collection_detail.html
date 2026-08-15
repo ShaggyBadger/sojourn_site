@@ -13,6 +13,21 @@
         {% if collection.description %}<p class="sermon-lede">{{ collection.description }}</p>{% endif %}
       </div>
     </section>
-    <section class="sermon-library-section"><div class="container sermon-page-width"><div class="row g-4">{% for sermon in sermons %}<div class="col-md-6 col-xl-4">{% include "sermons/partials/sermon_card.html" %}</div>{% endfor %}</div></div></section>
+    <section class="sermon-library-section">
+      <div class="container sermon-page-width">
+        <p class="sermon-result-summary">{% blocktranslate count counter=sermon_count %}{{ counter }} sermon in this collection{% plural %}{{ counter }} sermons in this collection{% endblocktranslate %}</p>
+        {% if sermons %}
+          <div class="row g-4">
+            {% for sermon in sermons %}<div class="col-md-6 col-xl-4">{% include "sermons/partials/sermon_card.html" %}</div>{% endfor %}
+          </div>
+        {% else %}
+          <div class="sermon-empty-state">
+            <p class="section-eyebrow">{% translate "No sermons yet" %}</p>
+            <h2>{% translate "This collection is still taking shape." %}</h2>
+            <a class="btn btn-custom-gold" href="{% url 'sermons:list' %}">{% translate "Browse all sermons" %}</a>
+          </div>
+        {% endif %}
+      </div>
+    </section>
   </main>
 {% endblock %}
