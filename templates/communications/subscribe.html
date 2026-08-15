@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Stay connected" %} | Sojourn Baptist Church{% endblock %}
+
+{% block content %}
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-xl-6">
+      {% if submitted %}
+        <section class="about-visit-card" aria-labelledby="subscribe-success-title">
+          <p class="section-eyebrow">{% translate "Thank you" %}</p>
+          <h1 id="subscribe-success-title">{% translate "You are on the list." %}</h1>
+          <p>{% translate "We will use this address for church updates and helpful information." %}</p>
+        </section>
+      {% else %}
+        <section class="about-visit-card" aria-labelledby="subscribe-title">
+          <p class="section-eyebrow">{% translate "Sojourn Baptist Church" %}</p>
+          <h1 id="subscribe-title">{% translate "Stay connected" %}</h1>
+          <p>{% translate "Receive occasional church updates and meeting information by email." %}</p>
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger" role="alert">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="mb-3">
+              <label class="form-label" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+              {{ form.email }}
+              {% for error in form.email.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label" for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                {{ form.first_name }}
+                {% for error in form.first_name.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label" for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                {{ form.last_name }}
+                {% for error in form.last_name.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+              </div>
+            </div>
+
+            <div class="form-check mb-3">
+              {{ form.consent }}
+              <label class="form-check-label" for="{{ form.consent.id_for_label }}">{{ form.consent.label }}</label>
+              {% for error in form.consent.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+            <div aria-hidden="true">{{ form.website }}</div>
+            <p class="small text-muted">{% translate "We will only use this address for church communications." %}</p>
+            <button class="btn btn-custom-gold" type="submit">{% translate "Sign me up" %}</button>
+          </form>
+        </section>
+      {% endif %}
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -8,7 +8,12 @@ from core.views import about, home
 urlpatterns = [
     path("", home, name="home"),
     path("about/", about, name="about"),
+    path("sermons/", include("sermons.urls")),
     path("admin/", admin.site.urls),
+    path(
+        "subscribe/",
+        include(("communications.urls", "communications"), namespace="communications"),
+    ),
     path("i18n/", include("django.conf.urls.i18n")),
 ]
 

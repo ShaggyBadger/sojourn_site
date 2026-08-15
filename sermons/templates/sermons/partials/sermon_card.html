@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<article class="sermon-card">
+  <div class="sermon-card-topline">
+    <span>{{ sermon.sermon_date|date:"F j, Y" }}</span>
+    {% if sermon.collection %}<span>{{ sermon.collection.name }}</span>{% endif %}
+  </div>
+  <h2><a href="{% url 'sermons:detail' sermon.slug %}">{{ sermon.title }}</a></h2>
+  <p class="sermon-card-scripture">{{ sermon.main_scripture }}</p>
+  <p class="sermon-card-summary">{{ sermon.summary|truncatewords:26 }}</p>
+  <a class="sermon-card-link" href="{% url 'sermons:detail' sermon.slug %}">{% translate "Listen to sermon" %} <span aria-hidden="true">→</span></a>
+</article>

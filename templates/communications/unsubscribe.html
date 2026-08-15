@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Email preferences" %} | Sojourn Baptist Church{% endblock %}
+
+{% block content %}
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-xl-6">
+      <section class="about-visit-card" aria-labelledby="unsubscribe-title">
+        {% if unsubscribed %}
+          <p class="section-eyebrow">{% translate "Email preferences" %}</p>
+          <h1 id="unsubscribe-title">{% translate "You have been unsubscribed." %}</h1>
+          <p>{% translate "You will not receive future church communications from this list." %}</p>
+        {% else %}
+          <p class="section-eyebrow">{% translate "Email preferences" %}</p>
+          <h1 id="unsubscribe-title">{% translate "Stop receiving church emails?" %}</h1>
+          <p>{% translate "Confirm below and we will stop future messages to this address." %}</p>
+          <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-custom-gold" type="submit">{% translate "Unsubscribe" %}</button>
+          </form>
+        {% endif %}
+      </section>
+    </div>
+  </div>
+</main>
+{% endblock %}

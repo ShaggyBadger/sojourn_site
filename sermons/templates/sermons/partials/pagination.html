@@ -1,0 +1,12 @@
+{% load i18n %}
+{% if is_paginated %}
+  <nav class="sermon-pagination" aria-label="{% translate 'Sermon pages' %}">
+    {% if page_obj.has_previous %}
+      <a href="?{% if query %}q={{ query|urlencode }}&{% endif %}{% if selected_collection %}collection={{ selected_collection|urlencode }}&{% endif %}{% if selected_tag %}tag={{ selected_tag|urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}">{% translate "Previous" %}</a>
+    {% endif %}
+    <span>{% blocktranslate with current=page_obj.number total=page_obj.paginator.num_pages %}Page {{ current }} of {{ total }}{% endblocktranslate %}</span>
+    {% if page_obj.has_next %}
+      <a href="?{% if query %}q={{ query|urlencode }}&{% endif %}{% if selected_collection %}collection={{ selected_collection|urlencode }}&{% endif %}{% if selected_tag %}tag={{ selected_tag|urlencode }}&{% endif %}page={{ page_obj.next_page_number }}">{% translate "Next" %}</a>
+    {% endif %}
+  </nav>
+{% endif %}

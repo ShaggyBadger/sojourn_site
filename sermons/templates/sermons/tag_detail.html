@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ tag.name }} | {% translate "Sermons" %}{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="sermon-library-hero"><div class="container sermon-page-width"><a class="sermon-back-link" href="{% url 'sermons:list' %}">← {% translate "All sermons" %}</a><p class="hero-kicker">{% translate "Topic" %}</p><h1>{{ tag.name }}</h1></div></section>
+    <section class="sermon-library-section"><div class="container sermon-page-width"><div class="row g-4">{% for sermon in sermons %}<div class="col-md-6 col-xl-4">{% include "sermons/partials/sermon_card.html" %}</div>{% endfor %}</div></div></section>
+  </main>
+{% endblock %}

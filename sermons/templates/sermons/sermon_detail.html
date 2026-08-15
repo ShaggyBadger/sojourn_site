@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ sermon.title }} | {% translate "Sermons" %}{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="sermon-detail-hero">
+      <div class="container sermon-page-width">
+        <a class="sermon-back-link" href="{% url 'sermons:list' %}">← {% translate "All sermons" %}</a>
+        <p class="hero-kicker">{% translate "Sermon" %}</p>
+        <h1>{{ sermon.title }}</h1>
+        <p class="sermon-byline">{{ sermon.speaker }} <span aria-hidden="true">·</span> {{ sermon.sermon_date|date:"F j, Y" }}</p>
+      </div>
+    </section>
+
+    <section class="sermon-detail-section">
+      <div class="container sermon-page-width">
+        <div class="sermon-player-card">
+          <p class="section-eyebrow">{% translate "Listen" %}</p>
+          <audio controls preload="metadata" src="{{ sermon.media_file.url }}">
+            {% translate "Your browser does not support audio playback." %}
+          </audio>
+          <a class="sermon-download-link" href="{{ sermon.media_file.url }}">{% translate "Download MP3" %}</a>
+        </div>
+
+        <div class="sermon-content-grid">
+          <div class="sermon-main-copy">
+            <section class="sermon-content-section">
+              <p class="section-eyebrow">{% translate "Summary" %}</p>
+              <div class="sermon-rich-text">{{ sermon.summary|linebreaks }}</div>
+            </section>
+            <section class="sermon-content-section sermon-thesis">
+              <p class="section-eyebrow">{% translate "Thesis" %}</p>
+              <div class="sermon-rich-text">{{ sermon.thesis|linebreaks }}</div>
+            </section>
+            {% if sermon.transcript %}
+              <section class="sermon-content-section sermon-transcript">
+                <p class="section-eyebrow">{% translate "Transcript" %}</p>
+                <div class="sermon-rich-text">{{ sermon.transcript|linebreaks }}</div>
+              </section>
+            {% endif %}
+          </div>
+          <aside class="sermon-detail-aside">
+            <div class="sermon-scripture-card">
+              <p class="section-eyebrow">{% translate "Main Scripture" %}</p>
+              <p>{{ sermon.main_scripture }}</p>
+            </div>
+            {% if sermon.collection %}
+              <div class="sermon-aside-section">
+                <p class="section-eyebrow">{% translate "Collection" %}</p>
+                <a href="{% url 'sermons:collection_detail' sermon.collection.slug %}">{{ sermon.collection.name }}</a>
+              </div>
+            {% endif %}
+            {% if sermon.tags.all %}
+              <div class="sermon-aside-section">
+                <p class="section-eyebrow">{% translate "Topics" %}</p>
+                <div class="sermon-tags">
+                  {% for tag in sermon.tags.all %}<a href="{% url 'sermons:tag_detail' tag.slug %}">{{ tag.name }}</a>{% endfor %}
+                </div>
+              </div>
+            {% endif %}
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

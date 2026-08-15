@@ -1,0 +1,24 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Email template preview" %} | {{ block.super }}{% endblock %}
+
+{% block content %}
+<h1>{% translate "Email template preview" %}: {{ email_template.name }}</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="default" type="submit" name="preview">{% translate "Preview" %}</button>
+  <button class="default" type="submit" name="send_test" value="1">{% translate "Send test email" %}</button>
+</form>
+
+{% if rendered %}
+  <h2>{% translate "Rendered email" %}</h2>
+  <p><strong>{% translate "Subject" %}:</strong> {{ rendered.subject }}</p>
+  <div style="background:#ddd;padding:20px;max-width:700px;">
+    {{ rendered.html|safe }}
+  </div>
+  <h2>{% translate "Plain-text alternative" %}</h2>
+  <pre>{{ rendered.text }}</pre>
+{% endif %}
+{% endblock %}

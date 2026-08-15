@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Sermons" %} | Sojourn Baptist Church{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="sermon-library-hero">
+      <div class="container sermon-page-width">
+        <p class="hero-kicker">{% translate "Listen and grow" %}</p>
+        <h1>{% translate "Sermons" %}</h1>
+        <p class="sermon-lede">{% translate "Explore messages from our church, search by theme or Scripture, and listen at your own pace." %}</p>
+      </div>
+    </section>
+
+    <section class="sermon-library-section">
+      <div class="container sermon-page-width">
+        <form class="sermon-filter-panel" method="get">
+          <div class="sermon-search-field">
+            <label for="sermon-search">{% translate "Search sermons" %}</label>
+            <input id="sermon-search" name="q" type="search" value="{{ query }}" placeholder="{% translate 'Title, Scripture, speaker, or theme' %}">
+          </div>
+          <div>
+            <label for="sermon-collection">{% translate "Collection" %}</label>
+            <select id="sermon-collection" name="collection">
+              <option value="">{% translate "All collections" %}</option>
+              {% for collection in collections %}
+                <option value="{{ collection.slug }}"{% if selected_collection == collection.slug %} selected{% endif %}>{{ collection.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <label for="sermon-tag">{% translate "Tag" %}</label>
+            <select id="sermon-tag" name="tag">
+              <option value="">{% translate "All tags" %}</option>
+              {% for tag in tags %}
+                <option value="{{ tag.slug }}"{% if selected_tag == tag.slug %} selected{% endif %}>{{ tag.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button class="btn btn-custom-gold" type="submit">{% translate "Find sermons" %}</button>
+        </form>
+
+        {% if query or selected_collection or selected_tag %}
+          <div class="sermon-filter-status">
+            <p>{% blocktranslate count counter=page_obj.paginator.count %}{{ counter }} sermon found{% plural %}{{ counter }} sermons found{% endblocktranslate %}</p>
+            <a href="{% url 'sermons:list' %}">{% translate "Clear filters" %}</a>
+          </div>
+        {% endif %}
+
+        {% if sermons %}
+          <div class="row g-4">
+            {% for sermon in sermons %}
+              <div class="col-md-6 col-xl-4">
+                {% include "sermons/partials/sermon_card.html" %}
+              </div>
+            {% endfor %}
+          </div>
+          {% include "sermons/partials/pagination.html" %}
+        {% else %}
+          <div class="sermon-empty-state">
+            <p class="section-eyebrow">{% translate "Nothing found" %}</p>
+            <h2>{% translate "No sermons match those filters." %}</h2>
+            <p>{% translate "Try a different search or browse the full sermon library." %}</p>
+            <a class="btn btn-custom-gold" href="{% url 'sermons:list' %}">{% translate "View all sermons" %}</a>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  </main>
+{% endblock %}

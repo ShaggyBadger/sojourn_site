@@ -27,6 +27,16 @@
               {% translate "About" %}
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'sermons:list' %}" @click="open = false">
+              {% translate "Sermons" %}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'communications:subscribe' %}" @click="open = false">
+              {% translate "Stay connected" %}
+            </a>
+          </li>
         </ul>
       </div>
 

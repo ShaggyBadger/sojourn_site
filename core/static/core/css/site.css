@@ -250,6 +250,331 @@ body {
   max-width: 52rem;
 }
 
+.sermon-page-width {
+  max-width: 76rem;
+}
+
+.sermon-library-hero,
+.sermon-detail-hero {
+  background: linear-gradient(135deg, var(--accent-burgundy), var(--bg-charcoal));
+  padding: 7rem 1rem 4rem;
+}
+
+.sermon-library-hero h1,
+.sermon-detail-hero h1 {
+  color: var(--text-light);
+  font-size: clamp(2.75rem, 8vw, 5.25rem);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin: 0 0 1rem;
+  max-width: 56rem;
+}
+
+.sermon-lede {
+  color: var(--text-muted);
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 42rem;
+}
+
+.sermon-back-link {
+  color: var(--accent-gold);
+  display: inline-block;
+  margin-bottom: 2rem;
+  text-decoration: none;
+}
+
+.sermon-back-link:hover,
+.sermon-back-link:focus {
+  color: var(--text-light);
+}
+
+.sermon-byline {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.sermon-library-section,
+.sermon-detail-section {
+  padding: 4rem 1rem 6rem;
+}
+
+.sermon-filter-panel {
+  align-items: end;
+  background: var(--bg-card);
+  border: 1px solid rgba(197, 168, 128, 0.2);
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding: 1.25rem;
+}
+
+.sermon-filter-panel label {
+  color: var(--text-muted);
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.45rem;
+  text-transform: uppercase;
+}
+
+.sermon-filter-panel input,
+.sermon-filter-panel select {
+  background: var(--bg-charcoal);
+  border: 1px solid rgba(244, 241, 234, 0.25);
+  border-radius: 0.4rem;
+  color: var(--text-light);
+  min-height: 3rem;
+  padding: 0.7rem 0.8rem;
+  width: 100%;
+}
+
+.sermon-filter-panel input:focus,
+.sermon-filter-panel select:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 0.2rem rgba(197, 168, 128, 0.2);
+  outline: 0;
+}
+
+.sermon-filter-panel .btn {
+  min-height: 3rem;
+  white-space: nowrap;
+}
+
+.sermon-filter-status {
+  align-items: center;
+  color: var(--text-muted);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: -1rem 0 2rem;
+}
+
+.sermon-filter-status p {
+  margin: 0;
+}
+
+.sermon-filter-status a,
+.sermon-card a,
+.sermon-aside-section a,
+.sermon-tags a {
+  color: var(--accent-gold);
+}
+
+.sermon-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(197, 168, 128, 0.16);
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.sermon-card:hover {
+  border-color: rgba(197, 168, 128, 0.6);
+  transform: translateY(-3px);
+}
+
+.sermon-card-topline {
+  color: var(--text-muted);
+  display: flex;
+  font-size: 0.78rem;
+  gap: 0.75rem;
+  justify-content: space-between;
+  letter-spacing: 0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.sermon-card h2 {
+  font-size: 1.45rem;
+  line-height: 1.2;
+  margin-bottom: 0.7rem;
+}
+
+.sermon-card h2 a {
+  color: var(--text-light);
+  text-decoration: none;
+}
+
+.sermon-card h2 a:hover,
+.sermon-card h2 a:focus {
+  color: var(--accent-gold);
+}
+
+.sermon-card-scripture {
+  color: var(--accent-gold);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.sermon-card-summary {
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.sermon-card-link {
+  font-weight: 600;
+  margin-top: auto;
+  text-decoration: none;
+}
+
+.sermon-card-link span {
+  margin-left: 0.35rem;
+}
+
+.sermon-empty-state {
+  border: 1px dashed rgba(197, 168, 128, 0.35);
+  border-radius: 0.75rem;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+
+.sermon-empty-state h2 {
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+}
+
+.sermon-empty-state p:not(.section-eyebrow) {
+  color: var(--text-muted);
+  margin: 0 auto 1.5rem;
+  max-width: 32rem;
+}
+
+.sermon-pagination {
+  align-items: center;
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.sermon-pagination a {
+  color: var(--accent-gold);
+  text-decoration: none;
+}
+
+.sermon-pagination span {
+  color: var(--text-muted);
+}
+
+.sermon-player-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(197, 168, 128, 0.25);
+  border-radius: 0.75rem;
+  margin-bottom: 4rem;
+  padding: 1.5rem;
+}
+
+.sermon-player-card audio {
+  display: block;
+  margin: 0.75rem 0 1rem;
+  width: 100%;
+}
+
+.sermon-download-link {
+  color: var(--accent-gold);
+  font-size: 0.95rem;
+}
+
+.sermon-content-grid {
+  display: grid;
+  gap: 3rem;
+}
+
+.sermon-main-copy {
+  min-width: 0;
+}
+
+.sermon-content-section {
+  border-bottom: 1px solid rgba(244, 241, 234, 0.12);
+  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.sermon-rich-text {
+  color: var(--text-light);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 48rem;
+}
+
+.sermon-rich-text p:last-child {
+  margin-bottom: 0;
+}
+
+.sermon-thesis {
+  border-left: 3px solid var(--accent-gold);
+  padding-left: 1.25rem;
+}
+
+.sermon-transcript .sermon-rich-text {
+  font-size: 1rem;
+}
+
+.sermon-scripture-card {
+  background: var(--accent-burgundy);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.sermon-scripture-card p:last-child {
+  color: var(--text-light);
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.sermon-aside-section {
+  border-bottom: 1px solid rgba(244, 241, 234, 0.12);
+  padding: 1.5rem 0;
+}
+
+.sermon-aside-section a {
+  text-decoration: none;
+}
+
+.sermon-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sermon-tags a {
+  border: 1px solid rgba(197, 168, 128, 0.45);
+  border-radius: 50rem;
+  padding: 0.35rem 0.7rem;
+  text-decoration: none;
+}
+
+.sermon-tags a:hover,
+.sermon-tags a:focus {
+  background: var(--accent-burgundy);
+}
+
+@media (min-width: 768px) {
+  .sermon-filter-panel {
+    grid-template-columns: minmax(0, 2fr) minmax(10rem, 1fr) minmax(10rem, 1fr) auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .sermon-content-grid {
+    grid-template-columns: minmax(0, 1fr) 16rem;
+  }
+
+  .sermon-detail-aside {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+  }
+}
+
 .about-hero h1 {
   color: var(--text-light);
   font-size: clamp(2.75rem, 9vw, 5.5rem);
