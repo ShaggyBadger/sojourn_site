@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Give" %} | {% translate "Sojourn Baptist Church" %}{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="visitor-hero giving-hero">
+      <div class="container visitor-hero-content">
+        <p class="hero-kicker">{% translate "Give" %}</p>
+        <h1>{% translate "Give as an act of worship" %}</h1>
+        <p class="visitor-lede">
+          {% translate "Your generosity helps Sojourn Baptist Church worship, serve our neighbors, and grow together in faith." %}
+        </p>
+      </div>
+    </section>
+
+    <section class="visitor-section">
+      <div class="container giving-content">
+        <article class="visitor-card visitor-card-highlight">
+          <p class="section-eyebrow">{% translate "Give online" %}</p>
+          <h2>{% translate "Use our online giving form" %}</h2>
+          <p>{% translate "Online gifts are processed through Zeffy's donation form. Select the button below to give securely through their site." %}</p>
+          <a class="btn btn-custom-gold" href="{{ giving_url }}" target="_blank" rel="noopener noreferrer">
+            {% translate "Give through Zeffy" %}
+          </a>
+        </article>
+        <div class="giving-copy">
+          <p class="section-eyebrow">{% translate "Thank you" %}</p>
+          <h2>{% translate "Thank you for helping strengthen the work of the church" %}</h2>
+          <p>{% translate "Every gift supports the shared life and ministry of our church. Give freely and prayerfully as you are able." %}</p>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

@@ -68,14 +68,14 @@
       <div class="container">
         <div class="row g-4">
           <div class="col-md-4">
-            <article class="feature-card h-100">
+            <a class="feature-card feature-card-link h-100" href="{% url 'new_here' %}">
               <p class="feature-number">01</p>
                   <h2 class="feature-title">{% translate "New here?" %}</h2>
               <div class="feature-icon-circle" aria-hidden="true">&#10013;</div>
               <p class="feature-text">
                 {% translate "We would love to welcome you. Find a place to begin and learn what to expect when you visit." %}
               </p>
-            </article>
+            </a>
           </div>
           <div class="col-md-4">
             <a
@@ -95,14 +95,14 @@
             </a>
           </div>
           <div class="col-md-4">
-            <article class="feature-card h-100">
+            <a class="feature-card feature-card-link h-100" href="{% url 'giving' %}">
               <p class="feature-number">03</p>
                   <h2 class="feature-title">{% translate "Give" %}</h2>
               <div class="feature-icon-circle" aria-hidden="true">&#9829;</div>
               <p class="feature-text">
                 {% translate "Give as an act of worship and help strengthen the work God is doing through our church." %}
               </p>
-            </article>
+            </a>
           </div>
         </div>
       </div>

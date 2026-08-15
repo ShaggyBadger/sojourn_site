@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "New here?" %} | {% translate "Sojourn Baptist Church" %}{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="visitor-hero">
+      <div class="container visitor-hero-content">
+        <p class="hero-kicker">{% translate "Your first visit" %}</p>
+        <h1>{% translate "A simple place to begin" %}</h1>
+        <p class="visitor-lede">
+          {% translate "You do not need to know everything before you come. We gather to worship Jesus, grow in faith, and welcome our neighbors." %}
+        </p>
+      </div>
+    </section>
+
+    <section class="visitor-section">
+      <div class="container visitor-grid">
+        <article class="visitor-card visitor-card-highlight">
+          <p class="section-eyebrow">{% translate "Start with Sunday" %}</p>
+          <h2>{% translate "Sunday gathering" %}</h2>
+          <p class="visitor-time">{% translate "10:30 AM" %}</p>
+          <p>{% translate "Plan for about 90 minutes together." %}</p>
+          <p class="visitor-note">{% translate "Meeting location and directions will be added as soon as they are confirmed." %}</p>
+        </article>
+
+        <article class="visitor-card">
+          <p class="section-eyebrow">{% translate "What to expect" %}</p>
+          <h2>{% translate "Reflective worship and faithful teaching" %}</h2>
+          <p>{% translate "We sing together with acoustic guitar, drawing from contemporary songs and traditional hymns. The service is reflective, and the congregation generally stands while singing." %}</p>
+          <p>{% translate "The sermon is currently delivered primarily in English, within a bilingual service." %}</p>
+        </article>
+
+        <article class="visitor-card">
+          <p class="section-eyebrow">{% translate "What to wear" %}</p>
+          <h2>{% translate "Business casual" %}</h2>
+          <p>{% translate "Business casual clothing is appropriate. Suits and ties are not expected." %}</p>
+          <p>{% translate "Come dressed in a way that helps you feel comfortable and ready to worship." %}</p>
+        </article>
+
+        <article class="visitor-card visitor-card-wide">
+          <p class="section-eyebrow">{% translate "Spanish is welcome here" %}</p>
+          <h2>{% translate "A bilingual church for our neighbors" %}</h2>
+          <p>{% translate "We want English- and Spanish-speaking neighbors to find a genuine welcome, faithful teaching, and a place to grow together. Pastor Blake can provide Spanish ministry, and we are continuing to grow as a fully bilingual church." %}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="visitor-next-step">
+      <div class="container visitor-next-step-content">
+        <p class="section-eyebrow">{% translate "Keep exploring" %}</p>
+        <h2>{% translate "Want to get a feel for the church first?" %}</h2>
+        <p>{% translate "Read more about who we are, or listen to a recent sermon before you visit." %}</p>
+        <div class="visitor-actions">
+          <a class="btn btn-custom-gold" href="{% url 'about' %}">{% translate "Learn about our church" %}</a>
+          <a class="btn btn-outline-light" href="{% url 'sermons:list' %}">{% translate "Listen to sermons" %}</a>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

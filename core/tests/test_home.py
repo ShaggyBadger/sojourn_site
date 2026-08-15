@@ -76,6 +76,53 @@ class HomePageTests(TestCase):
         self.assertNotContains(response, "Older Message")
         self.assertNotContains(response, "Future Message")
 
+    def test_homepage_new_here_card_links_to_visitor_page(self):
+        response = self.client.get("/")
+
+        self.assertContains(response, 'href="/new-here/"', html=False)
+
+
+class NewHerePageTests(TestCase):
+    def test_new_here_page_loads_with_practical_visitor_information(self):
+        response = self.client.get("/new-here/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "new_here.html")
+        self.assertContains(response, "Sunday gathering")
+        self.assertContains(response, "10:30 AM")
+        self.assertContains(response, "Reflective worship and faithful teaching")
+        self.assertContains(response, "Business casual")
+
+    def test_new_here_page_renders_spanish_translation(self):
+        self.client.cookies["django_language"] = "es"
+        response = self.client.get("/new-here/")
+
+        self.assertContains(response, "Una iglesia bilingüe para nuestros vecinos")
+        self.assertContains(response, "Reunión del domingo")
+
+
+class GivingPageTests(TestCase):
+    def test_giving_page_links_to_zeffy(self):
+        response = self.client.get("/giving/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "https://www.zeffy.com/en-US/donation-form/tithegive-to-sojourn-church",
+        )
+        self.assertContains(response, "Give through Zeffy")
+
+    def test_homepage_give_card_links_to_giving_page(self):
+        response = self.client.get("/")
+
+        self.assertContains(response, 'href="/giving/"', html=False)
+
+    def test_giving_page_renders_spanish_translation(self):
+        self.client.cookies["django_language"] = "es"
+        response = self.client.get("/giving/")
+
+        self.assertContains(response, "Usa nuestro formulario para dar en línea")
+
 
 class AboutPageTests(TestCase):
     def test_about_page_is_a_singleton(self):

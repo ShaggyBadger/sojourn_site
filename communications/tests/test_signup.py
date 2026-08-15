@@ -17,6 +17,16 @@ class SubscribeViewTests(TestCase):
         self.assertTemplateUsed(response, "communications/subscribe.html")
         self.assertContains(response, 'name="csrfmiddlewaretoken"')
 
+    def test_signup_page_renders_spanish_interface_text(self):
+        self.client.cookies["django_language"] = "es"
+
+        response = self.client.get(reverse("communications:subscribe"))
+
+        self.assertContains(response, "Mantente conectado")
+        self.assertContains(response, "Dirección de correo electrónico")
+        self.assertContains(response, "Suscribirme")
+        self.assertContains(response, "Iglesia Bautista Sojourn")
+
     def test_valid_signup_creates_recipient_and_group(self):
         response = self.client.post(
             reverse("communications:subscribe"),

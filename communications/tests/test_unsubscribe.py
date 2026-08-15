@@ -23,6 +23,22 @@ class UnsubscribeViewTests(TestCase):
         self.assertEqual(recipient.status, EmailRecipient.Status.UNSUBSCRIBED)
         self.assertIsNotNone(recipient.unsubscribed_at)
 
+    def test_unsubscribe_page_renders_spanish_interface_text(self):
+        recipient = EmailRecipient.objects.create(email="spanish@example.com")
+        url = reverse(
+            "communications:unsubscribe",
+            kwargs={"token": recipient.unsubscribe_token},
+        )
+        self.client.cookies["django_language"] = "es"
+
+        response = self.client.get(url)
+
+        self.assertContains(
+            response,
+            "¿Dejar de recibir correos electrónicos de la iglesia?",
+        )
+        self.assertContains(response, "Cancelar suscripción")
+
     def test_unsubscribe_is_idempotent(self):
         recipient = EmailRecipient.objects.create(
             email="person@example.com",

@@ -7,6 +7,9 @@ from .selectors import get_localized_about_content
 from sermons.models import Sermon
 
 
+GIVING_URL = "https://www.zeffy.com/en-US/donation-form/tithegive-to-sojourn-church"
+
+
 def home(request):
     """Render the homepage using the current site-wide settings."""
     team_members = TeamMember.objects.filter(is_published=True)
@@ -45,3 +48,13 @@ def about(request):
         "about.html",
         {"about_content": about_content, "team_members": team_members},
     )
+
+
+def new_here(request):
+    """Render practical visitor information for a first visit."""
+    return render(request, "new_here.html")
+
+
+def giving(request):
+    """Render information about giving and link to the church's Zeffy form."""
+    return render(request, "giving.html", {"giving_url": GIVING_URL})

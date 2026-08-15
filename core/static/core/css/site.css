@@ -246,6 +246,164 @@ body {
   padding: 7rem 1rem 4rem;
 }
 
+.visitor-hero {
+  align-items: end;
+  background: linear-gradient(135deg, var(--accent-burgundy), var(--bg-charcoal));
+  display: flex;
+  min-height: 48svh;
+  padding: 7rem 1rem 4rem;
+}
+
+.visitor-hero-content {
+  max-width: 52rem;
+}
+
+.visitor-hero h1 {
+  color: var(--text-light);
+  font-size: clamp(2.75rem, 9vw, 5.5rem);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.visitor-lede {
+  color: var(--text-muted);
+  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 42rem;
+}
+
+.visitor-section {
+  padding: 4.5rem 1rem 6rem;
+}
+
+.visitor-grid {
+  display: grid;
+  gap: 1rem;
+  max-width: 72rem;
+}
+
+.visitor-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(197, 168, 128, 0.16);
+  border-radius: 0.75rem;
+  padding: 2rem;
+}
+
+.visitor-card-highlight {
+  background: var(--accent-burgundy);
+}
+
+.visitor-card h2 {
+  color: var(--text-light);
+  font-size: clamp(1.6rem, 4vw, 2.35rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.visitor-card p:not(.section-eyebrow):not(.visitor-time) {
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.visitor-card p:last-child {
+  margin-bottom: 0;
+}
+
+.visitor-time {
+  color: var(--text-light);
+  font-size: clamp(2.25rem, 7vw, 4rem);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.visitor-note {
+  border-top: 1px solid rgba(244, 241, 234, 0.2);
+  font-size: 0.9rem;
+  padding-top: 1rem;
+}
+
+.visitor-next-step {
+  background: var(--accent-burgundy);
+  padding: 4.5rem 1rem;
+}
+
+.giving-hero {
+  background: linear-gradient(135deg, var(--accent-burgundy), #2f1720 55%, var(--bg-charcoal));
+}
+
+.giving-content {
+  display: grid;
+  gap: 2.5rem;
+  max-width: 72rem;
+}
+
+.giving-content .visitor-card {
+  align-self: start;
+}
+
+.giving-content .visitor-card p:not(.section-eyebrow) {
+  margin-bottom: 1.75rem;
+}
+
+.giving-copy {
+  align-self: center;
+  max-width: 42rem;
+}
+
+.giving-copy h2 {
+  color: var(--text-light);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.giving-copy p:not(.section-eyebrow) {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.visitor-next-step-content {
+  max-width: 58rem;
+  text-align: center;
+}
+
+.visitor-next-step h2 {
+  color: var(--text-light);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.visitor-next-step p:not(.section-eyebrow) {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0 auto 1.75rem;
+  max-width: 38rem;
+}
+
+.visitor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.visitor-actions .btn-outline-light {
+  border-radius: 50rem;
+  padding: 0.8rem 2.5rem;
+}
+
 .about-hero-content {
   max-width: 52rem;
 }
@@ -929,6 +1087,18 @@ body {
 }
 
 @media (min-width: 768px) {
+  .visitor-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .visitor-card-wide {
+    grid-column: 1 / -1;
+  }
+
+  .giving-content {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  }
+
   .about-copy-grid {
     align-items: start;
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);

@@ -28,6 +28,16 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'new_here' %}" @click="open = false">
+              {% translate "New here?" %}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'giving' %}" @click="open = false">
+              {% translate "Give" %}
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'sermons:list' %}" @click="open = false">
               {% translate "Sermons" %}
             </a>

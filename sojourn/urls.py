@@ -3,11 +3,13 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import include, path
 
-from core.views import about, home
+from core.views import about, giving, home, new_here
 
 urlpatterns = [
     path("", home, name="home"),
     path("about/", about, name="about"),
+    path("new-here/", new_here, name="new_here"),
+    path("giving/", giving, name="giving"),
     path("sermons/", include("sermons.urls")),
     path("admin/", admin.site.urls),
     path(

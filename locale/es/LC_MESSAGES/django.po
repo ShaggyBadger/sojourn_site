@@ -2,6 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sojourn Baptist Church\n"
 "Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -122,3 +123,327 @@ msgstr "Nos alegrará conocerte, adoraremos contigo y te ayudaremos a encontrar 
 
 msgid "Learn what to expect"
 msgstr "Conoce qué esperar"
+
+msgid "Your first visit"
+msgstr "Tu primera visita"
+
+msgid "A simple place to begin"
+msgstr "Un lugar sencillo para comenzar"
+
+msgid "You do not need to know everything before you come. We gather to worship Jesus, grow in faith, and welcome our neighbors."
+msgstr "No necesitas saberlo todo antes de venir. Nos reunimos para adorar a Jesús, crecer en la fe y dar la bienvenida a nuestros vecinos."
+
+msgid "Start with Sunday"
+msgstr "Comienza el domingo"
+
+msgid "Sunday gathering"
+msgstr "Reunión del domingo"
+
+msgid "10:30 AM"
+msgstr "10:30 a. m."
+
+msgid "Plan for about 90 minutes together."
+msgstr "La reunión dura aproximadamente 90 minutos."
+
+msgid "Meeting location and directions will be added as soon as they are confirmed."
+msgstr "Añadiremos el lugar de reunión y las indicaciones tan pronto como estén confirmados."
+
+msgid "What to expect"
+msgstr "Qué esperar"
+
+msgid "Reflective worship and faithful teaching"
+msgstr "Adoración reflexiva y enseñanza fiel"
+
+msgid "We sing together with acoustic guitar, drawing from contemporary songs and traditional hymns. The service is reflective, and the congregation generally stands while singing."
+msgstr "Cantamos juntos acompañados de guitarra acústica, con canciones contemporáneas e himnos tradicionales. El servicio es reflexivo y la congregación generalmente permanece de pie mientras canta."
+
+msgid "The sermon is currently delivered primarily in English, within a bilingual service."
+msgstr "Actualmente el sermón se predica principalmente en inglés, dentro de un servicio bilingüe."
+
+msgid "What to wear"
+msgstr "Qué vestir"
+
+msgid "Business casual"
+msgstr "Vestimenta casual de negocios"
+
+msgid "Business casual clothing is appropriate. Suits and ties are not expected."
+msgstr "La vestimenta casual de negocios es apropiada. No se esperan trajes ni corbatas."
+
+msgid "Come dressed in a way that helps you feel comfortable and ready to worship."
+msgstr "Vístete de una manera que te ayude a sentirte cómodo y listo para adorar."
+
+msgid "Spanish is welcome here"
+msgstr "El español es bienvenido aquí"
+
+msgid "A bilingual church for our neighbors"
+msgstr "Una iglesia bilingüe para nuestros vecinos"
+
+msgid "We want English- and Spanish-speaking neighbors to find a genuine welcome, faithful teaching, and a place to grow together. Pastor Blake can provide Spanish ministry, and we are continuing to grow as a fully bilingual church."
+msgstr "Queremos que nuestros vecinos de habla inglesa y española encuentren una bienvenida sincera, enseñanza fiel y un lugar para crecer juntos. El pastor Blake puede ofrecer ministerio en español y seguimos creciendo como una iglesia plenamente bilingüe."
+
+msgid "Keep exploring"
+msgstr "Sigue explorando"
+
+msgid "Want to get a feel for the church first?"
+msgstr "¿Quieres conocer un poco más la iglesia primero?"
+
+msgid "Read more about who we are, or listen to a recent sermon before you visit."
+msgstr "Lee más sobre quiénes somos o escucha un sermón reciente antes de visitarnos."
+
+msgid "Listen to sermons"
+msgstr "Escucha los sermones"
+
+msgid "Give as an act of worship"
+msgstr "Da como un acto de adoración"
+
+msgid "Your generosity helps Sojourn Baptist Church worship, serve our neighbors, and grow together in faith."
+msgstr "Tu generosidad ayuda a la Iglesia Bautista Sojourn a adorar, servir a nuestros vecinos y crecer juntos en la fe."
+
+msgid "Give online"
+msgstr "Da en línea"
+
+msgid "Use our online giving form"
+msgstr "Usa nuestro formulario para dar en línea"
+
+msgid "Online gifts are processed through Zeffy's donation form. Select the button below to give securely through their site."
+msgstr "Las donaciones en línea se procesan mediante el formulario de donaciones de Zeffy. Selecciona el botón de abajo para donar de forma segura a través de su sitio."
+
+msgid "Give through Zeffy"
+msgstr "Dar a través de Zeffy"
+
+msgid "Thank you"
+msgstr "Gracias"
+
+msgid "Thank you for helping strengthen the work of the church"
+msgstr "Gracias por ayudar a fortalecer la obra de la iglesia"
+
+msgid "Every gift supports the shared life and ministry of our church. Give freely and prayerfully as you are able."
+msgstr "Cada donación apoya la vida y el ministerio compartidos de nuestra iglesia. Da con libertad y oración según tus posibilidades."
+
+msgid "Sermons"
+msgstr "Sermones"
+
+msgid "Listen and grow"
+msgstr "Escucha y crece"
+
+msgid "Explore messages from our church, search by theme or Scripture, and listen at your own pace."
+msgstr "Explora los mensajes de nuestra iglesia, busca por tema o Escritura y escucha a tu propio ritmo."
+
+msgid "Search sermons"
+msgstr "Buscar sermones"
+
+msgid "Title, Scripture, speaker, or theme"
+msgstr "Título, Escritura, predicador o tema"
+
+msgid "Collection"
+msgstr "Colección"
+
+msgid "All collections"
+msgstr "Todas las colecciones"
+
+msgid "Tag"
+msgstr "Etiqueta"
+
+msgid "All tags"
+msgstr "Todas las etiquetas"
+
+msgid "Find sermons"
+msgstr "Buscar sermones"
+
+msgid "%(counter)s sermon found"
+msgid_plural "%(counter)s sermons found"
+msgstr[0] "Se encontró %(counter)s sermón"
+msgstr[1] "Se encontraron %(counter)s sermones"
+
+msgid "Clear all filters"
+msgstr "Borrar todos los filtros"
+
+msgid "Active filters"
+msgstr "Filtros activos"
+
+msgid "Filtering by"
+msgstr "Filtrando por"
+
+msgid "Search"
+msgstr "Búsqueda"
+
+msgid "Nothing found"
+msgstr "No se encontró nada"
+
+msgid "No sermons match those filters."
+msgstr "Ningún sermón coincide con esos filtros."
+
+msgid "Try a different search or browse the full sermon library."
+msgstr "Prueba otra búsqueda o explora toda la biblioteca de sermones."
+
+msgid "View all sermons"
+msgstr "Ver todos los sermones"
+
+msgid "All sermons"
+msgstr "Todos los sermones"
+
+msgid "Sermon"
+msgstr "Sermón"
+
+msgid "Listen"
+msgstr "Escuchar"
+
+msgid "Your browser does not support audio playback."
+msgstr "Tu navegador no admite la reproducción de audio."
+
+msgid "Download MP3"
+msgstr "Descargar MP3"
+
+msgid "Summary"
+msgstr "Resumen"
+
+msgid "Thesis"
+msgstr "Tesis"
+
+msgid "Transcript"
+msgstr "Transcripción"
+
+msgid "Main Scripture"
+msgstr "Escritura principal"
+
+msgid "Topics"
+msgstr "Temas"
+
+msgid "Continue in this collection"
+msgstr "Continúa en esta colección"
+
+msgid "More from this collection"
+msgstr "Más de esta colección"
+
+msgid "Sermon pages"
+msgstr "Páginas de sermones"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Page %(current)s of %(total)s"
+msgstr "Página %(current)s de %(total)s"
+
+msgid "Next"
+msgstr "Siguiente"
+
+msgid "No sermons yet"
+msgstr "Aún no hay sermones"
+
+msgid "This collection is still taking shape."
+msgstr "Esta colección todavía está tomando forma."
+
+msgid "Browse all sermons"
+msgstr "Explorar todos los sermones"
+
+msgid "Topic"
+msgstr "Tema"
+
+msgid "%(counter)s sermon in this collection"
+msgid_plural "%(counter)s sermons in this collection"
+msgstr[0] "%(counter)s sermón en esta colección"
+msgstr[1] "%(counter)s sermones en esta colección"
+
+msgid "%(counter)s sermon with this topic"
+msgid_plural "%(counter)s sermons with this topic"
+msgstr[0] "%(counter)s sermón con este tema"
+msgstr[1] "%(counter)s sermones con este tema"
+
+msgid "This topic does not have any published sermons yet."
+msgstr "Este tema aún no tiene sermones publicados."
+
+msgid "Listen to sermon"
+msgstr "Escuchar el sermón"
+
+msgid "Stay connected"
+msgstr "Mantente conectado"
+
+msgid "This email is already on our list."
+msgstr "Este correo electrónico ya está en nuestra lista."
+
+msgid "That address is already in our system for church communications."
+msgstr "Esa dirección ya está registrada en nuestro sistema para las comunicaciones de la iglesia."
+
+msgid "You are on the list."
+msgstr "Ya estás en la lista."
+
+msgid "We will use this address for church updates and helpful information."
+msgstr "Usaremos esta dirección para enviar actualizaciones de la iglesia e información útil."
+
+msgid "Receive occasional church updates and meeting information by email."
+msgstr "Recibe ocasionalmente por correo electrónico actualizaciones de la iglesia e información sobre las reuniones."
+
+msgid "We will only use this address for church communications."
+msgstr "Solo usaremos esta dirección para las comunicaciones de la iglesia."
+
+msgid "Sign me up"
+msgstr "Suscribirme"
+
+msgid "Email preferences"
+msgstr "Preferencias de correo electrónico"
+
+msgid "You have been unsubscribed."
+msgstr "Has cancelado tu suscripción."
+
+msgid "You will not receive future church communications from this list."
+msgstr "No recibirás futuras comunicaciones de la iglesia de esta lista."
+
+msgid "Stop receiving church emails?"
+msgstr "¿Dejar de recibir correos electrónicos de la iglesia?"
+
+msgid "Confirm below and we will stop future messages to this address."
+msgstr "Confirma abajo y dejaremos de enviar mensajes futuros a esta dirección."
+
+msgid "Unsubscribe"
+msgstr "Cancelar suscripción"
+
+msgid "Email address"
+msgstr "Dirección de correo electrónico"
+
+msgid "First name"
+msgstr "Nombre"
+
+msgid "Last name"
+msgstr "Apellido"
+
+msgid "I agree to receive church communications by email."
+msgstr "Acepto recibir comunicaciones de la iglesia por correo electrónico."
+
+msgid "Meeting date"
+msgstr "Fecha de la reunión"
+
+msgid "Meeting time"
+msgstr "Hora de la reunión"
+
+msgid "Meeting location"
+msgstr "Lugar de la reunión"
+
+msgid "Sample first name"
+msgstr "Nombre de ejemplo"
+
+msgid "Announcements"
+msgstr "Anuncios"
+
+msgid "Notes"
+msgstr "Notas"
+
+msgid "Test email address"
+msgstr "Dirección de correo electrónico de prueba"
+
+msgid "Email template preview"
+msgstr "Vista previa de la plantilla de correo electrónico"
+
+msgid "Preview"
+msgstr "Vista previa"
+
+msgid "Send test email"
+msgstr "Enviar correo electrónico de prueba"
+
+msgid "Rendered email"
+msgstr "Correo electrónico renderizado"
+
+msgid "Subject"
+msgstr "Asunto"
+
+msgid "Plain-text alternative"
+msgstr "Alternativa de texto sin formato"

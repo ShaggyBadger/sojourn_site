@@ -115,3 +115,12 @@ class SermonViewTests(TestCase):
         self.assertContains(collection_response, "God&#x27;s Promise", html=False)
         self.assertNotContains(collection_response, "Private Draft", html=False)
         self.assertContains(tag_response, "God&#x27;s Promise", html=False)
+
+    def test_library_renders_spanish_interface_text(self):
+        self.client.cookies["django_language"] = "es"
+
+        response = self.client.get(reverse("sermons:list"))
+
+        self.assertContains(response, "Escucha y crece")
+        self.assertContains(response, "Buscar sermones")
+        self.assertContains(response, "Todas las colecciones")
