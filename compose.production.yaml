@@ -9,7 +9,13 @@ services:
       sojourn.wsgi:application"
     env_file:
       - .env.production
+    environment:
+      DJANGO_LOG_DIR: /var/log/sojourn
     network_mode: host
     restart: unless-stopped
     volumes:
       - ./staticfiles:/app/staticfiles
+      - sojourn_logs:/var/log/sojourn
+
+volumes:
+  sojourn_logs:

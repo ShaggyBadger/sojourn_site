@@ -3,6 +3,13 @@
 <header class="site-header sticky-top" x-data="{ open: false }" @keydown.escape.window="open = false">
   <nav class="navbar navbar-expand-lg navbar-custom" aria-label="{% translate 'Primary navigation' %}">
     <div class="container-fluid px-4">
+      <a class="site-brand" href="{% url 'home' %}" aria-label="{% translate 'Sojourn Baptist Church' %}">
+        {% if site_settings and site_settings.favicon %}
+          <img class="site-brand-icon" src="{{ site_settings.favicon.url }}" alt="{% translate 'Sojourn Baptist Church' %}">
+        {% else %}
+          <span class="site-brand-name">{% translate "Sojourn Baptist Church" %}</span>
+        {% endif %}
+      </a>
       <button
         class="navbar-toggler"
         type="button"

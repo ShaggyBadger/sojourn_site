@@ -46,6 +46,12 @@ body {
   width: 2.25rem;
 }
 
+.site-brand-name {
+  font-size: 0.9rem;
+  line-height: 1.15;
+  max-width: 8rem;
+}
+
 .navbar-custom .nav-link {
   letter-spacing: 0.5px;
 }

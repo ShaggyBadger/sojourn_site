@@ -3,6 +3,9 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+LOG_DIR = Path(os.environ.get("DJANGO_LOG_DIR", BASE_DIR / "logs"))
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in {
     "1",
@@ -125,6 +128,67 @@ STORAGES = {
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "file": {
+            "format": "{asctime} {levelname} {name} {message}",
+            "style": "{",
+        },
+        "console": {
+            "format": "{levelname} {name}: {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "application_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOG_DIR / "application.log",
+            "formatter": "file",
+            "level": "WARNING",
+            "maxBytes": 25 * 1024 * 1024,
+            "backupCount": 4,
+            "encoding": "utf-8",
+        },
+        "crash_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOG_DIR / "crash.log",
+            "formatter": "file",
+            "level": "ERROR",
+            "maxBytes": 25 * 1024 * 1024,
+            "backupCount": 4,
+            "encoding": "utf-8",
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "console",
+            "level": "INFO" if DEBUG else "ERROR",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["application_file", "crash_file", "console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "django.request": {
+            "handlers": ["application_file", "crash_file", "console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        "django.server": {
+            "handlers": ["application_file", "crash_file", "console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+    },
+    "root": {
+        "handlers": ["application_file", "crash_file", "console"],
+        "level": "WARNING",
+    },
+}
 
 EMAIL_BACKEND = os.environ.get(
     "EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
