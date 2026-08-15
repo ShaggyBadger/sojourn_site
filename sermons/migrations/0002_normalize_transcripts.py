@@ -18,4 +18,6 @@ def normalize_transcripts(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [("sermons", "0001_initial")]
 
-    operations = [migrations.RunPython(normalize_transcripts, migrations.RunPython.noop)]
+    operations = [
+        migrations.RunPython(normalize_transcripts, migrations.RunPython.noop)
+    ]

@@ -9,7 +9,6 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
-
 MAX_AUDIO_FILE_SIZE = 100 * 1024 * 1024
 logger = logging.getLogger(__name__)
 
@@ -154,7 +153,8 @@ class Sermon(models.Model):
         old_media_name = None
         if self.pk:
             old_media_name = (
-                type(self).objects.filter(pk=self.pk)
+                type(self)
+                .objects.filter(pk=self.pk)
                 .values_list("media_file", flat=True)
                 .first()
             )
@@ -162,7 +162,9 @@ class Sermon(models.Model):
             base_slug = slugify(self.title) or "sermon"
             candidate = base_slug
             suffix = 2
-            while type(self).objects.filter(slug=candidate).exclude(pk=self.pk).exists():
+            while (
+                type(self).objects.filter(slug=candidate).exclude(pk=self.pk).exists()
+            ):
                 candidate = f"{base_slug}-{suffix}"
                 suffix += 1
             self.slug = candidate

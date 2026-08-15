@@ -108,9 +108,7 @@ class AboutPageTests(TestCase):
             title_en="A shared mission",
             body_en="Edited mission content.",
         )
-        AboutSection.objects.filter(page=page, key="beliefs").update(
-            is_visible=False
-        )
+        AboutSection.objects.filter(page=page, key="beliefs").update(is_visible=False)
 
         response = self.client.get("/about/")
 

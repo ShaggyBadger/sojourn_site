@@ -59,7 +59,9 @@ class SermonListView(PublishedSermonQuerySetMixin, ListView):
             is_published=True,
             sermons__is_published=True,
         ).distinct()
-        context["tags"] = SermonTag.objects.filter(sermons__is_published=True).distinct()
+        context["tags"] = SermonTag.objects.filter(
+            sermons__is_published=True
+        ).distinct()
         context["selected_collection_name"] = (
             SermonCollection.objects.filter(slug=selected_collection)
             .values_list("name", flat=True)

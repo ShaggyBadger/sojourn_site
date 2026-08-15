@@ -38,24 +38,30 @@ def _is_rate_limited(request):
 
 
 def subscribe(request):
-    """Collect a visitor's email without revealing duplicate membership."""
+    """Collect a visitor's email and report whether it was already recorded."""
     form = SubscribeForm(request.POST if request.method == "POST" else None)
     submitted = False
+    already_exists = False
 
     if request.method == "POST" and form.is_valid():
         submitted = True
         if not _is_rate_limited(request) and not form.cleaned_data["website"]:
-            subscribe_recipient(
+            _, created = subscribe_recipient(
                 email=form.cleaned_data["email"],
                 first_name=form.cleaned_data["first_name"].strip(),
                 last_name=form.cleaned_data["last_name"].strip(),
             )
+            already_exists = not created
         form = SubscribeForm()
 
     return render(
         request,
         "communications/subscribe.html",
-        {"form": form, "submitted": submitted},
+        {
+            "form": form,
+            "submitted": submitted,
+            "already_exists": already_exists,
+        },
     )
 
 

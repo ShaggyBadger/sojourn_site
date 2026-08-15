@@ -87,7 +87,15 @@ class EmailTemplateAdmin(admin.ModelAdmin):
         ),
         (
             "Weekly meeting content",
-            {"fields": ("subject_template", "greeting", "standard_copy", "closing")},
+            {
+                "fields": (
+                    "subject_template",
+                    "greeting",
+                    "standard_copy",
+                    "body_html",
+                    "closing",
+                )
+            },
         ),
         (
             "Record history",

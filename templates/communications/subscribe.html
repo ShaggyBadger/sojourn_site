@@ -10,8 +10,13 @@
       {% if submitted %}
         <section class="about-visit-card" aria-labelledby="subscribe-success-title">
           <p class="section-eyebrow">{% translate "Thank you" %}</p>
-          <h1 id="subscribe-success-title">{% translate "You are on the list." %}</h1>
-          <p>{% translate "We will use this address for church updates and helpful information." %}</p>
+          {% if already_exists %}
+            <h1 id="subscribe-success-title">{% translate "This email is already on our list." %}</h1>
+            <p>{% translate "That address is already in our system for church communications." %}</p>
+          {% else %}
+            <h1 id="subscribe-success-title">{% translate "You are on the list." %}</h1>
+            <p>{% translate "We will use this address for church updates and helpful information." %}</p>
+          {% endif %}
         </section>
       {% else %}
         <section class="about-visit-card" aria-labelledby="subscribe-title">

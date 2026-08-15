@@ -39,6 +39,33 @@ class EmailRenderingTests(TestCase):
         self.assertIn("https://example.com/subscribe/unsubscribe/", rendered["html"])
         self.assertIn("Bring a friend.", rendered["text"])
 
+    def test_rendering_includes_sanitized_template_html_body(self):
+        self.template.body_html = (
+            "<h2>This week's update</h2>"
+            "<p><strong>Join us</strong> for worship.</p>"
+            '<p><a href="https://example.com">Learn more</a></p>'
+            '<script>alert("not allowed")</script>'
+            '<a href="javascript:alert(1)">Unsafe link</a>'
+        )
+        self.template.save(update_fields=("body_html", "updated_at"))
+
+        rendered = render_email_template(
+            self.template,
+            {
+                "meeting_date": "Sunday",
+                "meeting_time": "10:30 AM",
+                "meeting_location": "Church",
+            },
+            recipient=self.recipient,
+            unsubscribe_url="https://example.com/unsubscribe/test/",
+        )
+
+        self.assertIn("<h2>This week&#x27;s update</h2>", rendered["html"])
+        self.assertIn("<strong>Join us</strong>", rendered["html"])
+        self.assertIn('href="https://example.com"', rendered["html"])
+        self.assertNotIn("<script>", rendered["html"])
+        self.assertNotIn("javascript:", rendered["html"])
+
     def test_rendering_escapes_user_values(self):
         rendered = render_email_template(
             self.template,

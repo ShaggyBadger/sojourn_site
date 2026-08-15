@@ -47,7 +47,7 @@ class SubscribeViewTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "You are on the list.")
+        self.assertContains(response, "This email is already on our list.")
         self.assertEqual(EmailRecipient.objects.count(), 1)
 
     def test_invalid_signup_does_not_create_recipient(self):

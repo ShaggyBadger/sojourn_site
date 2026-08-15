@@ -53,9 +53,7 @@ def get_localized_about_content(language=None):
         fallback_keys.append("page:meta_description")
 
     localized_sections = []
-    sections = page.sections.filter(is_visible=True).order_by(
-        "display_order", "key"
-    )
+    sections = page.sections.filter(is_visible=True).order_by("display_order", "key")
     for section in sections:
         section_title = section.title_es if use_spanish else section.title_en
         section_body = section.body_es if use_spanish else section.body_en

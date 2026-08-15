@@ -1,5 +1,7 @@
 import html
 import re
+from html.parser import HTMLParser
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.urls import reverse
@@ -19,10 +21,80 @@ ALLOWED_VARIABLES = {
     "unsubscribe_url",
 }
 REQUIRED_CONTEXT = {"meeting_date", "meeting_time", "meeting_location"}
+ALLOWED_HTML_TAGS = {
+    "a",
+    "blockquote",
+    "br",
+    "em",
+    "h2",
+    "h3",
+    "li",
+    "ol",
+    "p",
+    "strong",
+    "ul",
+}
+ALLOWED_LINK_SCHEMES = {"http", "https", "mailto"}
 
 
 class TemplateRenderError(ValueError):
     """Raised when a controlled email template cannot be rendered safely."""
+
+
+class _SafeEmailHTMLParser(HTMLParser):
+    """Keep the small HTML vocabulary supported by common email clients."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts = []
+        self.ignored_depth = 0
+
+    def handle_starttag(self, tag, attrs):
+        if self.ignored_depth:
+            self.ignored_depth += 1
+            return
+        if tag in {"script", "style"}:
+            self.ignored_depth = 1
+            return
+        if tag not in ALLOWED_HTML_TAGS:
+            return
+        if tag == "a":
+            href = dict(attrs).get("href", "")
+            scheme = urlparse(href).scheme.lower()
+            if scheme in ALLOWED_LINK_SCHEMES:
+                self.parts.append(
+                    f'<a href="{html.escape(href, quote=True)}" '
+                    'style="color:#581827 !important;text-decoration:underline;">'
+                )
+                return
+        self.parts.append(f"<{tag}>")
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag == "a":
+            self.handle_endtag(tag)
+
+    def handle_endtag(self, tag):
+        if self.ignored_depth:
+            self.ignored_depth -= 1
+            return
+        if tag in ALLOWED_HTML_TAGS and tag != "br":
+            self.parts.append(f"</{tag}>")
+
+    def handle_data(self, data):
+        if not self.ignored_depth:
+            self.parts.append(html.escape(data))
+
+    def output(self):
+        return "".join(self.parts)
+
+
+def sanitize_html(value):
+    """Remove unsafe tags and attributes from administrator-authored HTML."""
+    parser = _SafeEmailHTMLParser()
+    parser.feed(value)
+    parser.close()
+    return parser.output()
 
 
 def _template_variables(value):
@@ -43,6 +115,20 @@ def _render_value(value, context, *, escape_html=False):
         return html.escape(rendered) if escape_html else rendered
 
     return VARIABLE_PATTERN.sub(replace, value)
+
+
+def _render_html_value(value, context):
+    variables = _template_variables(value)
+    unknown = variables - ALLOWED_VARIABLES
+    if unknown:
+        names = ", ".join(sorted(unknown))
+        raise TemplateRenderError(f"Unknown template variable(s): {names}.")
+
+    rendered = VARIABLE_PATTERN.sub(
+        lambda match: html.escape(str(context.get(match.group(1), ""))),
+        value,
+    )
+    return sanitize_html(rendered)
 
 
 def _paragraphs(value):
@@ -84,6 +170,9 @@ def render_email_template(template, context, *, recipient=None, unsubscribe_url=
     meeting_time = html.escape(str(context["meeting_time"]))
     notes = _render_value(str(context.get("notes", "")), context, escape_html=True)
     body = _render_value(str(context.get("body", "")), context, escape_html=True)
+    body_html = ""
+    if template.body_html.strip():
+        body_html = _render_html_value(template.body_html, context)
     unsubscribe_url = html.escape(str(context["unsubscribe_url"]), quote=True)
 
     site_settings = SiteSettings.objects.first()
@@ -105,29 +194,42 @@ def render_email_template(template, context, *, recipient=None, unsubscribe_url=
             </td></tr>"""
 
     content_blocks = []
-    for block in (standard_copy, body, notes):
+    for block in (standard_copy, notes):
         if block.strip():
             content_blocks.append(
-                f'<p style="margin:0 0 20px;">{block.replace(chr(10), "<br>")}</p>'
+                f'<p style="margin:0 0 20px;color:#f4f1ea !important;">'
+                f'{block.replace(chr(10), "<br>")}</p>'
             )
+    if body_html:
+        content_blocks.append(body_html)
+    elif body.strip():
+        content_blocks.append(
+            f'<p style="margin:0 0 20px;color:#f4f1ea !important;">'
+            f'{body.replace(chr(10), "<br>")}</p>'
+        )
     content_html = "".join(content_blocks)
+    if body_html:
+        content_html = (
+            '<div style="color:#f4f1ea !important;line-height:1.6;">'
+            f"{content_html}</div>"
+        )
     html_body = f"""<!doctype html>
 <html lang="en">
-  <body style="margin:0;background:#f4f1ea;color:#141416;font-family:Arial,sans-serif;">
-    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f4f1ea;">
+  <body style="margin:0;background:#141416;color:#f4f1ea;font-family:Arial,sans-serif;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#141416" style="background-color:#141416;">
       <tr><td align="center" style="padding:28px 12px;">
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:620px;background:#ffffff;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#1c1c1f" style="max-width:620px;background-color:#1c1c1f;color:#f4f1ea;">
           <tr><td style="background:#581827;color:#f4f1ea;padding:28px 32px;font-size:22px;font-weight:bold;">Sojourn Baptist Church</td></tr>
           {image_block}
-          <tr><td style="padding:32px;">
-            <p style="margin:0 0 20px;font-size:18px;">{greeting}</p>
+          <tr><td bgcolor="#1c1c1f" style="padding:32px;background-color:#1c1c1f;color:#f4f1ea !important;">
+            <p style="margin:0 0 20px;font-size:18px;color:#f4f1ea !important;">{greeting}</p>
             {content_html}
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0;background:#f4f1ea;border-left:4px solid #c5a880;">
-              <tr><td style="padding:16px 18px;"><strong>Meeting details</strong><br>
-                <span style="color:#444;">{meeting_date}<br>{meeting_time}<br>{location}</span>
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#581827" style="margin:24px 0;background-color:#581827;border-left:4px solid #c5a880;color:#f4f1ea;">
+              <tr><td style="padding:16px 18px;color:#f4f1ea !important;"><strong>Meeting details</strong><br>
+                <span style="color:#f4f1ea !important;">{meeting_date}<br>{meeting_time}<br>{location}</span>
               </td></tr>
             </table>
-            <p style="margin:0;white-space:pre-line;">{closing.replace(chr(10), "<br>")}</p>
+            <p style="margin:0;white-space:pre-line;color:#f4f1ea !important;">{closing.replace(chr(10), "<br>")}</p>
           </td></tr>
           <tr><td style="padding:20px 32px;background:#141416;color:#f4f1ea;font-size:12px;">
             Sojourn Baptist Church<br>

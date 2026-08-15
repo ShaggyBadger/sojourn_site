@@ -58,7 +58,9 @@ class SermonModelTests(TestCase):
         validate_mp3(StoredFile())
 
     def test_transcript_normalization_handles_mixed_line_endings_and_blank_lines(self):
-        transcript = " First paragraph.\r\n\r\n Second paragraph.\n\n\n Third paragraph. "
+        transcript = (
+            " First paragraph.\r\n\r\n Second paragraph.\n\n\n Third paragraph. "
+        )
 
         self.assertEqual(
             normalize_transcript(transcript),

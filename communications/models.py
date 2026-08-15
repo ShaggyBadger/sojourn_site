@@ -82,6 +82,13 @@ class EmailTemplate(models.Model):
     )
     greeting = models.CharField(default="Hello {{ first_name }},", max_length=255)
     standard_copy = models.TextField(blank=True)
+    body_html = models.TextField(
+        blank=True,
+        help_text=(
+            "Optional safe HTML for the main message body. "
+            "Use paragraphs, headings, lists, links, strong, and emphasis."
+        ),
+    )
     closing = models.TextField(
         default="We hope to see you there,\nSojourn Baptist Church"
     )

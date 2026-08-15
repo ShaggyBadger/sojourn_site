@@ -107,7 +107,9 @@ class SermonViewTests(TestCase):
             )
         )
         tag_response = self.client.get(
-            reverse("sermons:tag_detail", kwargs={"slug": self.published.tags.first().slug})
+            reverse(
+                "sermons:tag_detail", kwargs={"slug": self.published.tags.first().slug}
+            )
         )
 
         self.assertContains(collection_response, "God&#x27;s Promise", html=False)

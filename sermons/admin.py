@@ -40,11 +40,24 @@ class SermonAdmin(admin.ModelAdmin):
     fieldsets = (
         (
             "Sermon content",
-            {"fields": ("title", "speaker", "sermon_date", "summary", "thesis", "main_scripture", "transcript")},
+            {
+                "fields": (
+                    "title",
+                    "speaker",
+                    "sermon_date",
+                    "summary",
+                    "thesis",
+                    "main_scripture",
+                    "transcript",
+                )
+            },
         ),
         (
             "Audio",
-            {"fields": ("media_file",), "description": "Upload an MP3 file up to 100 MB."},
+            {
+                "fields": ("media_file",),
+                "description": "Upload an MP3 file up to 100 MB.",
+            },
         ),
         (
             "Organization",
