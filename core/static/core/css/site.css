@@ -39,13 +39,6 @@ body {
   letter-spacing: 0.04em;
 }
 
-.site-brand-icon {
-  display: block;
-  height: 2.25rem;
-  object-fit: contain;
-  width: 2.25rem;
-}
-
 .site-brand-name {
   font-size: 0.9rem;
   line-height: 1.15;
