@@ -55,6 +55,78 @@ body {
   color: var(--accent-gold);
 }
 
+.navbar-custom .container-fluid {
+  position: relative;
+}
+
+.mobile-menu-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  inset: 0;
+  position: fixed;
+  z-index: 1;
+}
+
+.navbar-custom .navbar-toggler,
+.navbar-custom .language-item {
+  position: relative;
+  z-index: 4;
+}
+
+.navbar-custom .navbar-collapse {
+  background: var(--bg-card);
+  border: 1px solid rgba(197, 168, 128, 0.22);
+  border-radius: 0 0 0.75rem 0.75rem;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+  left: 0;
+  padding: 0.75rem 1rem 1rem;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 1px);
+  z-index: 3;
+}
+
+.navbar-custom .navbar-collapse .nav-link {
+  border-radius: 0.4rem;
+  padding: 0.8rem 0.75rem;
+}
+
+.mobile-menu-enter,
+.mobile-menu-leave {
+  overflow: hidden;
+  transform-origin: top center;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.mobile-menu-enter-start,
+.mobile-menu-leave-end {
+  opacity: 0;
+  transform: translateY(-0.5rem) scaleY(0.98);
+}
+
+.mobile-menu-enter-end,
+.mobile-menu-leave-start {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+}
+
+.mobile-menu-fallback {
+  background: var(--bg-card);
+  border: 1px solid rgba(197, 168, 128, 0.22);
+  border-radius: 0 0 0.75rem 0.75rem;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+  left: 0;
+  padding: 0.75rem 1rem 1rem;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 1px);
+  z-index: 3;
+}
+
+.mobile-menu-fallback .nav-link {
+  border-radius: 0.4rem;
+  padding: 0.8rem 0.75rem;
+}
+
 .language-item {
   align-items: center;
   display: flex;
@@ -1083,6 +1155,26 @@ body {
 
   .language-item {
     margin-left: auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .mobile-menu-backdrop,
+  .mobile-menu-fallback {
+    display: none;
+  }
+
+  .navbar-custom .navbar-collapse {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    display: flex !important;
+    left: auto;
+    padding: 0;
+    position: static;
+    right: auto;
+    top: auto;
   }
 }
 
