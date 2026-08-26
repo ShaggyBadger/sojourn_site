@@ -13,6 +13,18 @@ class HomePageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No hero image has been selected yet.")
 
+    def test_homepage_displays_hero_message(self):
+        response = self.client.get("/")
+
+        self.assertContains(response, "Delighting in God")
+        self.assertContains(response, "and helping others to do the same")
+
+    def test_homepage_renders_spanish_hero(self):
+        self.client.cookies["django_language"] = "es"
+        response = self.client.get("/")
+
+        self.assertContains(response, "Deleitándonos en Dios")
+
     def test_site_settings_is_a_singleton(self):
         first_settings = SiteSettings.objects.create()
         second_settings = SiteSettings.objects.create()
@@ -184,8 +196,13 @@ class AboutPageTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "about.html")
+        self.assertContains(response, "About Sojourn Church")
         self.assertContains(response, "A church for our neighbors")
-        self.assertContains(response, "We affirm the historic Christian faith")
+        self.assertContains(response, "Apostles' Creed")
+        self.assertContains(response, "New Hampshire Confession of Faith")
+        self.assertNotContains(response, "Nicene Creed")
+        self.assertNotContains(response, "London Baptist Confession")
+        self.assertNotContains(response, "As a Baptist church")
 
     def test_about_page_uses_published_team_members_in_order(self):
         TeamMember.objects.create(name="Second", role="Pastor", order=2)
@@ -214,6 +231,9 @@ class AboutPageTests(TestCase):
         response = self.client.get("/about/")
 
         self.assertContains(response, '<html lang="es">', html=False)
-        self.assertContains(response, "Acerca de la Iglesia Bautista Sojourn")
+        self.assertContains(response, "Acerca de Iglesia Sojourn")
         self.assertContains(response, "Una iglesia para nuestros vecinos")
-        self.assertContains(response, "Arraigados en la fe cristiana histórica")
+        self.assertContains(response, "Credo de los Apóstoles")
+        self.assertContains(response, "Confesión de Fe de New Hampshire")
+        self.assertNotContains(response, "Credo Niceno")
+        self.assertNotContains(response, "Confesión Bautista de Fe de Londres")

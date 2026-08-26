@@ -25,7 +25,7 @@ class SubscribeViewTests(TestCase):
         self.assertContains(response, "Mantente conectado")
         self.assertContains(response, "Dirección de correo electrónico")
         self.assertContains(response, "Suscribirme")
-        self.assertContains(response, "Iglesia Bautista Sojourn")
+        self.assertContains(response, "Iglesia Sojourn")
 
     def test_valid_signup_creates_recipient_and_group(self):
         response = self.client.post(

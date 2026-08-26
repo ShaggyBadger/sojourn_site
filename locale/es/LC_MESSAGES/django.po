@@ -29,13 +29,16 @@ msgid "Change language"
 msgstr "Cambiar idioma"
 
 msgid "Sojourn Baptist Church"
-msgstr "Iglesia Bautista Sojourn"
+msgstr "Iglesia Sojourn"
 
-msgid "Welcome home"
-msgstr "Bienvenidos a casa"
+msgid "Sojourn Church"
+msgstr "Iglesia Sojourn"
 
-msgid "Find your place"
-msgstr "Encuentra tu lugar"
+msgid "Delighting in God"
+msgstr "Deleitándonos en Dios"
+
+msgid "and helping others to do the same"
+msgstr "y ayudando a otros a hacer lo mismo"
 
 msgid "A bilingual community"
 msgstr "Una comunidad bilingüe"
@@ -196,8 +199,8 @@ msgstr "Escucha los sermones"
 msgid "Give as an act of worship"
 msgstr "Da como un acto de adoración"
 
-msgid "Your generosity helps Sojourn Baptist Church worship, serve our neighbors, and grow together in faith."
-msgstr "Tu generosidad ayuda a la Iglesia Bautista Sojourn a adorar, servir a nuestros vecinos y crecer juntos en la fe."
+msgid "Your generosity helps Sojourn Church worship, serve our neighbors, and grow together in faith."
+msgstr "Tu generosidad ayuda a Iglesia Sojourn a adorar, servir a nuestros vecinos y crecer juntos en la fe."
 
 msgid "Give online"
 msgstr "Da en línea"
