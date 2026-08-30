@@ -5,7 +5,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
-from sermons.models import Sermon
+from sermons.models import Sermon, SermonCollection
 
 
 @override_settings(
@@ -79,3 +79,36 @@ class SermonUploadApiTests(TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(Sermon.objects.count(), 0)
+
+    def test_collections_require_the_api_key(self):
+        SermonCollection.objects.create(name="Genesis")
+
+        response = self.client.get("/api/v1/sermons/collections/")
+
+        self.assertEqual(response.status_code, 401)
+
+    def test_collections_return_names_and_slugs(self):
+        collection = SermonCollection.objects.create(
+            name="The Gospel of John", description="A series through John."
+        )
+
+        response = self.client.get(
+            "/api/v1/sermons/collections/",
+            HTTP_AUTHORIZATION="Bearer test-upload-key",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.json(),
+            {
+                "collections": [
+                    {
+                        "id": collection.pk,
+                        "name": "The Gospel of John",
+                        "slug": "the-gospel-of-john",
+                        "description": "A series through John.",
+                        "is_published": True,
+                    }
+                ]
+            },
+        )

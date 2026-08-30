@@ -36,6 +36,16 @@ def _parse_tags(request):
     return [value.strip() for value in values if value.strip()]
 
 
+def _authenticate(request):
+    configured_key = getattr(settings, "SERMON_UPLOAD_API_KEY", "")
+    token = _get_bearer_token(request)
+    if not configured_key or not token:
+        return _unauthorized_response()
+    if not secrets.compare_digest(token, configured_key):
+        return _unauthorized_response()
+    return None
+
+
 @csrf_exempt
 @require_http_methods(["POST"])
 def sermon_upload(request):
@@ -52,13 +62,9 @@ def sermon_upload(request):
                 status=413,
             )
 
-    configured_key = getattr(settings, "SERMON_UPLOAD_API_KEY", "")
-    token = _get_bearer_token(request)
-    if not configured_key or not token:
-        return _unauthorized_response()
-
-    if not secrets.compare_digest(token, configured_key):
-        return _unauthorized_response()
+    authentication_error = _authenticate(request)
+    if authentication_error:
+        return authentication_error
 
     required_fields = (
         "title",
@@ -158,3 +164,17 @@ def sermon_upload(request):
         },
         status=201,
     )
+
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def collection_list(request):
+    """Return existing sermon collections for the trusted uploader."""
+    authentication_error = _authenticate(request)
+    if authentication_error:
+        return authentication_error
+
+    collections = SermonCollection.objects.order_by("name").values(
+        "id", "name", "slug", "description", "is_published"
+    )
+    return JsonResponse({"collections": list(collections)})
