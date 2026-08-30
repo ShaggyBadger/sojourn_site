@@ -7,7 +7,7 @@ LOG_DIR = Path(os.environ.get("DJANGO_LOG_DIR", BASE_DIR / "logs"))
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in {
+DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() in {
     "1",
     "true",
     "yes",
@@ -17,7 +17,7 @@ ALLOWED_HOSTS = [
     host.strip()
     for host in os.environ.get(
         "DJANGO_ALLOWED_HOSTS",
-        "localhost,127.0.0.1,0.0.0.0,sojournbaptist.church",
+        "localhost,127.0.0.1,0.0.0.0,sojourn-church.com,www.sojourn-church.com",
     ).split(",")
     if host.strip()
 ]
@@ -25,7 +25,7 @@ CSRF_TRUSTED_ORIGINS = [
     origin.strip()
     for origin in os.environ.get(
         "DJANGO_CSRF_TRUSTED_ORIGINS",
-        "https://sojournbaptist.church",
+        "https://sojourn-church.com,https://www.sojourn-church.com",
     ).split(",")
     if origin.strip()
 ]
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
     "core",
     "communications",
     "sermons",
@@ -210,7 +211,12 @@ EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", "False").lower() in {
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = os.environ.get(
-    "DEFAULT_FROM_EMAIL", "Sojourn Baptist Church <staff@sojournbaptist.church>"
+    "DEFAULT_FROM_EMAIL", "Sojourn Church <staff@sojourn-church.com>"
 )
 EMAIL_TIMEOUT = int(os.environ.get("EMAIL_TIMEOUT", "30"))
-PUBLIC_SITE_URL = os.environ.get("PUBLIC_SITE_URL", "https://sojournbaptist.church")
+PUBLIC_SITE_URL = os.environ.get("PUBLIC_SITE_URL", "https://sojourn-church.com")
+SEO_CHURCH_NAME = "Sojourn Church"
+SEO_CHURCH_DESCRIPTION = (
+    "A bilingual church community in Mount Airy, North Carolina, walking together in faith."
+)
+SEO_CHURCH_AREA_SERVED = "Mount Airy, North Carolina"

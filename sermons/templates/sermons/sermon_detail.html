@@ -3,6 +3,19 @@
 
 {% block title %}{{ sermon.title }} | {% translate "Sermons" %}{% endblock %}
 
+{% block meta_description %}
+  <meta name="description" content="{{ sermon.summary|striptags|truncatechars:155 }}">
+{% endblock %}
+{% block og_title %}{{ sermon.title }} | {% translate "Sojourn Church sermons" %}{% endblock %}
+{% block og_description %}{{ sermon.summary|striptags|truncatechars:200 }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block twitter_title %}{{ sermon.title }} | {% translate "Sojourn Church sermons" %}{% endblock %}
+{% block twitter_description %}{{ sermon.summary|striptags|truncatechars:200 }}{% endblock %}
+
+{% block page_structured_data %}
+  <script type="application/ld+json">{{ sermon_structured_data }}</script>
+{% endblock %}
+
 {% block content %}
   <main>
     <section class="sermon-detail-hero">

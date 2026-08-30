@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block title %}{% translate "Sojourn Church in Mount Airy, NC" %}{% endblock %}
+
+{% block meta_description %}
+  <meta name="description" content="Sojourn Church is a bilingual church in Mount Airy, NC, delighting in God and helping others grow together in faith. Join us for Sunday worship and sermons.">
+{% endblock %}
+
 {% block content %}
   {% get_current_language as current_language %}
   <main>

@@ -1,6 +1,9 @@
+from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
+
+from core.seo import build_sermon_structured_data
 
 from .models import Sermon, SermonCollection, SermonTag
 
@@ -86,6 +89,9 @@ class SermonDetailView(PublishedSermonQuerySetMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["sermon_structured_data"] = build_sermon_structured_data(
+            self.object, settings.PUBLIC_SITE_URL
+        )
         context["related_sermons"] = Sermon.objects.none()
         if self.object.collection:
             context["related_sermons"] = (

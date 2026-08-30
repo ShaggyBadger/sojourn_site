@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -58,3 +58,20 @@ def new_here(request):
 def giving(request):
     """Render information about giving and link to the church's Zeffy form."""
     return render(request, "giving.html", {"giving_url": GIVING_URL})
+
+
+def robots_txt(request):
+    """Tell crawlers what to index and where to find the sitemap."""
+    sitemap_url = request.build_absolute_uri("/sitemap.xml")
+    return HttpResponse(
+        f"# Welcome, curious crawler.\n"
+        f"# Sojourn Church is a bilingual church community in Mount Airy, NC.\n"
+        f"# Thanks for helping people find our church and sermons.\n"
+        f"\n"
+        f"User-agent: *\n"
+        f"Allow: /\n"
+        f"Disallow: /admin/\n"
+        f"Disallow: /subscribe/\n"
+        f"Sitemap: {sitemap_url}\n",
+        content_type="text/plain",
+    )

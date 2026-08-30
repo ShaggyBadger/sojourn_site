@@ -7,6 +7,11 @@
   <meta name="description" content="{{ about_content.meta_description }}">
 {% endblock %}
 
+{% block og_title %}{{ about_content.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block og_description %}{{ about_content.meta_description }}{% endblock %}
+{% block twitter_title %}{{ about_content.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block twitter_description %}{{ about_content.meta_description }}{% endblock %}
+
 {% block content %}
   <main>
     {% for section in about_content.sections %}
