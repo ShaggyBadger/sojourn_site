@@ -215,6 +215,7 @@ DEFAULT_FROM_EMAIL = os.environ.get(
 )
 EMAIL_TIMEOUT = int(os.environ.get("EMAIL_TIMEOUT", "30"))
 PUBLIC_SITE_URL = os.environ.get("PUBLIC_SITE_URL", "https://sojourn-church.com")
+SERMON_UPLOAD_API_KEY = os.environ.get("SERMON_UPLOAD_API_KEY", "")
 SEO_CHURCH_NAME = "Sojourn Church"
 SEO_CHURCH_DESCRIPTION = (
     "A bilingual church community in Mount Airy, North Carolina, walking together in faith."
