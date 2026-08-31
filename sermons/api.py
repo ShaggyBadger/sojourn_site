@@ -119,14 +119,6 @@ def sermon_upload(request):
 
     tags = []
     tag_slugs = _parse_tags(request)
-    if tag_slugs:
-        tags = list(SermonTag.objects.filter(slug__in=tag_slugs))
-        found_slugs = {tag.slug for tag in tags}
-        unknown_slugs = [slug for slug in tag_slugs if slug not in found_slugs]
-        if unknown_slugs:
-            return JsonResponse(
-                {"error": "Unknown tags.", "tags": unknown_slugs}, status=400
-            )
 
     duration_seconds = None
     duration_value = request.POST.get("duration_seconds", "").strip()
@@ -165,6 +157,15 @@ def sermon_upload(request):
         )
 
     with transaction.atomic():
+        if tag_slugs:
+            tags_by_slug = {}
+            for slug in tag_slugs:
+                tag, _ = SermonTag.objects.get_or_create(
+                    slug=slug,
+                    defaults={"name": slug.replace("-", " ").title()},
+                )
+                tags_by_slug[slug] = tag
+            tags = [tags_by_slug[slug] for slug in tag_slugs]
         sermon.save()
         if tags:
             sermon.tags.set(tags)

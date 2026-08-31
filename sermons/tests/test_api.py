@@ -8,6 +8,7 @@ from django.urls import reverse
 from sermons.models import (
     Sermon,
     SermonCollection,
+    SermonTag,
     SermonTranslation,
     TranslationJob,
 )
@@ -58,6 +59,21 @@ class SermonUploadApiTests(TestCase):
         self.assertIsNone(sermon.published_at)
         self.assertEqual(sermon.slug, "a-new-sermon")
         self.assertEqual(sermon.transcript, "A transcript.")
+
+    def test_upload_creates_missing_tags_and_assigns_existing_tags(self):
+        existing_tag = SermonTag.objects.create(name="Worship")
+
+        response = self.upload(tags="worship,new-life,new-life")
+
+        self.assertEqual(response.status_code, 201)
+        sermon = Sermon.objects.get(pk=response.json()["id"])
+        self.assertEqual(
+            set(sermon.tags.values_list("slug", flat=True)),
+            {"worship", "new-life"},
+        )
+        self.assertEqual(SermonTag.objects.count(), 2)
+        self.assertEqual(SermonTag.objects.get(slug="new-life").name, "New Life")
+        self.assertEqual(sermon.tags.get(slug="worship"), existing_tag)
 
     def test_client_cannot_publish_through_upload_endpoint(self):
         response = self.upload(is_published="true")
