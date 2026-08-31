@@ -44,6 +44,26 @@ class SermonViewTests(TestCase):
         self.assertContains(response, "God&#x27;s Promise", html=False)
         self.assertNotContains(response, "Private Draft")
 
+    def test_library_uses_ten_sermons_per_page_in_newest_first_order(self):
+        for index in range(10):
+            Sermon.objects.create(
+                title=f"Archive Message {index}",
+                speaker="Pastor Jordan",
+                sermon_date=f"2026-07-{index + 1:02d}",
+                summary="An archive summary.",
+                thesis="An archive thesis.",
+                main_scripture="Genesis 1",
+                media_file=f"sermons/audio/archive-{index}.mp3",
+                is_published=True,
+            )
+
+        response = self.client.get(reverse("sermons:list"))
+
+        self.assertEqual(response.context["paginator"].per_page, 10)
+        self.assertEqual(response.context["paginator"].num_pages, 2)
+        self.assertContains(response, "Archive Message 9")
+        self.assertNotContains(response, "Archive Message 0")
+
     def test_search_matches_thesis_and_filters_unpublished_sermons(self):
         response = self.client.get(reverse("sermons:list"), {"q": "promises"})
 

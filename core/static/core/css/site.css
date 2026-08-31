@@ -711,6 +711,72 @@ body {
   margin-left: 0.35rem;
 }
 
+.sermon-list {
+  border-top: 1px solid rgba(197, 168, 128, 0.2);
+}
+
+.sermon-list-item {
+  align-items: center;
+  border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 7rem minmax(0, 1fr) auto;
+  padding: 1.5rem 0;
+}
+
+.sermon-list-date {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+}
+
+.sermon-list-content h2 {
+  font-size: 1.3rem;
+  line-height: 1.25;
+  margin: 0 0 0.35rem;
+}
+
+.sermon-list-content h2 a {
+  color: var(--text-light);
+  text-decoration: none;
+}
+
+.sermon-list-content h2 a:hover,
+.sermon-list-content h2 a:focus {
+  color: var(--accent-gold);
+}
+
+.sermon-list-meta,
+.sermon-list-summary {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.sermon-list-meta {
+  font-size: 0.9rem;
+}
+
+.sermon-list-summary {
+  line-height: 1.55;
+  margin-top: 0.45rem;
+}
+
+.sermon-list-link {
+  color: var(--accent-gold);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.sermon-list-link span {
+  margin-left: 0.35rem;
+}
+
+.sermon-list-link:hover,
+.sermon-list-link:focus {
+  color: var(--text-light);
+}
+
 .sermon-empty-state {
   border: 1px dashed rgba(197, 168, 128, 0.35);
   border-radius: 0.75rem;
@@ -1232,6 +1298,21 @@ body {
 }
 
 @media (max-width: 575.98px) {
+  .sermon-list-item {
+    align-items: start;
+    gap: 0.4rem 1rem;
+    grid-template-columns: 1fr auto;
+  }
+
+  .sermon-list-date {
+    grid-column: 1 / -1;
+  }
+
+  .sermon-list-link {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+  }
+
   .about-pastor-card {
     align-items: flex-start;
     flex-direction: column;

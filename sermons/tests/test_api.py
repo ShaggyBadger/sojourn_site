@@ -5,7 +5,12 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
-from sermons.models import Sermon, SermonCollection
+from sermons.models import (
+    Sermon,
+    SermonCollection,
+    SermonTranslation,
+    TranslationJob,
+)
 
 
 @override_settings(
@@ -112,3 +117,94 @@ class SermonUploadApiTests(TestCase):
                 ]
             },
         )
+
+    def test_claim_returns_next_missing_translation_field(self):
+        sermon = Sermon.objects.create(
+            title="A New Sermon",
+            speaker="Pastor",
+            sermon_date="2026-08-30",
+            summary="A summary.",
+            thesis="A thesis.",
+            main_scripture="John 1",
+            media_file="sermons/audio/sermon.mp3",
+        )
+
+        response = self.client.post(
+            reverse("translation_job_claim"),
+            HTTP_AUTHORIZATION="Bearer test-upload-key",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload["sermon_id"], sermon.pk)
+        self.assertEqual(payload["field"], "title")
+        self.assertEqual(payload["source_text"], "A New Sermon")
+        self.assertTrue(
+            TranslationJob.objects.filter(
+                pk=payload["job_id"], status=TranslationJob.Status.CLAIMED
+            ).exists()
+        )
+
+    def test_submit_saves_translation_and_completes_job(self):
+        sermon = Sermon.objects.create(
+            title="A New Sermon",
+            speaker="Pastor",
+            sermon_date="2026-08-30",
+            summary="A summary.",
+            thesis="A thesis.",
+            main_scripture="John 1",
+            media_file="sermons/audio/sermon.mp3",
+        )
+        claim = self.client.post(
+            reverse("translation_job_claim"),
+            HTTP_AUTHORIZATION="Bearer test-upload-key",
+        )
+        job = claim.json()
+
+        response = self.client.post(
+            reverse("translation_job_submit", kwargs={"job_id": job["job_id"]}),
+            data=json.dumps(
+                {
+                    "job_token": job["job_token"],
+                    "translation": "Un Sermón Nuevo",
+                }
+            ),
+            content_type="application/json",
+            HTTP_AUTHORIZATION="Bearer test-upload-key",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        translation = SermonTranslation.objects.get(sermon=sermon, language="es")
+        self.assertEqual(translation.title, "Un Sermón Nuevo")
+        self.assertEqual(
+            TranslationJob.objects.get(pk=job["job_id"]).status,
+            TranslationJob.Status.COMPLETED,
+        )
+
+    def test_submit_with_wrong_job_token_is_rejected(self):
+        Sermon.objects.create(
+            title="A New Sermon",
+            speaker="Pastor",
+            sermon_date="2026-08-30",
+            summary="A summary.",
+            thesis="A thesis.",
+            main_scripture="John 1",
+            media_file="sermons/audio/sermon.mp3",
+        )
+        claim = self.client.post(
+            reverse("translation_job_claim"),
+            HTTP_AUTHORIZATION="Bearer test-upload-key",
+        )
+
+        response = self.client.post(
+            reverse(
+                "translation_job_submit", kwargs={"job_id": claim.json()["job_id"]}
+            ),
+            data=json.dumps(
+                {"job_token": "wrong-token", "translation": "Traducción"}
+            ),
+            content_type="application/json",
+            HTTP_AUTHORIZATION="Bearer test-upload-key",
+        )
+
+        self.assertEqual(response.status_code, 401)

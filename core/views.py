@@ -1,10 +1,12 @@
 from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
+from django.utils.translation import get_language
 
 from .models import TeamMember
 from .selectors import get_localized_about_content
 from sermons.models import Sermon
+from sermons.localization import localize_sermon, with_spanish_translation
 
 
 GIVING_URL = "https://www.zeffy.com/en-US/donation-form/tithegive-to-sojourn-church"
@@ -13,14 +15,15 @@ GIVING_URL = "https://www.zeffy.com/en-US/donation-form/tithegive-to-sojourn-chu
 def home(request):
     """Render the homepage using the current site-wide settings."""
     team_members = TeamMember.objects.filter(is_published=True)
-    latest_sermon = (
+    latest_sermon = with_spanish_translation(
         Sermon.objects.filter(
             is_published=True,
             sermon_date__lte=timezone.localdate(),
         )
         .order_by("-sermon_date", "-created_at")
-        .first()
-    )
+    ).first()
+    if latest_sermon:
+        localize_sermon(latest_sermon, get_language())
     return render(
         request,
         "home.html",

@@ -1,4 +1,7 @@
 from datetime import date
+from datetime import timedelta
+import hashlib
+import json
 import secrets
 
 from django.conf import settings
@@ -6,11 +9,22 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+from django.contrib.auth.hashers import check_password, make_password
 from django.views.decorators.http import require_http_methods
 
-from .models import MAX_AUDIO_FILE_SIZE, Sermon, SermonCollection, SermonTag
+from .models import (
+    MAX_AUDIO_FILE_SIZE,
+    Sermon,
+    SermonCollection,
+    SermonTag,
+    SermonTranslation,
+    TranslationJob,
+)
 
 MAX_REQUEST_BYTES = MAX_AUDIO_FILE_SIZE + (1024 * 1024)
+TRANSLATION_JOB_TTL_SECONDS = 5 * 60
+TRANSLATION_FIELDS = ("title", "summary", "thesis", "transcript")
 
 
 def _unauthorized_response():
@@ -178,3 +192,152 @@ def collection_list(request):
         "id", "name", "slug", "description", "is_published"
     )
     return JsonResponse({"collections": list(collections)})
+
+
+def _translation_source(sermon, field):
+    return getattr(sermon, field, "") or ""
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def translation_job_claim(request):
+    """Claim the next untranslated Spanish sermon field for a worker."""
+    authentication_error = _authenticate(request)
+    if authentication_error:
+        return authentication_error
+
+    now = timezone.now()
+    expires_at = now + timedelta(seconds=TRANSLATION_JOB_TTL_SECONDS)
+    with transaction.atomic():
+        TranslationJob.objects.filter(
+            status=TranslationJob.Status.CLAIMED,
+            expires_at__lte=now,
+        ).update(status=TranslationJob.Status.EXPIRED)
+
+        sermon_ids = Sermon.objects.order_by("sermon_date", "created_at").values_list(
+            "pk", flat=True
+        )
+        for sermon_id in sermon_ids:
+            sermon = Sermon.objects.select_for_update().get(pk=sermon_id)
+            translation = SermonTranslation.objects.filter(
+                sermon=sermon,
+                language=SermonTranslation.Language.SPANISH,
+            ).first()
+            active_fields = set(
+                TranslationJob.objects.filter(
+                    sermon=sermon,
+                    language=SermonTranslation.Language.SPANISH,
+                    status=TranslationJob.Status.CLAIMED,
+                    expires_at__gt=now,
+                ).values_list("field", flat=True)
+            )
+
+            for field in TRANSLATION_FIELDS:
+                source_text = _translation_source(sermon, field).strip()
+                translated_text = getattr(translation, field, "") if translation else ""
+                if not source_text or translated_text.strip() or field in active_fields:
+                    continue
+
+                raw_token = secrets.token_urlsafe(32)
+                job = TranslationJob.objects.create(
+                    sermon=sermon,
+                    language=SermonTranslation.Language.SPANISH,
+                    field=field,
+                    source_text=source_text,
+                    source_hash=hashlib.sha256(source_text.encode("utf-8")).hexdigest(),
+                    token_hash=make_password(raw_token),
+                    expires_at=expires_at,
+                )
+                return JsonResponse(
+                    {
+                        "job_id": job.pk,
+                        "job_token": raw_token,
+                        "sermon_id": sermon.pk,
+                        "sermon_title": sermon.title,
+                        "source_language": "en",
+                        "target_language": "es",
+                        "field": field,
+                        "source_text": source_text,
+                        "source_hash": job.source_hash,
+                        "expires_at": expires_at.isoformat(),
+                    }
+                )
+
+    return JsonResponse(
+        {"job": None, "message": "No untranslated Spanish sermon fields remain."}
+    )
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def translation_job_submit(request, job_id):
+    """Save one completed Spanish sermon field for a claimed translation job."""
+    authentication_error = _authenticate(request)
+    if authentication_error:
+        return authentication_error
+
+    try:
+        payload = json.loads(request.body)
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return JsonResponse({"error": "Request body must be valid JSON."}, status=400)
+
+    job_token = str(payload.get("job_token", "")).strip()
+    translation_text = payload.get("translation")
+    if not job_token or not isinstance(translation_text, str) or not translation_text.strip():
+        return JsonResponse(
+            {"error": "job_token and a non-empty translation are required."},
+            status=400,
+        )
+
+    with transaction.atomic():
+        try:
+            job = TranslationJob.objects.select_for_update().get(pk=job_id)
+        except TranslationJob.DoesNotExist:
+            return JsonResponse({"error": "Translation job not found."}, status=404)
+
+        now = timezone.now()
+        if not check_password(job_token, job.token_hash):
+            return _unauthorized_response()
+        if job.status != TranslationJob.Status.CLAIMED:
+            return JsonResponse({"error": "Translation job is no longer active."}, status=409)
+        if job.expires_at <= now:
+            job.status = TranslationJob.Status.EXPIRED
+            job.save(update_fields=("status",))
+            return JsonResponse({"error": "Translation job has expired."}, status=410)
+
+        current_source = _translation_source(job.sermon, job.field).strip()
+        current_hash = hashlib.sha256(current_source.encode("utf-8")).hexdigest()
+        if current_hash != job.source_hash:
+            job.status = TranslationJob.Status.EXPIRED
+            job.save(update_fields=("status",))
+            return JsonResponse(
+                {"error": "The English source changed; request a new translation job."},
+                status=409,
+            )
+
+        translated, _ = SermonTranslation.objects.get_or_create(
+            sermon=job.sermon,
+            language=job.language,
+        )
+        setattr(translated, job.field, translation_text.strip())
+        try:
+            translated.full_clean()
+        except ValidationError as error:
+            return JsonResponse(
+                {"error": "Translation validation failed.", "fields": error.message_dict},
+                status=400,
+            )
+        translated.save()
+
+        job.status = TranslationJob.Status.COMPLETED
+        job.completed_at = now
+        job.save(update_fields=("status", "completed_at"))
+
+    return JsonResponse(
+        {
+            "message": "Translation saved.",
+            "sermon_id": job.sermon_id,
+            "field": job.field,
+            "language": job.language,
+        }
+    )

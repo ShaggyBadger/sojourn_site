@@ -1,6 +1,13 @@
 from django.contrib import admin
 
-from .models import Sermon, SermonCollection, SermonTag
+from .models import Sermon, SermonCollection, SermonTag, SermonTranslation, TranslationJob
+
+
+class SermonTranslationInline(admin.StackedInline):
+    model = SermonTranslation
+    extra = 0
+    fields = ("language", "title", "summary", "thesis", "transcript", "updated_at")
+    readonly_fields = ("updated_at",)
 
 
 @admin.register(SermonCollection)
@@ -73,3 +80,22 @@ class SermonAdmin(admin.ModelAdmin):
         ),
     )
     autocomplete_fields = ("collection",)
+    inlines = (SermonTranslationInline,)
+
+
+@admin.register(TranslationJob)
+class TranslationJobAdmin(admin.ModelAdmin):
+    list_display = ("sermon", "language", "field", "status", "expires_at", "completed_at")
+    list_filter = ("language", "status", "field")
+    readonly_fields = (
+        "sermon",
+        "language",
+        "field",
+        "source_text",
+        "source_hash",
+        "token_hash",
+        "status",
+        "claimed_at",
+        "expires_at",
+        "completed_at",
+    )

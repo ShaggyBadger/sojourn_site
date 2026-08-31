@@ -6,7 +6,12 @@ from django.urls import include, path
 
 from core.views import about, giving, home, new_here, robots_txt
 from core.sitemaps import SermonSitemap, StaticViewSitemap
-from sermons.api import collection_list, sermon_upload
+from sermons.api import (
+    collection_list,
+    sermon_upload,
+    translation_job_claim,
+    translation_job_submit,
+)
 
 sitemaps = {
     "static": StaticViewSitemap,
@@ -29,6 +34,12 @@ urlpatterns = [
     path("robots.txt", robots_txt, name="robots_txt"),
     path("api/v1/sermons/", sermon_upload, name="sermon_upload"),
     path("api/v1/sermons/collections/", collection_list, name="sermon_collections"),
+    path("api/v1/translation-jobs/claim/", translation_job_claim, name="translation_job_claim"),
+    path(
+        "api/v1/translation-jobs/<int:job_id>/submit/",
+        translation_job_submit,
+        name="translation_job_submit",
+    ),
 ]
 
 if settings.DEBUG:

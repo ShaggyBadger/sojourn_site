@@ -60,11 +60,9 @@
         {% endif %}
 
         {% if sermons %}
-          <div class="row g-4">
+          <div class="sermon-list" aria-label="{% translate 'Sermon archive' %}">
             {% for sermon in sermons %}
-              <div class="col-md-6 col-xl-4">
-                {% include "sermons/partials/sermon_card.html" %}
-              </div>
+              {% include "sermons/partials/sermon_row.html" %}
             {% endfor %}
           </div>
           {% include "sermons/partials/pagination.html" %}

@@ -196,3 +196,61 @@ class Sermon(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class SermonTranslation(models.Model):
+    class Language(models.TextChoices):
+        SPANISH = "es", "Spanish"
+
+    sermon = models.ForeignKey(
+        Sermon,
+        on_delete=models.CASCADE,
+        related_name="translations",
+    )
+    language = models.CharField(max_length=10, choices=Language.choices)
+    title = models.CharField(max_length=255, blank=True)
+    summary = models.TextField(blank=True)
+    thesis = models.TextField(blank=True)
+    transcript = models.TextField(blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = (
+            models.UniqueConstraint(
+                fields=("sermon", "language"),
+                name="unique_sermon_translation_language",
+            ),
+        )
+
+    def __str__(self):
+        return f"{self.sermon} ({self.language})"
+
+
+class TranslationJob(models.Model):
+    class Status(models.TextChoices):
+        CLAIMED = "claimed", "Claimed"
+        COMPLETED = "completed", "Completed"
+        EXPIRED = "expired", "Expired"
+
+    sermon = models.ForeignKey(Sermon, on_delete=models.CASCADE, related_name="translation_jobs")
+    language = models.CharField(max_length=10, choices=SermonTranslation.Language.choices)
+    field = models.CharField(max_length=20)
+    source_text = models.TextField()
+    source_hash = models.CharField(max_length=64)
+    token_hash = models.CharField(max_length=128)
+    status = models.CharField(max_length=12, choices=Status.choices, default=Status.CLAIMED)
+    claimed_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    completed_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        constraints = (
+            models.UniqueConstraint(
+                fields=("sermon", "language", "field", "status"),
+                condition=models.Q(status="claimed"),
+                name="one_active_translation_job",
+            ),
+        )
+
+    def __str__(self):
+        return f"{self.sermon} {self.language} {self.field} ({self.status})"

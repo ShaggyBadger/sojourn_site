@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<article class="sermon-list-item">
+  <div class="sermon-list-date">
+    <time datetime="{{ sermon.sermon_date|date:'Y-m-d' }}">{{ sermon.sermon_date|date:"M j, Y" }}</time>
+  </div>
+  <div class="sermon-list-content">
+    <h2><a href="{% url 'sermons:detail' sermon.slug %}">{{ sermon.display_title|default:sermon.title }}</a></h2>
+    <p class="sermon-list-meta">
+      {{ sermon.speaker }} <span aria-hidden="true">&middot;</span> {{ sermon.main_scripture }}
+      {% if sermon.collection %}<span aria-hidden="true">&middot;</span> {{ sermon.collection.name }}{% endif %}
+    </p>
+    <p class="sermon-list-summary">{{ sermon.display_summary|default:sermon.summary|truncatewords:24 }}</p>
+  </div>
+  <a class="sermon-list-link" href="{% url 'sermons:detail' sermon.slug %}">{% translate "Listen" %} <span aria-hidden="true">&rarr;</span></a>
+</article>

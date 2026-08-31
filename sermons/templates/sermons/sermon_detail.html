@@ -22,7 +22,7 @@
       <div class="container sermon-page-width">
         <a class="sermon-back-link" href="{% url 'sermons:list' %}">← {% translate "All sermons" %}</a>
         <p class="hero-kicker">{% translate "Sermon" %}</p>
-        <h1>{{ sermon.title }}</h1>
+        <h1>{{ sermon.display_title|default:sermon.title }}</h1>
         <p class="sermon-byline">{{ sermon.speaker }} <span aria-hidden="true">·</span> {{ sermon.sermon_date|date:"F j, Y" }}</p>
       </div>
     </section>
@@ -41,16 +41,16 @@
           <div class="sermon-main-copy">
             <section class="sermon-content-section">
               <p class="section-eyebrow">{% translate "Summary" %}</p>
-              <div class="sermon-rich-text">{{ sermon.summary|linebreaks }}</div>
+              <div class="sermon-rich-text">{{ sermon.display_summary|default:sermon.summary|linebreaks }}</div>
             </section>
             <section class="sermon-content-section sermon-thesis">
               <p class="section-eyebrow">{% translate "Thesis" %}</p>
-              <div class="sermon-rich-text">{{ sermon.thesis|linebreaks }}</div>
+              <div class="sermon-rich-text">{{ sermon.display_thesis|default:sermon.thesis|linebreaks }}</div>
             </section>
-            {% if sermon.transcript %}
+            {% if sermon.display_transcript|default:sermon.transcript %}
               <section class="sermon-content-section sermon-transcript">
                 <p class="section-eyebrow">{% translate "Transcript" %}</p>
-                <div class="sermon-rich-text">{{ sermon.transcript|linebreaks }}</div>
+                <div class="sermon-rich-text">{{ sermon.display_transcript|default:sermon.transcript|linebreaks }}</div>
               </section>
             {% endif %}
           </div>

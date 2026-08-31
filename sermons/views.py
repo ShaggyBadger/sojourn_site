@@ -2,25 +2,28 @@ from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
+from django.utils.translation import get_language
 
 from core.seo import build_sermon_structured_data
 
+from .localization import localize_sermon, with_spanish_translation
 from .models import Sermon, SermonCollection, SermonTag
 
 
 class PublishedSermonQuerySetMixin:
     def get_queryset(self):
-        return (
+        queryset = (
             Sermon.objects.filter(is_published=True)
             .select_related("collection")
             .prefetch_related("tags")
         )
+        return with_spanish_translation(queryset)
 
 
 class SermonListView(PublishedSermonQuerySetMixin, ListView):
     template_name = "sermons/sermon_list.html"
     context_object_name = "sermons"
-    paginate_by = 12
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -79,6 +82,8 @@ class SermonListView(PublishedSermonQuerySetMixin, ListView):
             if selected_tag
             else ""
         )
+        for sermon in context["sermons"]:
+            localize_sermon(sermon, get_language())
         return context
 
 
@@ -89,6 +94,7 @@ class SermonDetailView(PublishedSermonQuerySetMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        localize_sermon(self.object, get_language())
         context["sermon_structured_data"] = build_sermon_structured_data(
             self.object, settings.PUBLIC_SITE_URL
         )
@@ -124,6 +130,10 @@ class SermonCollectionDetailView(PublishedSermonQuerySetMixin, DetailView):
             .select_related("collection")
             .prefetch_related("tags")
         )
+        context["sermons"] = with_spanish_translation(context["sermons"])
+        context["sermons"] = [
+            localize_sermon(sermon, get_language()) for sermon in context["sermons"]
+        ]
         context["sermon_count"] = context["sermons"].count()
         return context
 
@@ -144,5 +154,9 @@ class SermonTagDetailView(PublishedSermonQuerySetMixin, DetailView):
             .select_related("collection")
             .prefetch_related("tags")
         )
+        context["sermons"] = with_spanish_translation(context["sermons"])
+        context["sermons"] = [
+            localize_sermon(sermon, get_language()) for sermon in context["sermons"]
+        ]
         context["sermon_count"] = context["sermons"].count()
         return context
