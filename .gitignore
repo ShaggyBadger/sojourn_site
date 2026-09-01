@@ -10,3 +10,6 @@ graphify-out/
 staticfiles/
 logs/
 venvFiles/
+
+# agents stuff
+.AGENTS.md
