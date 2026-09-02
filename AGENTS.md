@@ -8,7 +8,9 @@ Before making changes, familiarize yourself with the project by reading
 `instructions/development_conventions.md`, and any feature-specific plan that
 applies to the requested work.
 
-After reading this file, state exactly:
+After reading this file, the first response in the conversation must begin with
+the following exact sentence, before any other project-related response,
+question, plan, or explanation:
 
 > I have familiarized myself with the project
 

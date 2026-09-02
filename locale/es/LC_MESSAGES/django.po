@@ -34,6 +34,33 @@ msgstr "Iglesia Sojourn"
 msgid "Sojourn Church"
 msgstr "Iglesia Sojourn"
 
+msgid "Join Our Newsletter"
+msgstr "Únete a nuestro boletín"
+
+msgid "Thank you for signing up."
+msgstr "Gracias por suscribirte."
+
+msgid "Please correct the marked fields below."
+msgstr "Corrige los campos indicados a continuación."
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Join Now"
+msgstr "Suscribirme"
+
+msgid "This signup form is provided by Zoho Campaigns."
+msgstr "Este formulario de suscripción es proporcionado por Zoho Campaigns."
+
+msgid "Subscription confirmed"
+msgstr "Suscripción confirmada"
+
+msgid "Thank you for confirming your subscription. You are now signed up to receive occasional updates and meeting information from Sojourn Church."
+msgstr "Gracias por confirmar tu suscripción. Ahora recibirás ocasionalmente actualizaciones e información sobre las reuniones de Iglesia Sojourn."
+
+msgid "Return home"
+msgstr "Volver al inicio"
+
 msgid "Delighting in God"
 msgstr "Deleitándonos en Dios"
 

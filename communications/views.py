@@ -1,6 +1,3 @@
-import hashlib
-
-from django.core.cache import cache
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -10,59 +7,18 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from .forms import SubscribeForm, TemplatePreviewForm
+from .forms import TemplatePreviewForm
 from .models import EmailRecipient, EmailTemplate
 from .rendering import TemplateRenderError, render_email_template
-from .services import subscribe_recipient
-
-SIGNUP_LIMIT = 5
-SIGNUP_WINDOW_SECONDS = 60 * 60
-
-
-def _signup_throttle_key(request):
-    """Hash the client address before using it as a cache key."""
-    address = request.META.get("REMOTE_ADDR", "unknown")
-    digest = hashlib.sha256(address.encode("utf-8")).hexdigest()
-    return f"communications:public-signup:{digest}"
-
-
-def _is_rate_limited(request):
-    key = _signup_throttle_key(request)
-    if cache.add(key, 1, SIGNUP_WINDOW_SECONDS):
-        return False
-    try:
-        count = cache.incr(key)
-    except ValueError:
-        return False
-    return count > SIGNUP_LIMIT
-
 
 def subscribe(request):
-    """Collect a visitor's email and report whether it was already recorded."""
-    form = SubscribeForm(request.POST if request.method == "POST" else None)
-    submitted = False
-    already_exists = False
+    """Render the Zoho Campaigns signup form."""
+    return render(request, "communications/subscribe.html")
 
-    if request.method == "POST" and form.is_valid():
-        submitted = True
-        if not _is_rate_limited(request) and not form.cleaned_data["website"]:
-            _, created = subscribe_recipient(
-                email=form.cleaned_data["email"],
-                first_name=form.cleaned_data["first_name"].strip(),
-                last_name=form.cleaned_data["last_name"].strip(),
-            )
-            already_exists = not created
-        form = SubscribeForm()
 
-    return render(
-        request,
-        "communications/subscribe.html",
-        {
-            "form": form,
-            "submitted": submitted,
-            "already_exists": already_exists,
-        },
-    )
+def subscribe_confirmed(request):
+    """Render the site-native destination for a confirmed Zoho subscription."""
+    return render(request, "communications/subscribe_confirmed.html")
 
 
 def unsubscribe(request, token):
