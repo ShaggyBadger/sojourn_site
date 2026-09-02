@@ -1,6 +1,7 @@
 from django.db import IntegrityError
 from django.test import TestCase
 
+from core.admin import SiteSettingsAdmin
 from core.models import AboutPage, AboutSection, SiteSettings, TeamMember
 from core.selectors import get_localized_about_content
 from sermons.models import Sermon
@@ -32,6 +33,31 @@ class HomePageTests(TestCase):
         self.assertEqual(first_settings.pk, 1)
         self.assertEqual(second_settings.pk, 1)
         self.assertEqual(SiteSettings.objects.count(), 1)
+
+    def test_site_settings_defaults_to_dark_theme(self):
+        site_settings = SiteSettings.objects.create()
+
+        self.assertEqual(site_settings.theme, SiteSettings.Theme.DARK)
+        self.assertEqual(site_settings.get_effective_theme(), "dark")
+
+    def test_selected_theme_is_rendered_on_public_document(self):
+        SiteSettings.objects.create(theme=SiteSettings.Theme.LIGHT)
+
+        response = self.client.get("/")
+
+        self.assertContains(response, '<html lang="en" data-theme="light">', html=False)
+
+    def test_invalid_stored_theme_falls_back_to_dark(self):
+        SiteSettings.objects.create(theme="not-a-theme")
+
+        response = self.client.get("/")
+
+        self.assertContains(response, '<html lang="en" data-theme="dark">', html=False)
+
+    def test_site_settings_admin_exposes_theme_in_appearance_fieldset(self):
+        fields = dict(SiteSettingsAdmin.fieldsets)
+
+        self.assertEqual(fields["Appearance"]["fields"], ("theme",))
 
     def test_homepage_displays_published_team_members_in_order(self):
         TeamMember.objects.create(name="Second", role="Pastor", order=2)

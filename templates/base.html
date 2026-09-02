@@ -1,7 +1,7 @@
 <!doctype html>
 {% load i18n static %}
 {% get_current_language as current_language %}
-<html lang="{{ current_language }}">
+<html lang="{{ current_language }}" data-theme="{{ active_theme|default:'dark' }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

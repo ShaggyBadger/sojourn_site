@@ -20,6 +20,13 @@ class SiteSettingsAdmin(admin.ModelAdmin):
                 "description": "Upload the image shown in the browser tab.",
             },
         ),
+        (
+            "Appearance",
+            {
+                "fields": ("theme",),
+                "description": "This choice changes the presentation of the entire public website.",
+            },
+        ),
     )
 
     def has_add_permission(self, request):

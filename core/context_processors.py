@@ -9,6 +9,11 @@ def site_settings(request):
     site_settings = SiteSettings.objects.first()
     return {
         "site_settings": site_settings,
+        "active_theme": (
+            site_settings.get_effective_theme()
+            if site_settings
+            else SiteSettings.DEFAULT_THEME
+        ),
         "public_site_url": settings.PUBLIC_SITE_URL.rstrip("/"),
         "site_structured_data": build_site_structured_data(request, site_settings),
     }

@@ -5,6 +5,13 @@ from django.db import models
 class SiteSettings(models.Model):
     """Site-wide settings managed from the Django admin."""
 
+    class Theme(models.TextChoices):
+        DARK = "dark", "Dark"
+        LIGHT = "light", "Light"
+        MEDIUM = "medium", "Medium"
+
+    DEFAULT_THEME = Theme.DARK
+
     hero_image = models.ImageField(
         blank=True,
         help_text="The image displayed in the homepage hero section.",
@@ -20,6 +27,12 @@ class SiteSettings(models.Model):
         help_text="The small image shown in the browser tab.",
         upload_to="site/favicon/",
     )
+    theme = models.CharField(
+        choices=Theme.choices,
+        default=DEFAULT_THEME,
+        help_text="Choose the visual theme for the entire public website.",
+        max_length=10,
+    )
 
     class Meta:
         verbose_name = "site settings"
@@ -31,6 +44,13 @@ class SiteSettings(models.Model):
             raise ValidationError(
                 {"hero_image_alt": "Add alternative text for the hero image."}
             )
+
+    def get_effective_theme(self):
+        """Return a valid theme even if stored data is missing or invalid."""
+        valid_themes = {theme.value for theme in self.Theme}
+        if self.theme in valid_themes:
+            return self.theme
+        return self.DEFAULT_THEME
 
     def save(self, *args, **kwargs):
         """Keep site settings as one predictable database record."""
