@@ -59,7 +59,7 @@ class HomePageTests(TestCase):
 
         self.assertEqual(fields["Appearance"]["fields"], ("theme",))
 
-    def test_homepage_displays_published_team_members_in_order(self):
+    def test_homepage_does_not_display_team_members(self):
         TeamMember.objects.create(name="Second", role="Pastor", order=2)
         TeamMember.objects.create(name="First", role="Pastor", order=1)
         TeamMember.objects.create(
@@ -68,12 +68,9 @@ class HomePageTests(TestCase):
 
         response = self.client.get("/")
 
-        self.assertContains(response, "First")
-        self.assertContains(response, "Second")
+        self.assertNotContains(response, "First")
+        self.assertNotContains(response, "Second")
         self.assertNotContains(response, "Hidden")
-        self.assertLess(
-            response.content.index(b"First"), response.content.index(b"Second")
-        )
 
     def test_homepage_links_to_latest_published_sermon_by_sermon_date(self):
         Sermon.objects.create(

@@ -85,12 +85,24 @@ class SermonAdmin(admin.ModelAdmin):
 
 @admin.register(TranslationJob)
 class TranslationJobAdmin(admin.ModelAdmin):
-    list_display = ("sermon", "language", "field", "status", "expires_at", "completed_at")
+    list_display = (
+        "sermon",
+        "content_type",
+        "object_id",
+        "language",
+        "field",
+        "status",
+        "expires_at",
+        "completed_at",
+    )
     list_filter = ("language", "status", "field")
     readonly_fields = (
         "sermon",
+        "content_type",
+        "object_id",
         "language",
         "field",
+        "target_field",
         "source_text",
         "source_hash",
         "token_hash",

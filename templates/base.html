@@ -15,11 +15,11 @@
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:url" content="{{ public_site_url }}{{ request.path }}">
     {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
-    {% if site_settings and site_settings.hero_image %}<meta property="og:image" content="{{ site_settings.hero_image.url }}">{% endif %}
+    {% if site_hero_image %}<meta property="og:image" content="{{ site_hero_image.url }}">{% endif %}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}{% translate 'Sojourn Church in Mount Airy, NC' %}{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}{% translate 'A bilingual church community in Mount Airy, North Carolina, walking together in faith.' %}{% endblock %}">
-    {% if site_settings and site_settings.hero_image %}<meta name="twitter:image" content="{{ site_settings.hero_image.url }}">{% endif %}
+    {% if site_hero_image %}<meta name="twitter:image" content="{{ site_hero_image.url }}">{% endif %}
     <script type="application/ld+json">{{ site_structured_data }}</script>
     {% block page_structured_data %}{% endblock %}
     {% block extra_head %}{% endblock %}
@@ -39,8 +39,8 @@
       crossorigin="anonymous"
     >
     <link rel="stylesheet" href="{% static 'core/css/site.css' %}">
-    {% if site_settings and site_settings.favicon %}
-      <link rel="icon" href="{{ site_settings.favicon.url }}">
+    {% if site_favicon %}
+      <link rel="icon" href="{{ site_favicon.url }}">
     {% endif %}
   </head>
   <body>

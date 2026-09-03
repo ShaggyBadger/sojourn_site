@@ -5,6 +5,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
+from core.models import SiteSettings
 from sermons.models import (
     Sermon,
     SermonCollection,
@@ -195,6 +196,40 @@ class SermonUploadApiTests(TestCase):
         self.assertEqual(
             TranslationJob.objects.get(pk=job["job_id"]).status,
             TranslationJob.Status.COMPLETED,
+        )
+
+    def test_claim_discovers_bilingual_site_settings_fields(self):
+        SiteSettings.objects.create(
+            homepage_statement_1_en="Centered on God",
+        )
+
+        response = self.client.post(
+            reverse("translation_job_claim"),
+            HTTP_AUTHORIZATION="Bearer test-upload-key",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload["object_type"], "sitesettings")
+        self.assertEqual(payload["field"], "homepage_statement_1_en")
+        self.assertEqual(payload["target_field"], "homepage_statement_1_es")
+
+        submit_response = self.client.post(
+            reverse("translation_job_submit", kwargs={"job_id": payload["job_id"]}),
+            data=json.dumps(
+                {
+                    "job_token": payload["job_token"],
+                    "translation": "Centrados en Dios",
+                }
+            ),
+            content_type="application/json",
+            HTTP_AUTHORIZATION="Bearer test-upload-key",
+        )
+
+        self.assertEqual(submit_response.status_code, 200)
+        self.assertEqual(
+            SiteSettings.objects.get(pk=1).homepage_statement_1_es,
+            "Centrados en Dios",
         )
 
     def test_submit_with_wrong_job_token_is_rejected(self):

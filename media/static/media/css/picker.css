@@ -1,0 +1,63 @@
+.media-picker-toolbar {
+    align-items: end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.media-picker-toolbar .form-row {
+    margin: 0;
+}
+
+.media-picker-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+
+.media-picker-card {
+    background: var(--body-bg, #fff);
+    border: 1px solid var(--hairline-color, #ddd);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 0.75rem;
+}
+
+.media-picker-preview {
+    align-items: center;
+    background: var(--darkened-bg, #f8f8f8);
+    display: flex;
+    height: 150px;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+}
+
+.media-picker-preview img {
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+}
+
+.media-picker-card h2 {
+    font-size: 1rem;
+    margin: 0 0 0.4rem;
+    overflow-wrap: anywhere;
+}
+
+.media-picker-card p {
+    font-size: 0.85rem;
+    margin: 0 0 0.75rem;
+}
+
+.media-picker-card .button {
+    margin-top: auto;
+    text-align: center;
+}
+
+.media-picker-pagination {
+    margin-top: 1.5rem;
+}

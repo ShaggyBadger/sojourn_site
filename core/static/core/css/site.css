@@ -1320,6 +1320,56 @@ body {
   padding: 5rem 1rem;
 }
 
+.proclamations-section {
+  background: var(--bg-card);
+  padding: 5rem 1rem;
+}
+
+.proclamation-card {
+  align-items: center;
+  display: flex;
+  gap: 1.25rem;
+  justify-content: flex-start;
+  min-height: 7rem;
+  padding: 1rem 1.25rem;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .proclamations-section .row .col-md-6:last-child:nth-child(odd) {
+    margin-left: 25%;
+    margin-right: 25%;
+    max-width: 50%;
+  }
+}
+
+.proclamation-icon {
+  flex: 0 0 4rem;
+  height: 4rem;
+  object-fit: contain;
+  width: 4rem;
+}
+
+.proclamation-text {
+  color: var(--text-light);
+  font-size: 1.05rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+@media (max-width: 420px) {
+  .proclamation-card {
+    gap: 0.9rem;
+    padding: 0.9rem;
+  }
+
+  .proclamation-icon {
+    flex-basis: 3.25rem;
+    height: 3.25rem;
+    width: 3.25rem;
+  }
+}
+
 .section-heading {
   margin: 0 auto 3rem;
   max-width: 40rem;

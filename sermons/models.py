@@ -232,9 +232,24 @@ class TranslationJob(models.Model):
         COMPLETED = "completed", "Completed"
         EXPIRED = "expired", "Expired"
 
-    sermon = models.ForeignKey(Sermon, on_delete=models.CASCADE, related_name="translation_jobs")
+    sermon = models.ForeignKey(
+        Sermon,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="translation_jobs",
+    )
+    content_type = models.ForeignKey(
+        "contenttypes.ContentType",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="translation_jobs",
+    )
+    object_id = models.PositiveBigIntegerField(blank=True, null=True)
     language = models.CharField(max_length=10, choices=SermonTranslation.Language.choices)
-    field = models.CharField(max_length=20)
+    field = models.CharField(max_length=100)
+    target_field = models.CharField(max_length=100, blank=True)
     source_text = models.TextField()
     source_hash = models.CharField(max_length=64)
     token_hash = models.CharField(max_length=128)
@@ -250,7 +265,20 @@ class TranslationJob(models.Model):
                 condition=models.Q(status="claimed"),
                 name="one_active_translation_job",
             ),
+            models.UniqueConstraint(
+                fields=("content_type", "object_id", "language", "field", "status"),
+                condition=models.Q(status="claimed", content_type__isnull=False),
+                name="one_active_generic_translation_job",
+            ),
+            models.CheckConstraint(
+                condition=(
+                    models.Q(sermon__isnull=False, content_type__isnull=True)
+                    | models.Q(sermon__isnull=True, content_type__isnull=False)
+                ),
+                name="translation_job_one_target",
+            ),
         )
 
     def __str__(self):
-        return f"{self.sermon} {self.language} {self.field} ({self.status})"
+        target = self.sermon or f"{self.content_type}:{self.object_id}"
+        return f"{target} {self.language} {self.field} ({self.status})"

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.utils.translation import get_language
 
-from .models import TeamMember
+from .models import SiteSettings, TeamMember
 from .selectors import get_localized_about_content
 from sermons.models import Sermon
 from sermons.localization import localize_sermon, with_spanish_translation
@@ -14,7 +14,14 @@ GIVING_URL = "https://www.zeffy.com/en-US/donation-form/tithegive-to-sojourn-chu
 
 def home(request):
     """Render the homepage using the current site-wide settings."""
-    team_members = TeamMember.objects.filter(is_published=True)
+    site_settings = SiteSettings.objects.first()
+    homepage_icons = site_settings.get_homepage_icons() if site_settings else ()
+    homepage_statements = (
+        site_settings.get_homepage_statements(get_language()) if site_settings else ()
+    )
+    homepage_statements_ready = (
+        site_settings.homepage_statements_ready() if site_settings else False
+    )
     latest_sermon = with_spanish_translation(
         Sermon.objects.filter(
             is_published=True,
@@ -28,7 +35,8 @@ def home(request):
         request,
         "home.html",
         {
-            "team_members": team_members,
+            "homepage_statements": homepage_statements,
+            "homepage_statements_ready": homepage_statements_ready,
             "latest_sermon": latest_sermon,
         },
     )

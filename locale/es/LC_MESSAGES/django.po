@@ -7,6 +7,72 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Add English alternative text for the hero image."
+msgstr "Añade texto alternativo en inglés para la imagen principal."
+
+msgid "Select a PNG image for the favicon."
+msgstr "Selecciona una imagen PNG para el favicon."
+
+msgid "The favicon must be square and 16 to 512 pixels."
+msgstr "El favicon debe ser cuadrado y medir entre 16 y 512 píxeles."
+
+msgid "Add alternative text for the photo."
+msgstr "Añade texto alternativo para la fotografía."
+
+msgid "Enter a tag name."
+msgstr "Introduce un nombre para la etiqueta."
+
+msgid "Only image assets are supported currently."
+msgstr "Actualmente solo se admiten imágenes."
+
+msgid "Images must be 10 MiB or smaller."
+msgstr "Las imágenes deben tener un tamaño máximo de 10 MiB."
+
+msgid "Upload a JPEG, PNG, or WebP image."
+msgstr "Sube una imagen JPEG, PNG o WebP."
+
+msgid "The image content type does not match its extension."
+msgstr "El tipo de contenido de la imagen no coincide con su extensión."
+
+msgid "Images must be 8,000 pixels or smaller in either dimension."
+msgstr "Las imágenes deben medir como máximo 8.000 píxeles en cualquier dimensión."
+
+msgid "Images must contain 40 million pixels or fewer."
+msgstr "Las imágenes deben contener 40 millones de píxeles o menos."
+
+msgid "Animated images are not supported."
+msgstr "No se admiten imágenes animadas."
+
+msgid "The uploaded file is not a valid image."
+msgstr "El archivo subido no es una imagen válida."
+
+msgid "What shapes us"
+msgstr "Lo que nos forma"
+
+msgid "A people growing together in grace"
+msgstr "Un pueblo que crece unido en la gracia"
+
+msgid "Centered on God"
+msgstr "Centrados en Dios"
+
+msgid "On Mission Together"
+msgstr "Juntos en misión"
+
+msgid "Dependent on God"
+msgstr "Dependientes de Dios"
+
+msgid "Journeying Home"
+msgstr "Caminando hacia el hogar"
+
+msgid "Driven by the Word"
+msgstr "Impulsados por la Palabra"
+
+msgid "In Supernatural Community"
+msgstr "En una comunidad sobrenatural"
+
+msgid "Made Holy by Grace"
+msgstr "Santificados por la gracia"
+
 msgid "Primary navigation"
 msgstr "Navegación principal"
 

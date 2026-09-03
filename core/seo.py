@@ -28,8 +28,8 @@ def build_site_structured_data(request, site_settings):
         "description": settings.SEO_CHURCH_DESCRIPTION,
         "areaServed": settings.SEO_CHURCH_AREA_SERVED,
     }
-    if site_settings and site_settings.hero_image:
-        church["image"] = site_settings.hero_image.url
+    if site_settings and site_settings.get_hero_image():
+        church["image"] = site_settings.get_hero_image().url
 
     graph = [
         church,

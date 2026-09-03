@@ -62,8 +62,8 @@
               {% for member in team_members %}
                 <div class="col-md-6">
                   <article class="about-pastor-card">
-                    {% if member.photo %}
-                      <img class="about-pastor-photo" src="{{ member.photo.url }}" alt="{{ member.photo_alt }}">
+                    {% if member.get_photo %}
+                      <img class="about-pastor-photo" src="{{ member.get_photo.url }}" alt="{{ member.get_photo_alt }}">
                     {% endif %}
                     <div>
                       <h3>{{ member.name }}</h3>

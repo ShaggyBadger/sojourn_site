@@ -1,5 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from .favicon import prepare_favicon_asset
 
 
 class SiteSettings(models.Model):
@@ -22,11 +25,98 @@ class SiteSettings(models.Model):
         help_text="Describe the image for visitors using a screen reader.",
         max_length=255,
     )
+    hero_image_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="hero_site_settings",
+    )
+    hero_image_alt_en = models.CharField(
+        blank=True,
+        help_text="English alternative text for the selected hero image.",
+        max_length=255,
+    )
+    hero_image_alt_es = models.CharField(
+        blank=True,
+        help_text="Optional Spanish alternative text for the selected hero image.",
+        max_length=255,
+    )
     favicon = models.ImageField(
         blank=True,
         help_text="The small image shown in the browser tab.",
         upload_to="site/favicon/",
     )
+    favicon_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="favicon_site_settings",
+    )
+    homepage_icon_1_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="homepage_icon_1_site_settings",
+    )
+    homepage_icon_2_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="homepage_icon_2_site_settings",
+    )
+    homepage_icon_3_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="homepage_icon_3_site_settings",
+    )
+    homepage_icon_4_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="homepage_icon_4_site_settings",
+    )
+    homepage_icon_5_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="homepage_icon_5_site_settings",
+    )
+    homepage_icon_6_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="homepage_icon_6_site_settings",
+    )
+    homepage_icon_7_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="homepage_icon_7_site_settings",
+    )
+    homepage_statement_1_en = models.CharField(blank=True, max_length=255)
+    homepage_statement_1_es = models.CharField(blank=True, max_length=255)
+    homepage_statement_2_en = models.CharField(blank=True, max_length=255)
+    homepage_statement_2_es = models.CharField(blank=True, max_length=255)
+    homepage_statement_3_en = models.CharField(blank=True, max_length=255)
+    homepage_statement_3_es = models.CharField(blank=True, max_length=255)
+    homepage_statement_4_en = models.CharField(blank=True, max_length=255)
+    homepage_statement_4_es = models.CharField(blank=True, max_length=255)
+    homepage_statement_5_en = models.CharField(blank=True, max_length=255)
+    homepage_statement_5_es = models.CharField(blank=True, max_length=255)
+    homepage_statement_6_en = models.CharField(blank=True, max_length=255)
+    homepage_statement_6_es = models.CharField(blank=True, max_length=255)
+    homepage_statement_7_en = models.CharField(blank=True, max_length=255)
+    homepage_statement_7_es = models.CharField(blank=True, max_length=255)
     theme = models.CharField(
         choices=Theme.choices,
         default=DEFAULT_THEME,
@@ -40,10 +130,76 @@ class SiteSettings(models.Model):
 
     def clean(self):
         """Require alternative text whenever a hero image is selected."""
-        if self.hero_image and not self.hero_image_alt.strip():
+        hero_selected = self.hero_image_asset or self.hero_image
+        hero_alt_en = (
+            self.hero_image_alt_en
+            or (self.hero_image_asset.alt_text_en if self.hero_image_asset else "")
+            or self.hero_image_alt
+        )
+        if hero_selected and not hero_alt_en.strip():
             raise ValidationError(
-                {"hero_image_alt": "Add alternative text for the hero image."}
+                {"hero_image_alt_en": _("Add English alternative text for the hero image.")}
             )
+
+    def get_hero_image(self):
+        """Return the selected media file, falling back during migration."""
+        if self.hero_image_asset and self.hero_image_asset.storage_status != "missing":
+            return self.hero_image_asset.file
+        return self.hero_image
+
+    def get_favicon(self):
+        """Return the selected favicon file, falling back during migration."""
+        if self.favicon_asset and self.favicon_asset.storage_status != "missing":
+            return self.favicon_asset.file
+        return self.favicon
+
+    def get_hero_image_alt(self, language="en"):
+        """Return localized hero alternative text with an English fallback."""
+        if language == "es":
+            return (
+                self.hero_image_alt_es
+                or (self.hero_image_asset.alt_text_es if self.hero_image_asset else "")
+                or self.hero_image_alt_en
+                or (self.hero_image_asset.alt_text_en if self.hero_image_asset else "")
+                or self.hero_image_alt
+            )
+        return (
+            self.hero_image_alt_en
+            or (self.hero_image_asset.alt_text_en if self.hero_image_asset else "")
+            or self.hero_image_alt
+        )
+
+    def get_homepage_icons(self):
+        """Return the seven fixed homepage icon asset references."""
+        return tuple(
+            getattr(self, f"homepage_icon_{number}_asset")
+            for number in range(1, 8)
+        )
+
+    def get_homepage_statements(self, language="en"):
+        """Return the seven fixed statements with intentional Spanish fallback."""
+        use_spanish = (language or "en").split("-")[0] == "es"
+        statements = []
+        for number, asset in enumerate(self.get_homepage_icons(), start=1):
+            english = getattr(self, f"homepage_statement_{number}_en")
+            spanish = getattr(self, f"homepage_statement_{number}_es")
+            statements.append(
+                {
+                    "asset": asset,
+                    "text": spanish if use_spanish and spanish else english,
+                }
+            )
+        return tuple(statements)
+
+    def homepage_statements_ready(self):
+        """Return whether all seven assets and English statements are configured."""
+        return all(
+            asset
+            and asset.storage_status != "missing"
+            and asset.file.name
+            and getattr(self, f"homepage_statement_{number}_en").strip()
+            for number, asset in enumerate(self.get_homepage_icons(), start=1)
+        )
 
     def get_effective_theme(self):
         """Return a valid theme even if stored data is missing or invalid."""
@@ -55,6 +211,8 @@ class SiteSettings(models.Model):
     def save(self, *args, **kwargs):
         """Keep site settings as one predictable database record."""
         self.pk = 1
+        if self.favicon_asset:
+            self.favicon_asset = prepare_favicon_asset(self.favicon_asset)
         if type(self).objects.filter(pk=1).exists():
             kwargs["force_insert"] = False
         super().save(*args, **kwargs)
@@ -163,9 +321,21 @@ class TeamMember(models.Model):
     bio = models.TextField(blank=True, help_text="Biography in English.")
     bio_es = models.TextField(blank=True, help_text="Biography in Spanish.")
     photo = models.ImageField(blank=True, upload_to="team/")
+    photo_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="team_member_photos",
+    )
     photo_alt = models.CharField(
         blank=True,
         help_text="Describe the photo for visitors using a screen reader.",
+        max_length=255,
+    )
+    photo_alt_es = models.CharField(
+        blank=True,
+        help_text="Optional Spanish alternative text for the selected photo.",
         max_length=255,
     )
     order = models.PositiveIntegerField(default=0)
@@ -178,8 +348,30 @@ class TeamMember(models.Model):
 
     def clean(self):
         """Require alternative text whenever a leadership photo is selected."""
-        if self.photo and not self.photo_alt.strip():
-            raise ValidationError({"photo_alt": "Add alternative text for the photo."})
+        photo_selected = self.photo_asset or self.photo
+        photo_alt = self.photo_alt or (
+            self.photo_asset.alt_text_en if self.photo_asset else ""
+        )
+        if photo_selected and not photo_alt.strip():
+            raise ValidationError({"photo_alt": _("Add alternative text for the photo.")})
+
+    def get_photo(self):
+        """Return the selected media file, falling back during migration."""
+        if self.photo_asset and self.photo_asset.storage_status != "missing":
+            return self.photo_asset.file
+        return self.photo
+
+    def get_photo_alt(self, language="en"):
+        """Return localized photo alternative text with an English fallback."""
+        if language == "es":
+            return (
+                self.photo_alt_es
+                or (self.photo_asset.alt_text_es if self.photo_asset else "")
+                or self.photo_alt
+            )
+        return self.photo_alt or (
+            self.photo_asset.alt_text_en if self.photo_asset else ""
+        )
 
     def __str__(self):
         return f"{self.name} - {self.role}"

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
     "core",
+    "media",
     "communications",
     "sermons",
     "storages",

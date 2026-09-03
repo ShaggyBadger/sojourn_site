@@ -178,10 +178,10 @@ def render_email_template(template, context, *, recipient=None, unsubscribe_url=
     site_settings = SiteSettings.objects.first()
     hero_image = ""
     hero_image_alt = "Sojourn Baptist Church"
-    if site_settings and site_settings.hero_image:
-        hero_image = html.escape(site_settings.hero_image.url, quote=True)
+    if site_settings and site_settings.get_hero_image():
+        hero_image = html.escape(site_settings.get_hero_image().url, quote=True)
         hero_image_alt = html.escape(
-            site_settings.hero_image_alt or "Sojourn Baptist Church",
+            site_settings.get_hero_image_alt() or "Sojourn Baptist Church",
             quote=True,
         )
 

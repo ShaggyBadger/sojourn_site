@@ -1,0 +1,81 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'media/css/picker.css' %}">
+{% endblock %}
+
+{% block content %}
+  <h1>{% translate "Choose a media asset" %}</h1>
+  <p>{% translate "Search by name or filter by tag, then choose an image for the field that opened this window." %}</p>
+
+  <form method="get" class="media-picker-toolbar">
+    <input type="hidden" name="field_id" value="{{ field_id }}">
+    <div class="form-row">
+      <label for="media-picker-search">{% translate "Search" %}</label>
+      <input id="media-picker-search" type="search" name="q" value="{{ query }}">
+    </div>
+    <div class="form-row">
+      <label for="media-picker-tag">{% translate "Tag" %}</label>
+      <select id="media-picker-tag" name="tag">
+        <option value="">{% translate "All tags" %}</option>
+        {% for tag in tags %}
+          <option value="{{ tag.pk }}"{% if tag.pk|stringformat:"s" == selected_tag %} selected{% endif %}>{{ tag.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <input type="submit" class="default" value="{% translate 'Filter' %}">
+  </form>
+
+  {% if assets %}
+    <div class="media-picker-grid">
+      {% for asset in assets %}
+        <article class="media-picker-card">
+          <div class="media-picker-preview">
+            <img src="{{ asset.file.url }}" alt="">
+          </div>
+          <h2>{{ asset.name }}</h2>
+          <p>{{ asset.width }} x {{ asset.height }}{% if asset.tags.all %}<br>{{ asset.tags.all|join:", " }}{% endif %}</p>
+          <button
+            type="button"
+            class="button default media-picker-select"
+            data-asset-id="{{ asset.pk }}"
+            data-asset-label="{{ asset.name }}"
+            data-field-id="{{ field_id }}"
+          >{% translate "Use this image" %}</button>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>{% translate "No matching media assets found." %}</p>
+  {% endif %}
+
+  {% if is_paginated %}
+    <nav class="media-picker-pagination" aria-label="{% translate 'Pagination' %}">
+      {% if page_obj.has_previous %}
+        <a href="?field_id={{ field_id }}&q={{ query|urlencode }}&tag={{ selected_tag }}&page={{ page_obj.previous_page_number }}">{% translate "Previous" %}</a>
+      {% endif %}
+      <span>{% blocktranslate with page=page_obj.number pages=page_obj.paginator.num_pages %}Page {{ page }} of {{ pages }}{% endblocktranslate %}</span>
+      {% if page_obj.has_next %}
+        <a href="?field_id={{ field_id }}&q={{ query|urlencode }}&tag={{ selected_tag }}&page={{ page_obj.next_page_number }}">{% translate "Next" %}</a>
+      {% endif %}
+    </nav>
+  {% endif %}
+
+  <script>
+    document.querySelectorAll(".media-picker-select").forEach(function (button) {
+      button.addEventListener("click", function () {
+        if (window.opener && !window.opener.closed) {
+          window.opener.postMessage({
+            type: "media-asset-selected",
+            fieldId: button.dataset.fieldId,
+            value: button.dataset.assetId,
+            label: button.dataset.assetLabel
+          }, window.location.origin);
+          window.close();
+        }
+      });
+    });
+  </script>
+{% endblock %}
