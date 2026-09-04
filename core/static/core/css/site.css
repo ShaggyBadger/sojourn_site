@@ -111,6 +111,44 @@
   --surface-shadow: rgba(79, 51, 35, 0.14);
 }
 
+[data-theme="workshop"] {
+  --bg-charcoal: #1f2924;
+  --bg-card: #29352e;
+  --accent-gold: #d5a15f;
+  --accent-burgundy: #8f4f2e;
+  --text-light: #f3ead9;
+  --text-muted: rgba(243, 234, 217, 0.72);
+  --header-bg: rgba(31, 41, 36, 0.97);
+  --border-gold-soft: rgba(213, 161, 95, 0.12);
+  --border-gold-subtle: rgba(213, 161, 95, 0.2);
+  --border-gold: rgba(213, 161, 95, 0.28);
+  --border-gold-medium: rgba(213, 161, 95, 0.42);
+  --border-gold-strong: rgba(213, 161, 95, 0.58);
+  --border-light: rgba(243, 234, 217, 0.2);
+  --border-light-subtle: rgba(243, 234, 217, 0.12);
+  --border-gold-hover: rgba(237, 190, 123, 0.82);
+  --border-gold-card: rgba(213, 161, 95, 0.28);
+  --border-gold-icon: rgba(213, 161, 95, 0.34);
+  --gradient-mid: #35483c;
+  --overlay: rgba(18, 25, 21, 0.76);
+  --backdrop: rgba(11, 18, 14, 0.68);
+  --shadow: rgba(8, 14, 10, 0.36);
+  --button-bg: linear-gradient(135deg, #9a5a32 0%, #6f3926 100%);
+  --button-hover-bg: linear-gradient(135deg, #b06b3d 0%, #84462c 100%);
+  --button-hover-border: #f0bd78;
+  --button-text: #fff7e8;
+  --button-hover-text: #fff;
+  --footer-bg: #15201b;
+  --hero-text: #fff7e8;
+  --hero-accent: #e0ac68;
+  --footer-text: rgba(243, 234, 217, 0.74);
+  --danger-bg: rgba(220, 53, 69, 0.16);
+  --danger-border: #dc3545;
+  --danger-text: #ffc1a8;
+  --control-placeholder: rgba(243, 234, 217, 0.7);
+  --surface-shadow: rgba(8, 14, 10, 0.24);
+}
+
 [x-cloak] {
   display: none !important;
 }

@@ -12,6 +12,7 @@ class SiteSettings(models.Model):
         DARK = "dark", "Dark"
         LIGHT = "light", "Light"
         MEDIUM = "medium", "Medium"
+        WORKSHOP = "workshop", "Workshop"
 
     DEFAULT_THEME = Theme.DARK
 

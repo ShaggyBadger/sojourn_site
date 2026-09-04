@@ -47,6 +47,13 @@ class HomePageTests(TestCase):
 
         self.assertContains(response, '<html lang="en" data-theme="light">', html=False)
 
+    def test_workshop_theme_is_rendered_on_public_document(self):
+        SiteSettings.objects.create(theme=SiteSettings.Theme.WORKSHOP)
+
+        response = self.client.get("/")
+
+        self.assertContains(response, '<html lang="en" data-theme="workshop">', html=False)
+
     def test_invalid_stored_theme_falls_back_to_dark(self):
         SiteSettings.objects.create(theme="not-a-theme")
 
