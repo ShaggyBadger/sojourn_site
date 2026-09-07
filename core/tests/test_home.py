@@ -1,8 +1,9 @@
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
 
 from core.admin import SiteSettingsAdmin
-from core.models import AboutPage, AboutSection, SiteSettings, TeamMember
+from core.models import AboutPage, AboutSection, SiteSettings, SocialLink, TeamMember
 from core.selectors import get_localized_about_content
 from sermons.models import Sermon
 
@@ -60,6 +61,64 @@ class HomePageTests(TestCase):
         response = self.client.get("/")
 
         self.assertContains(response, '<html lang="en" data-theme="dark">', html=False)
+
+    def test_footer_renders_ordered_published_social_links(self):
+        site_settings = SiteSettings.objects.create()
+        SocialLink.objects.create(
+            site_settings=site_settings,
+            label_en="YouTube",
+            url="https://www.youtube.com/@sojourn",
+            icon=SocialLink.Icon.YOUTUBE,
+            display_order=2,
+        )
+        SocialLink.objects.create(
+            site_settings=site_settings,
+            label_en="Facebook",
+            url="https://www.facebook.com/SojournChurch.SurryCounty",
+            icon=SocialLink.Icon.FACEBOOK,
+            display_order=1,
+        )
+        SocialLink.objects.create(
+            site_settings=site_settings,
+            label_en="Hidden",
+            url="https://example.com/hidden",
+            is_published=False,
+        )
+
+        response = self.client.get("/")
+
+        self.assertContains(response, "Facebook")
+        self.assertContains(response, "YouTube")
+        self.assertNotContains(response, "Hidden")
+        self.assertLess(response.content.index(b"Facebook"), response.content.index(b"YouTube"))
+        self.assertContains(response, 'rel="noopener noreferrer"', html=False)
+
+    def test_social_link_supports_mailto_without_external_target(self):
+        site_settings = SiteSettings.objects.create()
+        link = SocialLink(
+            site_settings=site_settings,
+            label_en="Email",
+            url="mailto:hello@example.com",
+            icon=SocialLink.Icon.EMAIL,
+        )
+
+        link.full_clean()
+        link.save()
+
+        response = self.client.get("/")
+        self.assertContains(response, 'href="mailto:hello@example.com"', html=False)
+        self.assertNotContains(response, 'target="_blank"', html=False)
+
+    def test_social_link_rejects_non_https_web_urls(self):
+        site_settings = SiteSettings.objects.create()
+        link = SocialLink(
+            site_settings=site_settings,
+            label_en="Bad link",
+            url="http://example.com",
+        )
+
+        with self.assertRaises(ValidationError):
+            link.full_clean()
 
     def test_site_settings_admin_exposes_theme_in_appearance_fieldset(self):
         fields = dict(SiteSettingsAdmin.fieldsets)

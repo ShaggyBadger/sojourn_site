@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.core.validators import URLValidator
 from django.utils.translation import gettext_lazy as _
 
 from .favicon import prepare_favicon_asset
@@ -224,6 +225,60 @@ class SiteSettings(models.Model):
 
     def __str__(self):
         return "Site settings"
+
+
+class SocialLink(models.Model):
+    """An ordered, staff-managed link displayed in the shared site footer."""
+
+    class Icon(models.TextChoices):
+        FACEBOOK = "facebook", "Facebook"
+        EMAIL = "email", "Email"
+        INSTAGRAM = "instagram", "Instagram"
+        YOUTUBE = "youtube", "YouTube"
+        GENERIC = "generic", "Generic link"
+
+    site_settings = models.ForeignKey(
+        SiteSettings,
+        on_delete=models.CASCADE,
+        related_name="social_links",
+    )
+    label_en = models.CharField(max_length=100)
+    label_es = models.CharField(blank=True, max_length=100)
+    url = models.CharField(max_length=500)
+    icon = models.CharField(max_length=20, choices=Icon.choices, default=Icon.GENERIC)
+    display_order = models.PositiveIntegerField(default=0)
+    is_published = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ("display_order", "pk")
+        verbose_name = "social link"
+        verbose_name_plural = "social links"
+
+    def clean(self):
+        super().clean()
+        self.label_en = " ".join((self.label_en or "").split())
+        self.label_es = " ".join((self.label_es or "").split())
+        if not self.label_en:
+            raise ValidationError({"label_en": _("Enter an English label.")})
+        if self.url.startswith("mailto:"):
+            if not self.url[7:].strip() or "@" not in self.url[7:]:
+                raise ValidationError({"url": _("Enter a valid email link.")})
+        else:
+            try:
+                URLValidator(schemes=("https",))(self.url)
+            except ValidationError as error:
+                raise ValidationError({"url": _("Enter a valid HTTPS link.")}) from error
+
+    def get_label(self, language="en"):
+        """Return the requested label, falling back to English."""
+        return self.label_es if language == "es" and self.label_es else self.label_en
+
+    def is_external_web_link(self):
+        """Return whether the link should open in a separate browser tab."""
+        return self.url.startswith("https://")
+
+    def __str__(self):
+        return self.label_en
 
 
 class AboutPage(models.Model):
