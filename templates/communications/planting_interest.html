@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Join the planting team" %} | {% translate "Sojourn Church" %}{% endblock %}
+{% block meta_description %}<meta name="description" content="{% translate 'Tell Sojourn Church that you are interested in joining the church planting team.' %}">{% endblock %}
+{% block robots %}<meta name="robots" content="noindex,follow">{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="visitor-hero">
+      <div class="container visitor-hero-content">
+        <p class="hero-kicker">{% translate "Partner with us" %}</p>
+        <h1>{% translate "Take your first step" %}</h1>
+        <p class="visitor-lede">{% translate "We are building a team to join what God is doing through Sojourn Church." %}</p>
+      </div>
+    </section>
+
+    <section class="visitor-section">
+      <div class="container">
+        <div class="visitor-card visitor-card-highlight planting-interest-splash">
+          <p class="section-eyebrow">{% translate "Join the planting team" %}</p>
+          <h2>{% translate "A team is taking shape" %}</h2>
+          <p>{% translate "We are building relationships with people who want to pray, serve, give, and help establish a bilingual church in Mount Airy." %}</p>
+          <p>{% translate "There is no need to have everything figured out. Start by learning more, praying with us, or sending a note to the team." %}</p>
+          <div class="visitor-actions">
+            <a class="btn btn-custom-gold" href="mailto:contact@sojourn-church.com">{% translate "Email the team" %}</a>
+            <a class="btn btn-outline-light" href="{% url 'partner_with_us' %}">{% translate "Explore ways to partner" %}</a>
+            <a class="btn btn-outline-light" href="{% url 'communications:subscribe' %}">{% translate "Stay connected" %}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

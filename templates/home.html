@@ -48,10 +48,14 @@
           <div class="row g-4">
             {% for statement in homepage_statements %}
               <div class="col-12 col-md-6">
-                <article class="proclamation-card h-100">
-                  <img class="proclamation-icon" src="{{ statement.asset.file.url }}" alt="">
-                  <p class="proclamation-text">{{ statement.text }}</p>
-                </article>
+                <details class="proclamation-card h-100">
+                  <summary>
+                    <img class="proclamation-icon" src="{{ statement.asset.file.url }}" alt="">
+                    <span class="proclamation-text">{{ statement.text }}</span>
+                    <span class="proclamation-toggle" aria-hidden="true">+</span>
+                  </summary>
+                  <div class="proclamation-detail">{{ statement.detail|linebreaks }}</div>
+                </details>
               </div>
             {% endfor %}
           </div>
@@ -90,12 +94,12 @@
             </a>
           </div>
           <div class="col-md-4">
-            <a class="feature-card feature-card-link h-100" href="{% url 'giving' %}">
+            <a class="feature-card feature-card-link h-100" href="{% url 'partner_with_us' %}">
               <p class="feature-number">03</p>
-                  <h2 class="feature-title">{% translate "Give" %}</h2>
+              <h2 class="feature-title">{% translate "Partner with us" %}</h2>
               <div class="feature-icon-circle" aria-hidden="true">&#9829;</div>
               <p class="feature-text">
-                {% translate "Give as an act of worship and help strengthen the work God is doing through our church." %}
+                {% translate "Join us through prayer, generosity, presence, and service as we plant a bilingual church in Mount Airy." %}
               </p>
             </a>
           </div>

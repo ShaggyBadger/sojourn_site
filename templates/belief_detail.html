@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ belief_page.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block meta_description %}<meta name="description" content="{{ belief_page.description }}">{% endblock %}
+{% block og_title %}{{ belief_page.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block og_description %}{{ belief_page.description }}{% endblock %}
+{% block twitter_title %}{{ belief_page.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block twitter_description %}{{ belief_page.description }}{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="confession-hero">
+      <div class="container confession-hero-content">
+        <a class="confession-back-link" href="{% url 'beliefs' %}">&larr; {% translate "Back to What We Believe" %}</a>
+        <p class="hero-kicker">{% translate "What shapes us" %}</p>
+        <h1>{{ belief_page.title }}</h1>
+        <p class="confession-lede">{{ belief_page.intro }}</p>
+      </div>
+    </section>
+
+    {% if belief_page.slug == "baptist-faith-and-message-2000" %}
+      <section class="belief-context-section" aria-labelledby="belief-context-heading">
+        <div class="container">
+          {% include "components/belief_source.html" with prominent=True %}
+        </div>
+      </section>
+    {% endif %}
+
+    <section class="confession-section">
+      <div class="container confession-layout{% if belief_page.continuous %} confession-layout-continuous{% endif %}">
+        {% if belief_page.continuous %}
+          <div class="confession-document confession-prose">
+            {% for paragraph in belief_page.paragraphs %}
+              <p>{{ paragraph }}</p>
+            {% endfor %}
+            {% if belief_page.slug != "baptist-faith-and-message-2000" %}
+              {% include "components/belief_source.html" %}
+            {% endif %}
+          </div>
+        {% elif belief_page.articles %}
+          <aside class="confession-navigation" aria-label="{% translate 'Confession contents' %}">
+            <p class="section-eyebrow">{% translate "Contents" %}</p>
+            <ol>
+              {% for heading, body in belief_page.articles %}
+                <li><a href="#article-{{ forloop.counter }}">{{ heading }}</a></li>
+              {% endfor %}
+            </ol>
+          </aside>
+          <div class="confession-document">
+            {% for heading, body in belief_page.articles %}
+              <article class="confession-article" id="article-{{ forloop.counter }}">
+                <p class="confession-number">{{ forloop.counter|stringformat:"02d" }}</p>
+                <h2>{{ heading }}</h2>
+                <p>{{ body }}</p>
+              </article>
+            {% endfor %}
+            {% if belief_page.slug != "baptist-faith-and-message-2000" %}
+              {% include "components/belief_source.html" %}
+            {% endif %}
+          </div>
+        {% else %}
+          <article class="confession-document confession-prose">
+            {% for paragraph in belief_page.paragraphs %}
+              <p>{{ paragraph }}</p>
+            {% endfor %}
+            {% if belief_page.source_url %}
+              <a class="confession-source-link" href="{{ belief_page.source_url }}" target="_blank" rel="external noopener">{% translate "Read the official statement" %}</a>
+            {% endif %}
+            {% include "components/belief_source.html" %}
+          </article>
+        {% endif %}
+      </div>
+    </section>
+  </main>
+{% endblock %}

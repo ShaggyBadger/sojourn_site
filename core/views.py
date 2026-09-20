@@ -4,6 +4,14 @@ from django.utils import timezone
 from django.utils.translation import get_language
 
 from .models import SiteSettings, TeamMember
+from .beliefs import BELIEF_SUMMARIES, get_belief_page
+from .confession import (
+    CONFESSION_SOURCE_URL,
+    CONFESSION_TITLE,
+    get_confession_articles,
+)
+from .polity import get_polity_page
+from .partner import get_partner_page
 from .selectors import get_localized_about_content
 from sermons.models import Sermon
 from sermons.localization import localize_sermon, with_spanish_translation
@@ -59,6 +67,53 @@ def about(request):
         "about.html",
         {"about_content": about_content, "team_members": team_members},
     )
+
+
+def confession(request):
+    """Render the historical 1853 New Hampshire Confession of Faith."""
+    return render(
+        request,
+        "confession.html",
+        {
+            "confession_articles": get_confession_articles(get_language()),
+            "confession_source_url": CONFESSION_SOURCE_URL,
+            "confession_title": CONFESSION_TITLE,
+        },
+    )
+
+
+def beliefs(request):
+    """Render the beliefs hub with links to each dedicated statement page."""
+    language = get_language()
+    is_spanish = (language or "en").split("-")[0] == "es"
+    summaries = []
+    for summary in BELIEF_SUMMARIES:
+        summaries.append(
+            {
+                "slug": summary["slug"],
+                "title": summary["title_es"] if is_spanish else summary["title"],
+                "summary": summary["summary_es"] if is_spanish else summary["summary"],
+            }
+        )
+    return render(request, "beliefs.html", {"belief_summaries": summaries})
+
+
+def belief_detail(request, slug):
+    """Render one of the church's dedicated belief and creed pages."""
+    if slug not in {summary["slug"] for summary in BELIEF_SUMMARIES}:
+        raise Http404("The requested statement of faith was not found.")
+    page = get_belief_page(slug, get_language())
+    return render(request, "belief_detail.html", {"belief_page": page})
+
+
+def how_we_are_led(request):
+    """Render the bilingual explanation of Sojourn's church leadership."""
+    return render(request, "how_we_are_led.html", {"polity_page": get_polity_page(get_language())})
+
+
+def partner_with_us(request):
+    """Render the bilingual ways visitors can partner with Sojourn."""
+    return render(request, "partner_with_us.html", {"partner_page": get_partner_page(get_language())})
 
 
 def new_here(request):

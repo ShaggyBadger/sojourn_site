@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% get_current_language as current_language %}
 
 {% block title %}{{ about_content.title }}{% endblock %}
 
@@ -33,12 +34,44 @@
           </div>
         </section>
       {% elif section.key == "beliefs" %}
-        <section class="about-section about-section-dark">
-          <div class="container about-copy-grid">
-            <div>
+        <section class="about-section about-section-dark about-beliefs-section">
+          <div class="container about-beliefs-layout">
+            <div class="about-beliefs-heading">
+              <p class="section-eyebrow">{% translate "What shapes us" %}</p>
               <h2>{{ section.title }}</h2>
             </div>
-            <div class="about-copy">{{ section.body|linebreaks }}</div>
+            <div class="about-beliefs-content">
+              <div class="about-copy">
+                {% if current_language == "es" %}
+                  <p>
+                    Afirmamos la fe cristiana histórica expresada en el
+                    <a href="{% url 'belief_detail' slug='apostles-creed' %}">Credo de los Apóstoles</a>
+                    y el
+                    <a href="{% url 'belief_detail' slug='nicene-creed' %}">Credo Niceno</a>.
+                    Como iglesia bautista, nuestra enseñanza también se forma por
+                    <a href="{% url 'belief_detail' slug='baptist-faith-and-message-2000' %}">Fe y Mensaje Bautistas 2000</a>
+                    y la
+                    <a href="{% url 'confession' %}">Confesión de Fe de New Hampshire</a>.
+                    Juntos, estos documentos nos ayudan a entender y comunicar fielmente lo que creemos acerca de Dios, las Escrituras, la salvación, la iglesia y la vida cristiana.
+                  </p>
+                {% else %}
+                  <p>
+                    We affirm the historic Christian faith expressed in the
+                    <a href="{% url 'belief_detail' slug='apostles-creed' %}">Apostles' Creed</a>
+                    and the
+                    <a href="{% url 'belief_detail' slug='nicene-creed' %}">Nicene Creed</a>.
+                    As a Baptist church, our teaching is also shaped by the
+                    <a href="{% url 'belief_detail' slug='baptist-faith-and-message-2000' %}">Baptist Faith and Message 2000</a>
+                    and the
+                    <a href="{% url 'confession' %}">New Hampshire Confession of Faith</a>.
+                    Together, these documents help us understand and faithfully communicate what we believe about God, Scripture, salvation, the church, and Christian living.
+                  </p>
+                {% endif %}
+              </div>
+              <a class="about-beliefs-link" href="{% url 'beliefs' %}">
+                {% translate "What We Believe" %}<span aria-hidden="true"> &rarr;</span>
+              </a>
+            </div>
           </div>
         </section>
       {% elif section.key == "bilingual_ministry" %}
@@ -53,7 +86,7 @@
       {% elif section.key == "leadership" and team_members %}
         <section class="about-section about-leadership">
           <div class="container">
-            <div class="section-heading about-section-heading">
+            <div class="about-leadership-intro">
               <p class="section-eyebrow">{{ section.title }}</p>
               <h2>{% translate "People who serve our church" %}</h2>
             </div>
@@ -65,7 +98,7 @@
                     {% if member.get_photo %}
                       <img class="about-pastor-photo" src="{{ member.get_photo.url }}" alt="{{ member.get_photo_alt }}">
                     {% endif %}
-                    <div>
+                    <div class="about-pastor-content">
                       <h3>{{ member.name }}</h3>
                       <p class="team-role">
                         {% if current_language == "es" and member.role_es %}{{ member.role_es }}{% else %}{{ member.role }}{% endif %}

@@ -649,6 +649,19 @@ body {
   max-width: 42rem;
 }
 
+.planting-interest-splash {
+  margin: 0 auto;
+  max-width: 48rem;
+}
+
+.planting-interest-splash h2 {
+  color: var(--text-light);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
 .giving-copy h2 {
   color: var(--text-light);
   font-size: clamp(2rem, 5vw, 3.2rem);
@@ -1263,23 +1276,54 @@ body {
   background: var(--bg-card);
 }
 
+.about-beliefs-layout {
+  align-items: start;
+  display: grid;
+  gap: 2.5rem;
+  margin: 0 auto;
+  max-width: 72rem;
+}
+
+.about-beliefs-content {
+  max-width: 44rem;
+}
+
+.about-beliefs-link {
+  align-items: center;
+  border-bottom: 1px solid var(--accent-gold);
+  color: var(--text-light);
+  display: inline-flex;
+  font-weight: 600;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-bottom: 0.45rem;
+  text-decoration: none;
+  transition: color 160ms ease, gap 160ms ease;
+}
+
+.about-beliefs-link:hover,
+.about-beliefs-link:focus-visible {
+  color: var(--accent-gold);
+  gap: 0.8rem;
+}
+
 .about-leadership {
   background: var(--bg-charcoal);
 }
 
-.about-section-heading {
-  margin-bottom: 2rem;
-  text-align: left;
+.about-leadership-intro {
+  margin-bottom: 2.5rem;
+  max-width: 44rem;
 }
 
 .about-pastor-card {
-  align-items: center;
   background: var(--bg-card);
   border-left: 2px solid var(--accent-gold);
-  display: flex;
-  gap: 1.25rem;
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.7fr) minmax(0, 1.3fr);
   height: 100%;
-  padding: 1.5rem;
+  overflow: hidden;
+  padding: 0;
 }
 
 .about-pastor-card h3 {
@@ -1293,12 +1337,15 @@ body {
 }
 
 .about-pastor-photo {
-  border: 1px solid var(--border-gold-strong);
-  border-radius: 50%;
-  flex: 0 0 auto;
-  height: 88px;
+  border-right: 1px solid var(--border-gold-subtle);
+  height: 100%;
+  min-height: 16rem;
   object-fit: cover;
-  width: 88px;
+  width: 100%;
+}
+
+.about-pastor-content {
+  padding: 1.5rem;
 }
 
 .about-pastor-bio {
@@ -1338,6 +1385,588 @@ body {
   display: inline-flex;
 }
 
+.about-inline-link {
+  color: var(--accent-gold);
+  display: inline-block;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  text-decoration-color: var(--border-gold-medium);
+  text-underline-offset: 0.2em;
+}
+
+.about-inline-link:hover,
+.about-inline-link:focus-visible {
+  color: var(--text-light);
+}
+
+.about-beliefs-content a {
+  color: var(--text-light);
+  text-decoration-color: var(--accent-gold);
+  text-underline-offset: 0.18em;
+}
+
+.about-beliefs-content a:hover,
+.about-beliefs-content a:focus-visible {
+  color: var(--accent-gold);
+}
+
+.polity-hero {
+  background: linear-gradient(135deg, var(--accent-burgundy), var(--bg-charcoal));
+  padding: clamp(5rem, 10vw, 8rem) 1rem 4rem;
+}
+
+.polity-hero-content {
+  max-width: 54rem;
+}
+
+.polity-hero h1 {
+  color: var(--text-light);
+  font-size: clamp(2.75rem, 8vw, 5.25rem);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 1.25rem;
+}
+
+.polity-hero p:last-child {
+  color: var(--text-muted);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.75;
+  margin: 0;
+  max-width: 44rem;
+}
+
+.polity-section {
+  padding: 4.5rem 1rem 6rem;
+}
+
+.polity-grid {
+  display: grid;
+  gap: 1rem;
+  max-width: 78rem;
+}
+
+.polity-card {
+  background: var(--bg-card);
+  border-left: 2px solid var(--accent-gold);
+  padding: 1.75rem;
+}
+
+.polity-number {
+  color: var(--accent-gold);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  margin-bottom: 1rem;
+}
+
+.polity-card h2 {
+  color: var(--text-light);
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.polity-card > p:not(.polity-number):not(.polity-references) {
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+.polity-references {
+  border-top: 1px solid var(--border-gold-subtle);
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  padding-top: 1rem;
+}
+
+.partner-hero {
+  align-items: end;
+  background: linear-gradient(135deg, var(--accent-burgundy), var(--bg-charcoal));
+  display: flex;
+  min-height: 48svh;
+  padding: 7rem 1rem 4rem;
+}
+
+.partner-hero-content {
+  max-width: 54rem;
+}
+
+.partner-hero h1 {
+  color: var(--text-light);
+  font-size: clamp(2.75rem, 8vw, 5.25rem);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 1.25rem;
+}
+
+.partner-hero p:last-child {
+  color: var(--text-muted);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.75;
+  margin: 0;
+  max-width: 44rem;
+}
+
+.partner-section {
+  padding: 4.5rem 1rem 6rem;
+}
+
+.partner-grid {
+  display: grid;
+  gap: 1rem;
+  max-width: 78rem;
+}
+
+.partner-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+}
+
+.partner-card-highlight {
+  background: var(--accent-burgundy);
+}
+
+.partner-number {
+  color: var(--accent-gold);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  margin-bottom: 1rem;
+}
+
+.partner-card h2 {
+  color: var(--text-light);
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.partner-card > p:not(.partner-number) {
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+}
+
+.partner-link {
+  color: var(--accent-gold);
+  font-weight: 600;
+  margin-top: auto;
+  text-underline-offset: 0.2em;
+}
+
+.partner-link:hover,
+.partner-link:focus-visible {
+  color: var(--text-light);
+}
+
+@media (min-width: 768px) {
+  .partner-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .polity-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.confession-hero {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-gold-subtle);
+  padding: clamp(4rem, 10vw, 7rem) 1rem;
+}
+
+.confession-hero-content {
+  max-width: 58rem;
+}
+
+.confession-back-link {
+  color: var(--accent-gold);
+  display: inline-block;
+  margin-bottom: 2rem;
+  text-decoration: none;
+}
+
+.confession-back-link:hover,
+.confession-back-link:focus-visible {
+  color: var(--text-light);
+  text-decoration: underline;
+}
+
+.confession-hero h1 {
+  color: var(--text-light);
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+  margin-bottom: 1.5rem;
+  max-width: 52rem;
+}
+
+.confession-lede {
+  color: var(--text-muted);
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  line-height: 1.75;
+  margin: 0;
+  max-width: 48rem;
+}
+
+.confession-section {
+  padding: clamp(3rem, 8vw, 6rem) 1rem;
+}
+
+.belief-context-section {
+  padding: 2rem 1rem 0;
+}
+
+.belief-context-callout {
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent-gold);
+  max-width: 62rem;
+  padding: 1.5rem clamp(1.25rem, 3vw, 2rem);
+}
+
+.belief-context-callout .section-eyebrow {
+  margin-bottom: 0.75rem;
+}
+
+.belief-context-callout p:last-child {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.confession-layout {
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: 1fr;
+  max-width: 78rem;
+}
+
+.confession-navigation {
+  align-self: start;
+  background: var(--bg-card);
+  border-left: 2px solid var(--accent-gold);
+  padding: 1.25rem;
+}
+
+.confession-navigation ol {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.confession-navigation li {
+  color: var(--text-muted);
+  margin-bottom: 0.55rem;
+}
+
+.confession-navigation a {
+  color: var(--text-muted);
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+}
+
+.confession-navigation a:hover,
+.confession-navigation a:focus-visible {
+  color: var(--accent-gold);
+  text-decoration-color: var(--accent-gold);
+}
+
+.confession-document {
+  max-width: 52rem;
+}
+
+.confession-layout-continuous .confession-document {
+  margin-inline: auto;
+  max-width: 62rem;
+}
+
+.confession-layout-continuous {
+  display: block;
+}
+
+.confession-article {
+  border-bottom: 1px solid var(--border-gold-subtle);
+  padding: 0 0 2.5rem;
+  scroll-margin-top: 6rem;
+}
+
+.confession-article + .confession-article {
+  padding-top: 2.5rem;
+}
+
+.confession-number {
+  color: var(--accent-gold);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  margin-bottom: 0.75rem;
+}
+
+.confession-article h2 {
+  color: var(--text-light);
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.confession-article p:last-child,
+.confession-prose p {
+  color: var(--text-muted);
+  font-size: 1.08rem;
+  line-height: 1.85;
+  margin: 0;
+}
+
+.confession-prose {
+  color: var(--text-muted);
+}
+
+.confession-prose p + p {
+  margin-top: 1.75rem;
+}
+
+.confession-source-link {
+  color: var(--accent-gold);
+  display: inline-block;
+  margin-top: 2rem;
+  text-underline-offset: 0.2em;
+}
+
+.confession-source-link:hover,
+.confession-source-link:focus-visible {
+  color: var(--text-light);
+}
+
+.confession-source {
+  padding-top: 2.5rem;
+}
+
+.confession-source p:last-child {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.confession-source a {
+  color: var(--accent-gold);
+  display: inline-block;
+  margin-top: 0.5rem;
+  text-underline-offset: 0.2em;
+}
+
+.confession-source a:hover,
+.confession-source a:focus-visible {
+  color: var(--text-light);
+}
+
+.beliefs-hero,
+.belief-detail-hero {
+  background: linear-gradient(135deg, var(--accent-burgundy), var(--bg-charcoal));
+  padding: 7rem 1rem 4rem;
+}
+
+.beliefs-hero-content,
+.belief-detail-hero-content {
+  max-width: 54rem;
+}
+
+.beliefs-hero h1,
+.belief-detail-hero h1 {
+  color: var(--text-light);
+  font-size: clamp(2.75rem, 8vw, 5.25rem);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin: 0 0 1.25rem;
+}
+
+.beliefs-lede {
+  color: var(--text-muted);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 44rem;
+}
+
+.beliefs-section,
+.belief-detail-section {
+  padding: 4.5rem 1rem 6rem;
+}
+
+.beliefs-intro {
+  margin-bottom: 2rem;
+  max-width: 44rem;
+}
+
+.beliefs-intro h2 {
+  color: var(--text-light);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.beliefs-intro p:last-child,
+.belief-card p:not(.belief-card-number),
+.belief-source p:last-of-type,
+.belief-prose p {
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.beliefs-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.belief-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold-subtle);
+  border-radius: 0.75rem;
+  padding: 2rem;
+}
+
+.belief-card-number,
+.belief-article-number {
+  color: var(--accent-gold);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  margin-bottom: 1.25rem;
+}
+
+.belief-card h2 {
+  color: var(--text-light);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.belief-card-link,
+.belief-back-link,
+.belief-source a {
+  color: var(--accent-gold);
+  text-decoration: none;
+}
+
+.belief-card-link:hover,
+.belief-card-link:focus-visible,
+.belief-back-link:hover,
+.belief-back-link:focus-visible,
+.belief-source a:hover,
+.belief-source a:focus-visible {
+  color: var(--text-light);
+  text-decoration: underline;
+}
+
+.belief-back-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+.belief-detail-layout {
+  display: grid;
+  gap: 2.5rem;
+  max-width: 76rem;
+}
+
+.belief-detail-navigation {
+  align-self: start;
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold-subtle);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.belief-detail-navigation ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.belief-detail-navigation li + li {
+  margin-top: 0.6rem;
+}
+
+.belief-detail-navigation a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.belief-detail-navigation a:hover,
+.belief-detail-navigation a:focus-visible {
+  color: var(--accent-gold);
+  text-decoration: underline;
+}
+
+.belief-document {
+  max-width: 52rem;
+}
+
+.belief-article + .belief-article {
+  border-top: 1px solid var(--border-light-subtle);
+  margin-top: 3rem;
+  padding-top: 3rem;
+}
+
+.belief-article h2 {
+  color: var(--text-light);
+  font-size: clamp(1.5rem, 4vw, 2.35rem);
+  font-weight: 300;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.belief-article p,
+.belief-prose p {
+  color: var(--text-muted);
+  line-height: 1.85;
+  white-space: pre-line;
+}
+
+.belief-source {
+  border-top: 1px solid var(--border-light-subtle);
+  margin-top: 3rem;
+  max-width: 76rem;
+  padding-top: 2rem;
+}
+
+.belief-source .section-eyebrow {
+  margin-bottom: 0.75rem;
+}
+
+.belief-source p {
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .beliefs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 992px) {
+  .about-beliefs-layout {
+    grid-template-columns: minmax(14rem, 0.75fr) minmax(0, 1.25fr);
+  }
+
+  .belief-detail-layout {
+    grid-template-columns: minmax(13rem, 18rem) minmax(0, 52rem);
+  }
+
+  .belief-detail-navigation {
+    position: sticky;
+    top: 6rem;
+  }
+}
+
 .signup-card {
   background: var(--bg-card);
   border: 1px solid var(--border-gold-card);
@@ -1364,13 +1993,52 @@ body {
 }
 
 .proclamation-card {
+  border: 1px solid var(--border-gold-subtle);
+  color: inherit;
+  margin: 0;
+  min-height: 7rem;
+  text-align: left;
+}
+
+.proclamation-card summary {
   align-items: center;
+  cursor: pointer;
   display: flex;
   gap: 1.25rem;
-  justify-content: flex-start;
+  list-style: none;
   min-height: 7rem;
   padding: 1rem 1.25rem;
-  text-align: left;
+}
+
+.proclamation-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.proclamation-card summary:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: -3px;
+}
+
+.proclamation-toggle {
+  color: var(--accent-gold);
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-left: auto;
+}
+
+.proclamation-card[open] .proclamation-toggle {
+  transform: rotate(45deg);
+}
+
+.proclamation-detail {
+  border-top: 1px solid var(--border-gold-subtle);
+  color: var(--text-muted);
+  line-height: 1.7;
+  padding: 1rem 1.25rem 1.25rem 6.5rem;
+}
+
+.proclamation-detail p:last-child {
+  margin-bottom: 0;
 }
 
 @media (min-width: 768px) {
@@ -1397,7 +2065,12 @@ body {
 
 @media (max-width: 420px) {
   .proclamation-card {
+    min-height: 0;
+  }
+
+  .proclamation-card summary {
     gap: 0.9rem;
+    min-height: 0;
     padding: 0.9rem;
   }
 
@@ -1405,6 +2078,10 @@ body {
     flex-basis: 3.25rem;
     height: 3.25rem;
     width: 3.25rem;
+  }
+
+  .proclamation-detail {
+    padding: 1rem 0.9rem 1rem 5.05rem;
   }
 }
 
@@ -1524,35 +2201,8 @@ body {
   color: var(--footer-text);
 }
 
-@media (max-width: 991.98px) {
-  .navbar-collapse {
-    padding-bottom: 0.75rem;
-    padding-top: 0.75rem;
-  }
-
-  .language-item {
-    margin-left: auto;
-  }
-}
-
-@media (min-width: 992px) {
-  .mobile-menu-backdrop,
-  .mobile-menu-fallback {
-    display: none;
-  }
-
-  .navbar-custom .navbar-collapse {
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    display: flex !important;
-    left: auto;
-    padding: 0;
-    position: static;
-    right: auto;
-    top: auto;
-  }
+.language-item {
+  margin-left: auto;
 }
 
 @media (min-width: 768px) {
@@ -1572,6 +2222,17 @@ body {
     align-items: start;
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   }
+
+  .confession-layout {
+    grid-template-columns: minmax(14rem, 0.7fr) minmax(0, 1.8fr);
+  }
+
+  .confession-navigation {
+    max-height: calc(100vh - 7.5rem);
+    overflow-y: auto;
+    position: sticky;
+    top: 6rem;
+  }
 }
 
 @media (max-width: 575.98px) {
@@ -1590,8 +2251,17 @@ body {
     grid-row: 2 / span 2;
   }
 
+}
+
+@media (max-width: 767.98px) {
   .about-pastor-card {
-    align-items: flex-start;
-    flex-direction: column;
+    grid-template-columns: 1fr;
+  }
+
+  .about-pastor-photo {
+    border-bottom: 1px solid var(--border-gold-subtle);
+    border-right: 0;
+    height: 15rem;
+    min-height: 0;
   }
 }

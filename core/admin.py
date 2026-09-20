@@ -46,9 +46,10 @@ class SiteSettingsAdmin(admin.ModelAdmin):
                     "homepage_icon_5_asset",
                     "homepage_icon_6_asset",
                     "homepage_icon_7_asset",
+                    "homepage_icon_8_asset",
                     "homepage_icon_status",
                 ),
-                "description": "Assign all seven icons before the homepage section is shown.",
+                "description": "Assign all eight icons before the homepage section is shown.",
             },
         ),
         (
@@ -62,8 +63,25 @@ class SiteSettingsAdmin(admin.ModelAdmin):
                     ("homepage_statement_5_en", "homepage_statement_5_es"),
                     ("homepage_statement_6_en", "homepage_statement_6_es"),
                     ("homepage_statement_7_en", "homepage_statement_7_es"),
+                    ("homepage_statement_8_en", "homepage_statement_8_es"),
                 ),
                 "description": "Enter English statements here. Spanish translations are pre-filled and can be edited if needed.",
+            },
+        ),
+        (
+            "Homepage distinctive details",
+            {
+                "fields": (
+                    ("homepage_detail_1_en", "homepage_detail_1_es"),
+                    ("homepage_detail_2_en", "homepage_detail_2_es"),
+                    ("homepage_detail_3_en", "homepage_detail_3_es"),
+                    ("homepage_detail_4_en", "homepage_detail_4_es"),
+                    ("homepage_detail_5_en", "homepage_detail_5_es"),
+                    ("homepage_detail_6_en", "homepage_detail_6_es"),
+                    ("homepage_detail_7_en", "homepage_detail_7_es"),
+                    ("homepage_detail_8_en", "homepage_detail_8_es"),
+                ),
+                "description": "Longer explanations shown when a visitor expands a distinctive.",
             },
         ),
     )
@@ -82,9 +100,9 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         if not obj:
             return "Save settings to check"
         assigned = sum(asset is not None for asset in obj.get_homepage_icons())
-        if assigned == 7:
+        if assigned == 8:
             return "Complete"
-        return f"{assigned} of 7 assigned"
+        return f"{assigned} of 8 assigned"
 
 
 class AboutSectionInline(admin.StackedInline):

@@ -14,11 +14,22 @@ class HomePageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No hero image has been selected yet.")
 
+    def test_admin_path_reaches_django_admin(self):
+        response = self.client.get("/admin/")
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/admin/login/", response["Location"])
+
     def test_homepage_displays_hero_message(self):
         response = self.client.get("/")
 
         self.assertContains(response, "Delighting in God")
         self.assertContains(response, "and helping others to do the same")
+
+    def test_homepage_declares_a_phone_bookmark_icon(self):
+        response = self.client.get("/")
+
+        self.assertContains(response, 'rel="apple-touch-icon"', html=False)
 
     def test_homepage_renders_spanish_hero(self):
         self.client.cookies["django_language"] = "es"
@@ -39,6 +50,12 @@ class HomePageTests(TestCase):
 
         self.assertEqual(site_settings.theme, SiteSettings.Theme.DARK)
         self.assertEqual(site_settings.get_effective_theme(), "dark")
+
+    def test_homepage_distinctives_have_eight_slots(self):
+        site_settings = SiteSettings.objects.create()
+
+        self.assertEqual(len(site_settings.get_homepage_icons()), 8)
+        self.assertEqual(len(site_settings.get_homepage_statements()), 8)
 
     def test_selected_theme_is_rendered_on_public_document(self):
         SiteSettings.objects.create(theme=SiteSettings.Theme.LIGHT)
@@ -154,10 +171,17 @@ class GivingPageTests(TestCase):
         )
         self.assertContains(response, "Give through Zeffy")
 
-    def test_homepage_give_card_links_to_giving_page(self):
+    def test_homepage_give_card_links_to_partner_page(self):
         response = self.client.get("/")
 
-        self.assertContains(response, 'href="/giving/"', html=False)
+        self.assertContains(response, 'href="/partner-with-us/"', html=False)
+        self.assertContains(response, "Partner with us")
+        self.assertContains(response, "Join us through prayer, generosity, presence, and service")
+
+    def test_subscribe_path_reaches_communications_app(self):
+        response = self.client.get("/subscribe/")
+
+        self.assertNotEqual(response.status_code, 404)
 
     def test_giving_page_renders_spanish_translation(self):
         self.client.cookies["django_language"] = "es"
@@ -229,8 +253,9 @@ class AboutPageTests(TestCase):
         self.assertContains(response, "About Sojourn Church")
         self.assertContains(response, "A church for our neighbors")
         self.assertContains(response, "Apostles' Creed")
+        self.assertContains(response, "Nicene Creed")
+        self.assertContains(response, "Baptist Faith and Message 2000")
         self.assertContains(response, "New Hampshire Confession of Faith")
-        self.assertNotContains(response, "Nicene Creed")
         self.assertNotContains(response, "London Baptist Confession")
         self.assertNotContains(response, "As a Baptist church")
 
@@ -264,6 +289,166 @@ class AboutPageTests(TestCase):
         self.assertContains(response, "Acerca de Iglesia Sojourn")
         self.assertContains(response, "Una iglesia para nuestros vecinos")
         self.assertContains(response, "Credo de los Apóstoles")
+        self.assertContains(response, "Credo Niceno")
+        self.assertContains(response, "Fe y Mensaje Bautistas 2000")
         self.assertContains(response, "Confesión de Fe de New Hampshire")
-        self.assertNotContains(response, "Credo Niceno")
         self.assertNotContains(response, "Confesión Bautista de Fe de Londres")
+
+    def test_about_page_links_to_the_beliefs_hub(self):
+        response = self.client.get("/about/")
+
+        self.assertContains(response, 'href="/what-we-believe/"', html=False)
+        self.assertContains(response, "What We Believe")
+        self.assertContains(response, 'href="/apostles-creed/"', html=False)
+        self.assertContains(response, 'href="/nicene-creed/"', html=False)
+        self.assertContains(response, 'href="/baptist-faith-and-message-2000/"', html=False)
+        self.assertContains(response, 'href="/new-hampshire-confession-of-faith/"', html=False)
+
+
+class HowWeAreLedPageTests(TestCase):
+    def test_how_we_are_led_page_renders_the_three_leadership_convictions(self):
+        response = self.client.get("/how-we-are-led/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "how_we_are_led.html")
+        self.assertContains(response, "How We Are Led")
+        self.assertContains(response, "Elder-Led")
+        self.assertContains(response, "Deacon-Served")
+        self.assertContains(response, "Congregationally-Ruled")
+        self.assertContains(response, 'rel="canonical"', html=False)
+
+    def test_how_we_are_led_page_renders_spanish_content(self):
+        self.client.cookies["django_language"] = "es"
+        response = self.client.get("/how-we-are-led/")
+
+        self.assertContains(response, "Cómo somos guiados")
+        self.assertContains(response, "Guiada por ancianos")
+        self.assertContains(response, "Servida por diáconos")
+        self.assertContains(response, "Gobernada por la congregación")
+
+    def test_how_we_are_led_page_is_in_sitemap(self):
+        response = self.client.get("/sitemap.xml")
+
+        self.assertContains(response, "/how-we-are-led/")
+
+
+class PartnerWithUsPageTests(TestCase):
+    def test_partner_page_renders_all_four_paths(self):
+        response = self.client.get("/partner-with-us/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "partner_with_us.html")
+        self.assertContains(response, "Partner With Us")
+        self.assertContains(response, "Connect")
+        self.assertContains(response, "Pray")
+        self.assertContains(response, "Give")
+        self.assertContains(response, "Go")
+        self.assertContains(response, 'href="/giving/"', html=False)
+        self.assertContains(response, 'href="/subscribe/"', html=False)
+        self.assertContains(response, 'href="/subscribe/planting-interest/"', html=False)
+
+    def test_partner_page_renders_spanish_content(self):
+        self.client.cookies["django_language"] = "es"
+        response = self.client.get("/partner-with-us/")
+
+        self.assertContains(response, "Colabora con nosotros")
+        self.assertContains(response, "Conecta")
+        self.assertContains(response, "Ora")
+        self.assertContains(response, "Da")
+        self.assertContains(response, "Ve")
+
+    def test_partner_page_is_in_sitemap(self):
+        response = self.client.get("/sitemap.xml")
+
+        self.assertContains(response, "/partner-with-us/")
+
+
+class ConfessionPageTests(TestCase):
+    def test_confession_page_loads_with_all_articles_and_metadata(self):
+        response = self.client.get("/new-hampshire-confession-of-faith/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "confession.html")
+        self.assertContains(response, "New Hampshire Confession of Faith")
+        self.assertContains(response, "I. Of the Scriptures")
+        self.assertContains(response, "XVIII. Of the World to Come")
+        self.assertContains(response, "og:type", html=False)
+        self.assertContains(response, "truegraceofgod.org/1853-new-hampshire-confession/")
+
+    def test_confession_page_renders_spanish_interface(self):
+        self.client.cookies["django_language"] = "es"
+        response = self.client.get("/new-hampshire-confession-of-faith/")
+
+        self.assertContains(response, '<html lang="es">', html=False)
+        self.assertContains(response, "Confesión de Fe de New Hampshire")
+        self.assertContains(response, "Contenido de la confesión")
+        self.assertContains(response, "De las Escrituras")
+        self.assertContains(response, "Del Mundo Venidero")
+        self.assertNotContains(response, "Of the Scriptures")
+
+
+class BeliefsPageTests(TestCase):
+    def test_beliefs_hub_links_to_each_statement(self):
+        response = self.client.get("/what-we-believe/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "beliefs.html")
+        self.assertContains(response, "What We Believe")
+        self.assertContains(response, 'href="/nicene-creed/"', html=False)
+        self.assertContains(response, 'href="/apostles-creed/"', html=False)
+        self.assertContains(
+            response,
+            'href="/baptist-faith-and-message-2000/"',
+            html=False,
+        )
+        self.assertContains(
+            response,
+            'href="/new-hampshire-confession-of-faith/"',
+            html=False,
+        )
+
+    def test_dedicated_creed_pages_have_unique_metadata(self):
+        response = self.client.get("/nicene-creed/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "belief_detail.html")
+        self.assertContains(response, "Nicene Creed")
+        self.assertNotContains(response, "confession-navigation")
+        self.assertContains(response, "confession-document")
+        self.assertContains(response, "confession-prose")
+        self.assertContains(response, "confession-source")
+        self.assertContains(response, "og:title", html=False)
+        self.assertContains(response, 'rel="canonical"', html=False)
+
+    def test_baptist_faith_page_links_to_official_statement(self):
+        response = self.client.get("/baptist-faith-and-message-2000/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Baptist Faith and Message 2000")
+        self.assertContains(response, "XVIII. The Family")
+        self.assertContains(response, "original overview of all 18 articles")
+        self.assertContains(response, "https://bfm.sbc.net/")
+        self.assertContains(response, "belief-context-callout")
+
+    def test_baptist_faith_page_uses_official_spanish_statement_link(self):
+        self.client.cookies["django_language"] = "es"
+        response = self.client.get("/baptist-faith-and-message-2000/")
+
+        self.assertContains(response, "XVIII. La Familia")
+        self.assertContains(response, "resumen original de Sojourn")
+        self.assertContains(response, "bfandm.wpengine.com/es/fe-y-mensaje-bautistas/")
+
+    def test_beliefs_pages_render_spanish_content(self):
+        self.client.cookies["django_language"] = "es"
+        response = self.client.get("/what-we-believe/")
+
+        self.assertContains(response, '<html lang="es">', html=False)
+        self.assertContains(response, "Lo que creemos")
+        self.assertContains(response, "Credo Niceno")
+
+    def test_beliefs_are_in_sitemap(self):
+        response = self.client.get("/sitemap.xml")
+
+        self.assertContains(response, "/what-we-believe/")
+        self.assertContains(response, "/nicene-creed/")
+        self.assertContains(response, "/apostles-creed/")

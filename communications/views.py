@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import EmailMultiAlternatives
@@ -19,6 +18,11 @@ def subscribe(request):
 def subscribe_confirmed(request):
     """Render the site-native destination for a confirmed Zoho subscription."""
     return render(request, "communications/subscribe_confirmed.html")
+
+
+def planting_interest(request):
+    """Render the current information page for prospective planting-team members."""
+    return render(request, "communications/planting_interest.html")
 
 
 def unsubscribe(request, token):

@@ -40,7 +40,8 @@
     >
     <link rel="stylesheet" href="{% static 'core/css/site.css' %}">
     {% if site_favicon %}
-      <link rel="icon" href="{{ site_favicon.url }}">
+      <link rel="icon" type="image/png" sizes="512x512" href="{{ site_favicon.url }}">
+      <link rel="apple-touch-icon" sizes="180x180" href="{{ site_favicon.url }}">
     {% endif %}
   </head>
   <body>

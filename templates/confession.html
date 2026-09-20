@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "New Hampshire Confession of Faith" %} | {% translate "Sojourn Church" %}{% endblock %}
+
+{% block meta_description %}
+  <meta name="description" content="{% translate 'Read the 1853 New Hampshire Confession of Faith, a historic Baptist confession that shapes the teaching of Sojourn Church.' %}">
+{% endblock %}
+
+{% block og_title %}{% translate "New Hampshire Confession of Faith" %} | {% translate "Sojourn Church" %}{% endblock %}
+{% block og_description %}{% translate "Read the 1853 New Hampshire Confession of Faith used to help shape the teaching of Sojourn Church." %}{% endblock %}
+{% block twitter_title %}{% translate "New Hampshire Confession of Faith" %} | {% translate "Sojourn Church" %}{% endblock %}
+{% block twitter_description %}{% translate "Read the 1853 New Hampshire Confession of Faith used to help shape the teaching of Sojourn Church." %}{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="confession-hero">
+      <div class="container confession-hero-content">
+        <p class="hero-kicker">{% translate "What shapes us" %}</p>
+        <h1>{% translate "New Hampshire Confession of Faith" %}</h1>
+        <p class="confession-lede">
+          {% translate "The 1853 confession presented here is a historic Baptist statement of faith. It is published as a historical document that helps explain the theological tradition shaping our church's teaching." %}
+        </p>
+      </div>
+    </section>
+
+    <section class="confession-section">
+      <div class="container confession-layout">
+        <aside class="confession-navigation" aria-label="{% translate 'Confession contents' %}">
+          <p class="section-eyebrow">{% translate "Contents" %}</p>
+          <ol>
+            {% for heading, body in confession_articles %}
+              <li><a href="#article-{{ forloop.counter }}">{{ heading }}</a></li>
+            {% endfor %}
+          </ol>
+        </aside>
+
+        <div class="confession-document">
+          {% for heading, body in confession_articles %}
+            <article class="confession-article" id="article-{{ forloop.counter }}">
+              <p class="confession-number">{{ forloop.counter|stringformat:"02d" }}</p>
+              <h2>{{ heading }}</h2>
+              <p>{{ body }}</p>
+            </article>
+          {% endfor %}
+
+          <footer class="confession-source">
+            <p class="section-eyebrow">{% translate "Source" %}</p>
+            <p>
+              {% translate "This page follows the 1853 transcription published by Grace Baptist Church, Cape Coral." %}
+              <a href="{{ confession_source_url }}" rel="external noopener" target="_blank">
+                {% translate "View the source transcription" %}
+              </a>
+            </p>
+          </footer>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

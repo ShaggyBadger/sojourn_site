@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "What We Believe" %} | {% translate "Sojourn Church" %}{% endblock %}
+{% block meta_description %}<meta name="description" content="{% translate 'Explore the historic creeds and Baptist confessions that help shape the teaching of Sojourn Church.' %}">{% endblock %}
+{% block og_title %}{% translate "What We Believe" %} | {% translate "Sojourn Church" %}{% endblock %}
+{% block og_description %}{% translate "Explore the historic creeds and Baptist confessions that help shape the teaching of Sojourn Church." %}{% endblock %}
+{% block twitter_title %}{% translate "What We Believe" %} | {% translate "Sojourn Church" %}{% endblock %}
+{% block twitter_description %}{% translate "Explore the historic creeds and Baptist confessions that help shape the teaching of Sojourn Church." %}{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="beliefs-hero">
+      <div class="container beliefs-hero-content">
+        <p class="hero-kicker">{% translate "What shapes us" %}</p>
+        <h1>{% translate "What We Believe" %}</h1>
+        <p class="beliefs-lede">{% translate "Sojourn Church stands within the historic Christian faith and the Baptist tradition. These statements help explain the convictions that shape our life together." %}</p>
+      </div>
+    </section>
+
+    <section class="beliefs-section">
+      <div class="container">
+        <div class="beliefs-intro">
+          <p class="section-eyebrow">{% translate "Our theological foundations" %}</p>
+          <h2>{% translate "Historic faith, clearly confessed" %}</h2>
+          <p>{% translate "Read a short overview below, then visit each dedicated page for the full statement or source." %}</p>
+        </div>
+        <div class="beliefs-grid">
+          {% for belief in belief_summaries %}
+            <article class="belief-card">
+              <p class="belief-card-number">{{ forloop.counter|stringformat:"02d" }}</p>
+              <h2>{{ belief.title }}</h2>
+              <p>{{ belief.summary }}</p>
+              <a class="belief-card-link" href="{% url 'belief_detail' slug=belief.slug %}">
+                {% translate "Read this statement" %}<span aria-hidden="true"> &rarr;</span>
+              </a>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

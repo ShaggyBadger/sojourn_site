@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ partner_page.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block meta_description %}<meta name="description" content="{{ partner_page.description }}">{% endblock %}
+{% block og_title %}{{ partner_page.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block og_description %}{{ partner_page.description }}{% endblock %}
+{% block twitter_title %}{{ partner_page.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block twitter_description %}{{ partner_page.description }}{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="partner-hero">
+      <div class="container partner-hero-content">
+        <p class="hero-kicker">{% translate "Partner with us" %}</p>
+        <h1>{{ partner_page.title }}</h1>
+        <p>{{ partner_page.intro }}</p>
+      </div>
+    </section>
+
+    <section class="partner-section">
+      <div class="container partner-grid">
+        {% for way in partner_page.ways %}
+          <article class="partner-card{% if forloop.first %} partner-card-highlight{% endif %}">
+            <p class="partner-number">{{ forloop.counter|stringformat:"02d" }}</p>
+            <h2>{{ way.title }}</h2>
+            <p>{{ way.body }}</p>
+            {% if way.url_name %}
+              <a class="partner-link" href="{% url way.url_name %}">{{ way.action }} <span aria-hidden="true">&rarr;</span></a>
+            {% else %}
+              <a class="partner-link" href="{{ way.url }}">{{ way.action }} <span aria-hidden="true">&rarr;</span></a>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+{% endblock %}

@@ -49,6 +49,123 @@ msgstr "El archivo subido no es una imagen válida."
 msgid "What shapes us"
 msgstr "Lo que nos forma"
 
+msgid "New Hampshire Confession of Faith"
+msgstr "Confesión de Fe de New Hampshire"
+
+msgid "The 1853 confession presented here is a historic Baptist statement of faith. It is published as a historical document that helps explain the theological tradition shaping our church's teaching."
+msgstr "La confesión de 1853 presentada aquí es una declaración histórica de fe bautista. Se publica como un documento histórico que ayuda a explicar la tradición teológica que forma la enseñanza de nuestra iglesia."
+
+msgid "Read the 1853 New Hampshire Confession of Faith, a historic Baptist confession that shapes the teaching of Sojourn Church."
+msgstr "Lee la Confesión de Fe de New Hampshire de 1853, una confesión bautista histórica que forma la enseñanza de Iglesia Sojourn."
+
+msgid "Read the 1853 New Hampshire Confession of Faith used to help shape the teaching of Sojourn Church."
+msgstr "Lee la Confesión de Fe de New Hampshire de 1853 que ayuda a formar la enseñanza de Iglesia Sojourn."
+
+msgid "Contents"
+msgstr "Contenido"
+
+msgid "Confession contents"
+msgstr "Contenido de la confesión"
+
+msgid "Source"
+msgstr "Fuente"
+
+msgid "This page follows the 1853 transcription published by Grace Baptist Church, Cape Coral."
+msgstr "Esta página sigue la transcripción de 1853 publicada por Grace Baptist Church de Cape Coral."
+
+msgid "View the source transcription"
+msgstr "Ver la transcripción fuente"
+
+msgid "Beliefs"
+msgstr "Creencias"
+
+msgid "How We Are Led"
+msgstr "Cómo somos guiados"
+
+msgid "How we are led"
+msgstr "Cómo somos guiados"
+
+msgid "Partner With Us"
+msgstr "Colabora con nosotros"
+
+msgid "Partner with us"
+msgstr "Colabora con nosotros"
+
+msgid "Join us through prayer, generosity, presence, and service as we plant a bilingual church in Mount Airy."
+msgstr "Únete a nosotros mediante la oración, la generosidad, la presencia y el servicio mientras plantamos una iglesia bilingüe en Mount Airy."
+
+msgid "Join the planting team"
+msgstr "Únete al equipo de plantación"
+
+msgid "Tell Sojourn Church that you are interested in joining the church planting team."
+msgstr "Dile a Iglesia Sojourn que te interesa unirte al equipo de plantación de iglesias."
+
+msgid "Take your first step"
+msgstr "Da tu primer paso"
+
+msgid "Tell us a little about yourself, and our team will follow up about ways to join what God is doing through Sojourn Church."
+msgstr "Cuéntanos un poco sobre ti y nuestro equipo se pondrá en contacto contigo sobre las maneras de unirte a lo que Dios está haciendo por medio de Iglesia Sojourn."
+
+msgid "We received your message"
+msgstr "Recibimos tu mensaje"
+
+msgid "Someone from the Sojourn Church team will follow up with you."
+msgstr "Alguien del equipo de Iglesia Sojourn se pondrá en contacto contigo."
+
+msgid "Tell us how you would like to help"
+msgstr "Cuéntanos cómo te gustaría ayudar"
+
+msgid "Message"
+msgstr "Mensaje"
+
+msgid "Send my interest"
+msgstr "Enviar mi interés"
+
+msgid "We couldn't send your message right now. Please try again later or email us directly at contact@sojourn-church.com."
+msgstr "No pudimos enviar tu mensaje en este momento. Inténtalo de nuevo más tarde o escríbenos directamente a contact@sojourn-church.com."
+
+msgid "What We Believe"
+msgstr "Lo que creemos"
+
+msgid "Explore the historic creeds and Baptist confessions that help shape the teaching of Sojourn Church."
+msgstr "Explora los credos históricos y las confesiones bautistas que ayudan a formar la enseñanza de Iglesia Sojourn."
+
+msgid "Sojourn Church stands within the historic Christian faith and the Baptist tradition. These statements help explain the convictions that shape our life together."
+msgstr "Iglesia Sojourn se encuentra dentro de la fe cristiana histórica y la tradición bautista. Estas declaraciones ayudan a explicar las convicciones que forman nuestra vida juntos."
+
+msgid "Our theological foundations"
+msgstr "Nuestras bases teológicas"
+
+msgid "Historic faith, clearly confessed"
+msgstr "Una fe histórica, confesada claramente"
+
+msgid "Read a short overview below, then visit each dedicated page for the full statement or source."
+msgstr "Lee un breve resumen a continuación y visita cada página dedicada para consultar la declaración completa o la fuente."
+
+msgid "Read this statement"
+msgstr "Lee esta declaración"
+
+msgid "Back to What We Believe"
+msgstr "Volver a Lo que creemos"
+
+msgid "Source and context"
+msgstr "Fuente y contexto"
+
+msgid "Read the official statement"
+msgstr "Lee la declaración oficial"
+
+msgid "Nicene Creed"
+msgstr "Credo Niceno"
+
+msgid "Apostles' Creed"
+msgstr "Credo de los Apóstoles"
+
+msgid "Baptist Faith and Message 2000"
+msgstr "Fe y Mensaje Bautistas 2000"
+
+msgid "Read the New Hampshire Confession of Faith"
+msgstr "Leer la Confesión de Fe de New Hampshire"
+
 msgid "A people growing together in grace"
 msgstr "Un pueblo que crece unido en la gracia"
 

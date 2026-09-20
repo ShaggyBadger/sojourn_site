@@ -104,6 +104,13 @@ class SiteSettings(models.Model):
         on_delete=models.PROTECT,
         related_name="homepage_icon_7_site_settings",
     )
+    homepage_icon_8_asset = models.ForeignKey(
+        "media.MediaAsset",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="homepage_icon_8_site_settings",
+    )
     homepage_statement_1_en = models.CharField(blank=True, max_length=255)
     homepage_statement_1_es = models.CharField(blank=True, max_length=255)
     homepage_statement_2_en = models.CharField(blank=True, max_length=255)
@@ -118,6 +125,24 @@ class SiteSettings(models.Model):
     homepage_statement_6_es = models.CharField(blank=True, max_length=255)
     homepage_statement_7_en = models.CharField(blank=True, max_length=255)
     homepage_statement_7_es = models.CharField(blank=True, max_length=255)
+    homepage_statement_8_en = models.CharField(blank=True, max_length=255)
+    homepage_statement_8_es = models.CharField(blank=True, max_length=255)
+    homepage_detail_1_en = models.TextField(blank=True)
+    homepage_detail_1_es = models.TextField(blank=True)
+    homepage_detail_2_en = models.TextField(blank=True)
+    homepage_detail_2_es = models.TextField(blank=True)
+    homepage_detail_3_en = models.TextField(blank=True)
+    homepage_detail_3_es = models.TextField(blank=True)
+    homepage_detail_4_en = models.TextField(blank=True)
+    homepage_detail_4_es = models.TextField(blank=True)
+    homepage_detail_5_en = models.TextField(blank=True)
+    homepage_detail_5_es = models.TextField(blank=True)
+    homepage_detail_6_en = models.TextField(blank=True)
+    homepage_detail_6_es = models.TextField(blank=True)
+    homepage_detail_7_en = models.TextField(blank=True)
+    homepage_detail_7_es = models.TextField(blank=True)
+    homepage_detail_8_en = models.TextField(blank=True)
+    homepage_detail_8_es = models.TextField(blank=True)
     theme = models.CharField(
         choices=Theme.choices,
         default=DEFAULT_THEME,
@@ -171,29 +196,36 @@ class SiteSettings(models.Model):
         )
 
     def get_homepage_icons(self):
-        """Return the seven fixed homepage icon asset references."""
+        """Return the eight fixed homepage icon asset references."""
         return tuple(
             getattr(self, f"homepage_icon_{number}_asset")
-            for number in range(1, 8)
+            for number in range(1, 9)
         )
 
     def get_homepage_statements(self, language="en"):
-        """Return the seven fixed statements with intentional Spanish fallback."""
+        """Return the eight fixed statements with intentional Spanish fallback."""
         use_spanish = (language or "en").split("-")[0] == "es"
         statements = []
         for number, asset in enumerate(self.get_homepage_icons(), start=1):
             english = getattr(self, f"homepage_statement_{number}_en")
             spanish = getattr(self, f"homepage_statement_{number}_es")
+            detail_english = getattr(self, f"homepage_detail_{number}_en")
+            detail_spanish = getattr(self, f"homepage_detail_{number}_es")
             statements.append(
                 {
                     "asset": asset,
                     "text": spanish if use_spanish and spanish else english,
+                    "detail": (
+                        detail_spanish
+                        if use_spanish and detail_spanish
+                        else detail_english
+                    ),
                 }
             )
         return tuple(statements)
 
     def homepage_statements_ready(self):
-        """Return whether all seven assets and English statements are configured."""
+        """Return whether all eight assets and English statements are configured."""
         return all(
             asset
             and asset.storage_status != "missing"

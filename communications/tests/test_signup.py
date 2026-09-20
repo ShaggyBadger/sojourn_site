@@ -3,6 +3,14 @@ from django.urls import reverse
 
 
 class SubscribeViewTests(TestCase):
+    def test_planting_interest_page_is_a_static_splash_page(self):
+        response = self.client.get(reverse("communications:planting-interest"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "communications/planting_interest.html")
+        self.assertContains(response, "A team is taking shape")
+        self.assertContains(response, 'href="mailto:contact@sojourn-church.com"', html=False)
+
     def test_signup_page_has_one_replaceable_zoho_signup_slot(self):
         response = self.client.get(reverse("communications:subscribe"))
 

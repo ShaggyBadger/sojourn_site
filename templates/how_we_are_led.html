@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ polity_page.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block meta_description %}<meta name="description" content="{{ polity_page.description }}">{% endblock %}
+{% block og_title %}{{ polity_page.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block og_description %}{{ polity_page.description }}{% endblock %}
+{% block twitter_title %}{{ polity_page.title }} | {% translate "Sojourn Church" %}{% endblock %}
+{% block twitter_description %}{{ polity_page.description }}{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="polity-hero">
+      <div class="container polity-hero-content">
+        <p class="hero-kicker">{% translate "How we are led" %}</p>
+        <h1>{{ polity_page.title }}</h1>
+        <p>{{ polity_page.intro }}</p>
+      </div>
+    </section>
+
+    <section class="polity-section">
+      <div class="container polity-grid">
+        {% for section in polity_page.sections %}
+          <article class="polity-card">
+            <p class="polity-number">{{ forloop.counter|stringformat:"02d" }}</p>
+            <h2>{{ section.title }}</h2>
+            <p>{{ section.body }}</p>
+            <p class="polity-references">{{ section.references }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+{% endblock %}

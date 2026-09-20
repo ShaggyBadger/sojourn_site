@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<footer class="{% if prominent %}belief-context-callout{% else %}confession-source{% endif %}">
+  <p id="belief-context-heading" class="section-eyebrow">{% translate "Source and context" %}</p>
+  <p>
+    {{ belief_page.source }}
+    {% if belief_page.source_url and belief_page.articles %}
+      <a href="{{ belief_page.source_url }}" rel="external noopener" target="_blank">
+        {% if belief_page.slug == "new-hampshire-confession-of-faith" %}
+          {% translate "View the source transcription" %}
+        {% else %}
+          {% translate "Read the official statement" %}
+        {% endif %}
+      </a>
+    {% endif %}
+  </p>
+</footer>
