@@ -4,7 +4,19 @@ from django.utils.translation import gettext_lazy as _
 from media.models import MediaAsset
 from media.widgets import MediaAssetPickerWidget
 
-from .models import AboutPage, AboutSection, SiteSettings, TeamMember
+from .models import AboutPage, AboutSection, SiteSettings, SocialLink, TeamMember
+
+
+class SocialLinkInline(admin.StackedInline):
+    model = SocialLink
+    extra = 0
+    ordering = ("display_order", "pk")
+    fields = (
+        ("label_en", "label_es"),
+        "url",
+        "icon",
+        ("display_order", "is_published"),
+    )
 
 
 @admin.register(SiteSettings)
@@ -85,6 +97,7 @@ class SiteSettingsAdmin(admin.ModelAdmin):
             },
         ),
     )
+    inlines = (SocialLinkInline,)
 
     def has_add_permission(self, request):
         """Only allow the single site-settings record to exist."""

@@ -15,6 +15,9 @@ def site_settings(request):
             site_settings.get_hero_image_alt(get_language()) if site_settings else ""
         ),
         "site_favicon": site_settings.get_favicon() if site_settings else None,
+        "social_links": (
+            site_settings.social_links.filter(is_published=True) if site_settings else ()
+        ),
         "active_theme": (
             site_settings.get_effective_theme()
             if site_settings
