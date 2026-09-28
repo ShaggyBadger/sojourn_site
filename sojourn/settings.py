@@ -37,6 +37,7 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -50,6 +51,82 @@ INSTALLED_APPS = [
     "sermons",
     "storages",
 ]
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Sojourn Church Admin",
+    "site_header": "Sojourn Church",
+    "site_brand": "Sojourn Church",
+    "welcome_sign": "Manage the Sojourn Church website",
+    "copyright": "Sojourn Church",
+    "search_model": [
+        "sermons.Sermon",
+        "media.MediaAsset",
+        "core.SiteSettings",
+        "communications.EmailRecipient",
+    ],
+    "topmenu_links": [
+        {"name": "View website", "url": "/", "new_window": True},
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "order_with_respect_to": [
+        "core",
+        "sermons",
+        "media",
+        "communications",
+        "auth",
+    ],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.group": "fas fa-users",
+        "core": "fas fa-sitemap",
+        "core.sitesettings": "fas fa-sliders-h",
+        "core.aboutpage": "fas fa-file-alt",
+        "core.teammember": "fas fa-user-friends",
+        "core.sociallink": "fas fa-share-alt",
+        "media": "fas fa-photo-video",
+        "media.mediaasset": "fas fa-image",
+        "media.mediatag": "fas fa-tags",
+        "media.mediacleanupissue": "fas fa-exclamation-triangle",
+        "sermons": "fas fa-headphones",
+        "sermons.sermon": "fas fa-microphone-alt",
+        "sermons.sermoncollection": "fas fa-layer-group",
+        "sermons.sermontag": "fas fa-tags",
+        "communications": "fas fa-envelope",
+        "communications.emailrecipient": "fas fa-address-book",
+        "communications.recipientgroup": "fas fa-users",
+        "communications.emailtemplate": "fas fa-file-alt",
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    "related_modal_active": True,
+    "custom_css": "core/css/admin.css",
+    "use_google_fonts_cdn": False,
+    "show_ui_builder": False,
+    "changeform_format": "horizontal_tabs",
+    "language_chooser": True,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "flatly",
+    "default_theme_mode": "auto",
+    "navbar": "navbar-dark navbar-gray-dark",
+    "sidebar": "sidebar-dark-primary",
+    "accent": "accent-warning",
+    "navbar_fixed": True,
+    "sidebar_fixed": True,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_flat_style": True,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success",
+    },
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

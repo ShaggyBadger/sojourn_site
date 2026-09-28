@@ -1,0 +1,56 @@
+:root {
+  --sojourn-admin-charcoal: #141416;
+  --sojourn-admin-card: #1c1c1f;
+  --sojourn-admin-burgundy: #581827;
+  --sojourn-admin-gold: #c5a880;
+  --sojourn-admin-light: #f4f1ea;
+}
+
+.main-header.navbar {
+  background-color: var(--sojourn-admin-charcoal);
+  border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+}
+
+.main-header .nav-link,
+.main-header .brand-link {
+  color: var(--sojourn-admin-light);
+}
+
+.main-sidebar {
+  background-color: var(--sojourn-admin-card);
+}
+
+.main-sidebar .brand-link {
+  border-bottom-color: rgba(197, 168, 128, 0.2);
+  color: var(--sojourn-admin-light);
+}
+
+.nav-sidebar .nav-link.active,
+.nav-sidebar .nav-link.active:hover {
+  background-color: var(--sojourn-admin-burgundy);
+  color: var(--sojourn-admin-light);
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active {
+  background-color: var(--sojourn-admin-burgundy);
+  border-color: var(--sojourn-admin-burgundy);
+  color: var(--sojourn-admin-light);
+}
+
+.form-control:focus,
+.custom-select:focus,
+.select2-container--default.select2-container--focus .select2-selection--single {
+  border-color: var(--sojourn-admin-gold);
+  box-shadow: 0 0 0 0.2rem rgba(197, 168, 128, 0.22);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--sojourn-admin-gold);
+  outline-offset: 2px;
+}
