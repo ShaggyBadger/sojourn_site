@@ -4,8 +4,13 @@
 {% block title %}{% translate "Sermons" %} | {% translate "Sojourn Church" %}{% endblock %}
 
 {% block meta_description %}
-  <meta name="description" content="Listen to sermons from Sojourn Church in Mount Airy, NC. Search messages by theme, speaker, collection, or Scripture.">
+  <meta name="description" content="{% translate 'Explore messages from our church, search by theme or Scripture, and listen at your own pace.' %}">
 {% endblock %}
+
+{% block og_title %}{% translate "Sermons" %} | {% translate "Sojourn Church" %}{% endblock %}
+{% block og_description %}{% translate "Explore messages from our church, search by theme or Scripture, and listen at your own pace." %}{% endblock %}
+{% block twitter_title %}{% translate "Sermons" %} | {% translate "Sojourn Church" %}{% endblock %}
+{% block twitter_description %}{% translate "Explore messages from our church, search by theme or Scripture, and listen at your own pace." %}{% endblock %}
 
 {% block content %}
   <main>

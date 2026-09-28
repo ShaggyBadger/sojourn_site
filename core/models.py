@@ -144,6 +144,16 @@ class SiteSettings(models.Model):
     homepage_detail_7_es = models.TextField(blank=True)
     homepage_detail_8_en = models.TextField(blank=True)
     homepage_detail_8_es = models.TextField(blank=True)
+    homepage_word_driven_sermon = models.ForeignKey(
+        "sermons.Sermon",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="homepage_word_driven_settings",
+        help_text=_(
+            "Published sermon linked from the Word-Driven homepage distinctive."
+        ),
+    )
     theme = models.CharField(
         choices=Theme.choices,
         default=DEFAULT_THEME,

@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block robots %}
+  {% if robots_noindex %}<meta name="robots" content="noindex,follow">{% else %}{{ block.super }}{% endif %}
+{% endblock %}
+
 {% block title %}{{ tag.name }} | {% translate "Sermons" %}{% endblock %}
 
 {% block content %}

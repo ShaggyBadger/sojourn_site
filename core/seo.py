@@ -1,6 +1,7 @@
 import json
 
 from django.conf import settings
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 
@@ -52,21 +53,22 @@ def build_site_structured_data(request, site_settings):
     return serialize_json_ld({"@context": "https://schema.org", "@graph": graph})
 
 
-def build_sermon_structured_data(sermon, site_url):
+def build_sermon_structured_data(sermon, site_url, language="en"):
     """Build JSON-LD for a published sermon without duplicating the Church entity."""
     site_url = site_url.rstrip("/")
-    sermon_url = f"{site_url}/sermons/{sermon.slug}/"
+    sermon_url = f"{site_url}{reverse('sermons:detail', kwargs={'slug': sermon.slug})}"
     return serialize_json_ld(
         {
             "@context": "https://schema.org",
             "@type": "Article",
             "@id": f"{sermon_url}#article",
             "url": sermon_url,
-            "headline": sermon.title,
-            "description": sermon.summary,
+            "headline": getattr(sermon, "display_title", sermon.title),
+            "description": getattr(sermon, "display_summary", sermon.summary),
             "datePublished": sermon.sermon_date.isoformat(),
             "author": {"@type": "Person", "name": sermon.speaker},
             "publisher": {"@id": f"{site_url}/#church"},
             "mainEntityOfPage": {"@id": f"{sermon_url}#webpage"},
+            "inLanguage": language,
         }
     )

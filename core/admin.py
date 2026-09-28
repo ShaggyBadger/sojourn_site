@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from media.models import MediaAsset
 from media.widgets import MediaAssetPickerWidget
+from sermons.models import Sermon
 
 from .models import AboutPage, AboutSection, SiteSettings, SocialLink, TeamMember
 
@@ -96,8 +97,19 @@ class SiteSettingsAdmin(admin.ModelAdmin):
                 "description": "Longer explanations shown when a visitor expands a distinctive.",
             },
         ),
+        (
+            _("Word-Driven sermon"),
+            {
+                "fields": ("homepage_word_driven_sermon",),
+                "description": _(
+                    "Choose the published sermon linked from the Word-Driven "
+                    "homepage distinctive."
+                ),
+            },
+        ),
     )
     inlines = (SocialLinkInline,)
+    autocomplete_fields = ("homepage_word_driven_sermon",)
 
     def has_add_permission(self, request):
         """Only allow the single site-settings record to exist."""
@@ -106,6 +118,10 @@ class SiteSettingsAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.remote_field.model is MediaAsset:
             kwargs["widget"] = MediaAssetPickerWidget()
+        elif db_field.name == "homepage_word_driven_sermon":
+            kwargs["queryset"] = Sermon.objects.filter(is_published=True).order_by(
+                "-sermon_date", "-created_at"
+            )
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     @admin.display(description="Homepage icon status")

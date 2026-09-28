@@ -4,8 +4,13 @@
 {% block title %}{% translate "Sojourn Church in Mount Airy, NC" %}{% endblock %}
 
 {% block meta_description %}
-  <meta name="description" content="Sojourn Church is a bilingual church in Mount Airy, NC, delighting in God and helping others grow together in faith. Join us for Sunday worship and sermons.">
+  <meta name="description" content="{% translate 'Sojourn Church is a bilingual church in Mount Airy, NC, delighting in God and helping others grow together in faith. Join us for Sunday worship and sermons.' %}">
 {% endblock %}
+
+{% block og_title %}{% translate "Sojourn Church in Mount Airy, NC" %}{% endblock %}
+{% block og_description %}{% translate "Sojourn Church is a bilingual church in Mount Airy, NC, delighting in God and helping others grow together in faith. Join us for Sunday worship and sermons." %}{% endblock %}
+{% block twitter_title %}{% translate "Sojourn Church in Mount Airy, NC" %}{% endblock %}
+{% block twitter_description %}{% translate "Sojourn Church is a bilingual church in Mount Airy, NC, delighting in God and helping others grow together in faith. Join us for Sunday worship and sermons." %}{% endblock %}
 
 {% block content %}
   <main>
@@ -52,9 +57,28 @@
                   <summary>
                     <img class="proclamation-icon" src="{{ statement.asset.file.url }}" alt="">
                     <span class="proclamation-text">{{ statement.text }}</span>
+                    {% if forloop.counter == 2 and word_driven_sermon %}
+                      <span class="proclamation-sermon-badge">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M8 5v14l11-7z"></path></svg>
+                        {% translate "Sermon" %}
+                      </span>
+                    {% endif %}
                     <span class="proclamation-toggle" aria-hidden="true">+</span>
                   </summary>
-                  <div class="proclamation-detail">{{ statement.detail|linebreaks }}</div>
+                  <div class="proclamation-detail">
+                    {{ statement.detail|linebreaks }}
+                    {% if forloop.counter == 2 and word_driven_sermon %}
+                      <a class="proclamation-sermon-link" href="{% url 'sermons:detail' word_driven_sermon.slug %}">
+                        <span class="proclamation-sermon-icon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" focusable="false"><path d="M8 5v14l11-7z"></path></svg>
+                        </span>
+                        <span class="proclamation-sermon-copy">
+                          <span class="proclamation-sermon-action">{% translate "Listen to this sermon" %}</span>
+                          <strong class="proclamation-sermon-title">{{ word_driven_sermon.display_title|default:word_driven_sermon.title }}</strong>
+                        </span>
+                      </a>
+                    {% endif %}
+                  </div>
                 </details>
               </div>
             {% endfor %}

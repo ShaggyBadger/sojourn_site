@@ -26,3 +26,20 @@ def localize_sermon(sermon, language):
         translated_value = getattr(translation, field, "") if translation else ""
         setattr(sermon, f"display_{field}", translated_value or getattr(sermon, field))
     return sermon
+
+
+def has_complete_spanish_translation(sermon):
+    """Return whether all substantive sermon content has a Spanish translation."""
+    translations = getattr(sermon, "spanish_translations", None)
+    if translations is None:
+        translations = sermon.translations.filter(
+            language="es"
+        )
+    translation = next(iter(translations), None)
+    if translation is None:
+        return False
+
+    required_fields = ["title", "summary", "thesis"]
+    if sermon.transcript:
+        required_fields.append("transcript")
+    return all(getattr(translation, field) for field in required_fields)

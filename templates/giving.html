@@ -4,8 +4,13 @@
 {% block title %}{% translate "Give" %} | {% translate "Sojourn Church" %}{% endblock %}
 
 {% block meta_description %}
-  <meta name="description" content="Give to Sojourn Church in Mount Airy, NC. Your generosity supports worship, ministry, and service to our neighbors.">
+  <meta name="description" content="{% translate 'Give to Sojourn Church in Mount Airy, NC. Your generosity supports worship, ministry, and service to our neighbors.' %}">
 {% endblock %}
+
+{% block og_title %}{% translate "Give" %} | {% translate "Sojourn Church" %}{% endblock %}
+{% block og_description %}{% translate "Give to Sojourn Church in Mount Airy, NC. Your generosity supports worship, ministry, and service to our neighbors." %}{% endblock %}
+{% block twitter_title %}{% translate "Give" %} | {% translate "Sojourn Church" %}{% endblock %}
+{% block twitter_description %}{% translate "Give to Sojourn Church in Mount Airy, NC. Your generosity supports worship, ministry, and service to our neighbors." %}{% endblock %}
 
 {% block content %}
   <main>

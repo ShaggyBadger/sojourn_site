@@ -49,6 +49,18 @@ msgstr "El archivo subido no es una imagen válida."
 msgid "What shapes us"
 msgstr "Lo que nos forma"
 
+msgid "Listen to this sermon"
+msgstr "Escucha este sermón"
+
+msgid "Published sermon linked from the Word-Driven homepage distinctive."
+msgstr "Sermón publicado enlazado desde la convicción «Guiados por la Palabra» en la página de inicio."
+
+msgid "Word-Driven sermon"
+msgstr "Sermón de «Guiados por la Palabra»"
+
+msgid "Choose the published sermon linked from the Word-Driven homepage distinctive."
+msgstr "Elige el sermón publicado que aparecerá enlazado desde la convicción «Guiados por la Palabra» en la página de inicio."
+
 msgid "New Hampshire Confession of Faith"
 msgstr "Confesión de Fe de New Hampshire"
 
@@ -654,6 +666,24 @@ msgstr "Enviar correo electrónico de prueba"
 
 msgid "Rendered email"
 msgstr "Correo electrónico renderizado"
+
+msgid "Sojourn Church in Mount Airy, NC"
+msgstr "Sojourn Church en Mount Airy, Carolina del Norte"
+
+msgid "A bilingual church community in Mount Airy, North Carolina, walking together in faith."
+msgstr "Una comunidad bilingüe de fe en Mount Airy, Carolina del Norte, que camina unida."
+
+msgid "Sojourn Church is a bilingual church in Mount Airy, NC, delighting in God and helping others grow together in faith. Join us for Sunday worship and sermons."
+msgstr "Sojourn Church es una iglesia bilingüe en Mount Airy, Carolina del Norte, que se deleita en Dios y ayuda a otros a crecer juntos en la fe. Acompáñanos el domingo para adorar y escuchar sermones."
+
+msgid "Plan your first visit to Sojourn Church, a welcoming bilingual church in Mount Airy, NC. Learn what to expect on Sunday and how Spanish-speaking neighbors are welcomed."
+msgstr "Planifica tu primera visita a Sojourn Church, una iglesia bilingüe que te da la bienvenida en Mount Airy, Carolina del Norte. Conoce qué esperar el domingo y cómo recibimos a nuestros vecinos de habla hispana."
+
+msgid "Give to Sojourn Church in Mount Airy, NC. Your generosity supports worship, ministry, and service to our neighbors."
+msgstr "Apoya a Sojourn Church en Mount Airy, Carolina del Norte. Tu generosidad contribuye a la adoración, el ministerio y el servicio a nuestros vecinos."
+
+msgid "Sojourn Church sermons"
+msgstr "Sermones de Sojourn Church"
 
 msgid "Subject"
 msgstr "Asunto"

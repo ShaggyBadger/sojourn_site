@@ -24,10 +24,10 @@ class SubscribeViewTests(TestCase):
         self.assertEqual(response.content.decode().count('id="signupSuccessMsg"'), 1)
 
     def test_signup_page_renders_spanish_interface_text(self):
-        self.client.cookies["django_language"] = "es"
+        response = self.client.get("/es/subscribe/")
 
-        response = self.client.get(reverse("communications:subscribe"))
-
+        self.assertContains(response, '<html lang="es"', html=False)
+        self.assertContains(response, 'name="robots" content="noindex,follow"', html=False)
         self.assertContains(response, "Mantente conectado")
         self.assertContains(response, "Iglesia Sojourn")
 
@@ -40,8 +40,6 @@ class SubscribeViewTests(TestCase):
         self.assertContains(response, 'class="site-header sticky-top"')
 
     def test_subscription_confirmation_page_renders_spanish_text(self):
-        self.client.cookies["django_language"] = "es"
-
-        response = self.client.get(reverse("communications:subscribe-confirmed"))
+        response = self.client.get("/es/subscribe/confirmed/")
 
         self.assertContains(response, "Suscripción confirmada")

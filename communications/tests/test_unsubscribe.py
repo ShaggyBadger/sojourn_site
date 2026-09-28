@@ -25,11 +25,10 @@ class UnsubscribeViewTests(TestCase):
 
     def test_unsubscribe_page_renders_spanish_interface_text(self):
         recipient = EmailRecipient.objects.create(email="spanish@example.com")
-        url = reverse(
+        url = "/es" + reverse(
             "communications:unsubscribe",
             kwargs={"token": recipient.unsubscribe_token},
         )
-        self.client.cookies["django_language"] = "es"
 
         response = self.client.get(url)
 

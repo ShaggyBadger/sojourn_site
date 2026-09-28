@@ -5,6 +5,7 @@ from django.test import TestCase
 from core.admin import SiteSettingsAdmin
 from core.models import AboutPage, AboutSection, SiteSettings, SocialLink, TeamMember
 from core.selectors import get_localized_about_content
+from media.models import MediaAsset
 from sermons.models import Sermon
 
 
@@ -33,10 +34,58 @@ class HomePageTests(TestCase):
         self.assertContains(response, 'rel="apple-touch-icon"', html=False)
 
     def test_homepage_renders_spanish_hero(self):
-        self.client.cookies["django_language"] = "es"
-        response = self.client.get("/")
+        response = self.client.get("/es/")
 
         self.assertContains(response, "Deleitándonos en Dios")
+
+    def test_homepage_metadata_renders_in_spanish(self):
+        response = self.client.get("/es/")
+
+        self.assertContains(response, "Sojourn Church en Mount Airy, Carolina del Norte")
+        self.assertContains(
+            response,
+            'name="description" content="Sojourn Church es una iglesia bilingüe en Mount Airy, Carolina del Norte, que se deleita en Dios y ayuda a otros a crecer juntos en la fe. Acompáñanos el domingo para adorar y escuchar sermones."',
+            html=False,
+        )
+        self.assertContains(response, 'property="og:description"', html=False)
+        self.assertContains(response, 'name="twitter:description"', html=False)
+        self.assertContains(
+            response,
+            'rel="canonical" href="https://sojourn-church.com/es/"',
+            html=False,
+        )
+        self.assertContains(
+            response,
+            'hreflang="en" href="https://sojourn-church.com/"',
+            html=False,
+        )
+        self.assertContains(
+            response,
+            'hreflang="es" href="https://sojourn-church.com/es/"',
+            html=False,
+        )
+
+    def test_english_public_urls_remain_unprefixed_and_ignore_language_cookie(self):
+        self.client.cookies["django_language"] = "es"
+
+        response = self.client.get("/")
+
+        self.assertContains(response, '<html lang="en"', html=False)
+        self.assertContains(response, "Delighting in God")
+        self.assertContains(response, 'rel="canonical" href="https://sojourn-church.com/"', html=False)
+
+    def test_language_selection_redirects_to_the_matching_localized_url(self):
+        spanish_response = self.client.post(
+            "/i18n/setlang/",
+            {"language": "es", "next": "/new-here/"},
+        )
+        english_response = self.client.post(
+            "/es/i18n/setlang/",
+            {"language": "en", "next": "/es/new-here/"},
+        )
+
+        self.assertEqual(spanish_response["Location"], "/es/new-here/")
+        self.assertEqual(english_response["Location"], "/new-here/")
 
     def test_site_settings_is_a_singleton(self):
         first_settings = SiteSettings.objects.create()
@@ -194,10 +243,125 @@ class HomePageTests(TestCase):
         self.assertNotContains(response, "Older Message")
         self.assertNotContains(response, "Future Message")
 
+    def test_word_driven_distinctive_links_to_its_selected_sermon(self):
+        site_settings = SiteSettings.objects.create(
+            homepage_word_driven_sermon=Sermon.objects.create(
+                title="A Word-Driven Church",
+                speaker="Pastor",
+                sermon_date="2026-09-27",
+                summary="Summary",
+                thesis="Thesis",
+                main_scripture="2 Timothy 3:16",
+                media_file="sermons/audio/word-driven.mp3",
+                is_published=True,
+            )
+        )
+        self._configure_homepage_distinctives(site_settings)
+
+        response = self.client.get("/")
+
+        self.assertContains(response, 'class="proclamation-sermon-badge"', html=False)
+        self.assertContains(response, "Sermon")
+        self.assertContains(response, "Listen to this sermon")
+        self.assertContains(response, "A Word-Driven Church")
+        self.assertContains(
+            response,
+            'href="/sermons/a-word-driven-church/"',
+            html=False,
+        )
+
+    def test_word_driven_card_omits_sermon_marker_for_unpublished_message(self):
+        site_settings = SiteSettings.objects.create(
+            homepage_word_driven_sermon=Sermon.objects.create(
+                title="Draft Word-Driven Message",
+                speaker="Pastor",
+                sermon_date="2026-09-27",
+                summary="Summary",
+                thesis="Thesis",
+                main_scripture="2 Timothy 3:16",
+                media_file="sermons/audio/draft-word-driven.mp3",
+                is_published=False,
+            )
+        )
+        self._configure_homepage_distinctives(site_settings)
+
+        response = self.client.get("/")
+
+        self.assertNotContains(response, "Draft Word-Driven Message")
+        self.assertNotContains(response, "Listen to this sermon")
+
+    def test_word_driven_sermon_link_label_is_translated(self):
+        site_settings = SiteSettings.objects.create(
+            homepage_word_driven_sermon=Sermon.objects.create(
+                title="A Word-Driven Church",
+                speaker="Pastor",
+                sermon_date="2026-09-27",
+                summary="Summary",
+                thesis="Thesis",
+                main_scripture="2 Timothy 3:16",
+                media_file="sermons/audio/word-driven.mp3",
+                is_published=True,
+            )
+        )
+        self._configure_homepage_distinctives(site_settings)
+
+        response = self.client.get("/es/")
+
+        self.assertContains(response, "Sermón")
+        self.assertContains(response, "Escucha este sermón")
+
+    def _configure_homepage_distinctives(self, site_settings):
+        for number in range(1, 9):
+            asset = MediaAsset.objects.create(
+                file=f"media/assets/home-test-{number}.png",
+                name=f"Homepage test icon {number}",
+                original_filename=f"home-test-{number}.png",
+                storage_status=MediaAsset.StorageStatus.PRESENT,
+            )
+            setattr(site_settings, f"homepage_icon_{number}_asset", asset)
+            setattr(
+                site_settings,
+                f"homepage_statement_{number}_en",
+                f"Statement {number}",
+            )
+        site_settings.homepage_statement_2_en = "Word-Driven"
+        site_settings.save()
+
     def test_homepage_new_here_card_links_to_visitor_page(self):
         response = self.client.get("/")
 
         self.assertContains(response, 'href="/new-here/"', html=False)
+
+
+class BilingualURLTests(TestCase):
+    def test_spanish_page_links_use_spanish_prefixed_urls(self):
+        response = self.client.get("/es/new-here/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<html lang="es"', html=False)
+        self.assertContains(response, 'href="/es/about/"', html=False)
+        self.assertContains(response, 'href="/es/sermons/"', html=False)
+        self.assertContains(response, 'href="/es/subscribe/"', html=False)
+        self.assertContains(response, 'action="/es/i18n/setlang/"', html=False)
+
+    def test_language_selection_redirects_to_equivalent_language_url(self):
+        spanish_response = self.client.post(
+            "/i18n/setlang/",
+            {"language": "es", "next": "/new-here/"},
+        )
+        english_response = self.client.post(
+            "/i18n/setlang/",
+            {"language": "en", "next": "/es/new-here/"},
+        )
+
+        self.assertEqual(spanish_response["Location"], "/es/new-here/")
+        self.assertEqual(english_response["Location"], "/new-here/")
+
+    def test_robots_keeps_both_nonindexable_communication_paths_disallowed(self):
+        response = self.client.get("/robots.txt")
+
+        self.assertContains(response, "Disallow: /subscribe/")
+        self.assertContains(response, "Disallow: /es/subscribe/")
 
 
 class NewHerePageTests(TestCase):
@@ -212,11 +376,15 @@ class NewHerePageTests(TestCase):
         self.assertContains(response, "Business casual")
 
     def test_new_here_page_renders_spanish_translation(self):
-        self.client.cookies["django_language"] = "es"
-        response = self.client.get("/new-here/")
+        response = self.client.get("/es/new-here/")
 
         self.assertContains(response, "Una iglesia bilingüe para nuestros vecinos")
         self.assertContains(response, "Reunión del domingo")
+        self.assertContains(
+            response,
+            'name="description" content="Planifica tu primera visita a Sojourn Church, una iglesia bilingüe que te da la bienvenida en Mount Airy, Carolina del Norte. Conoce qué esperar el domingo y cómo recibimos a nuestros vecinos de habla hispana."',
+            html=False,
+        )
 
 
 class GivingPageTests(TestCase):
@@ -243,10 +411,14 @@ class GivingPageTests(TestCase):
         self.assertNotEqual(response.status_code, 404)
 
     def test_giving_page_renders_spanish_translation(self):
-        self.client.cookies["django_language"] = "es"
-        response = self.client.get("/giving/")
+        response = self.client.get("/es/giving/")
 
         self.assertContains(response, "Usa nuestro formulario para dar en línea")
+        self.assertContains(
+            response,
+            'name="description" content="Apoya a Sojourn Church en Mount Airy, Carolina del Norte. Tu generosidad contribuye a la adoración, el ministerio y el servicio a nuestros vecinos."',
+            html=False,
+        )
 
 
 class AboutPageTests(TestCase):
@@ -341,8 +513,7 @@ class AboutPageTests(TestCase):
         self.assertNotContains(response, "about-pastor-card")
 
     def test_about_page_renders_spanish_translation(self):
-        self.client.cookies["django_language"] = "es"
-        response = self.client.get("/about/")
+        response = self.client.get("/es/about/")
 
         self.assertContains(response, '<html lang="es">', html=False)
         self.assertContains(response, "Acerca de Iglesia Sojourn")
@@ -377,8 +548,7 @@ class HowWeAreLedPageTests(TestCase):
         self.assertContains(response, 'rel="canonical"', html=False)
 
     def test_how_we_are_led_page_renders_spanish_content(self):
-        self.client.cookies["django_language"] = "es"
-        response = self.client.get("/how-we-are-led/")
+        response = self.client.get("/es/how-we-are-led/")
 
         self.assertContains(response, "Cómo somos guiados")
         self.assertContains(response, "Guiada por ancianos")
@@ -407,8 +577,7 @@ class PartnerWithUsPageTests(TestCase):
         self.assertContains(response, 'href="/subscribe/planting-interest/"', html=False)
 
     def test_partner_page_renders_spanish_content(self):
-        self.client.cookies["django_language"] = "es"
-        response = self.client.get("/partner-with-us/")
+        response = self.client.get("/es/partner-with-us/")
 
         self.assertContains(response, "Colabora con nosotros")
         self.assertContains(response, "Conecta")
@@ -435,8 +604,7 @@ class ConfessionPageTests(TestCase):
         self.assertContains(response, "truegraceofgod.org/1853-new-hampshire-confession/")
 
     def test_confession_page_renders_spanish_interface(self):
-        self.client.cookies["django_language"] = "es"
-        response = self.client.get("/new-hampshire-confession-of-faith/")
+        response = self.client.get("/es/new-hampshire-confession-of-faith/")
 
         self.assertContains(response, '<html lang="es">', html=False)
         self.assertContains(response, "Confesión de Fe de New Hampshire")
@@ -490,16 +658,14 @@ class BeliefsPageTests(TestCase):
         self.assertContains(response, "belief-context-callout")
 
     def test_baptist_faith_page_uses_official_spanish_statement_link(self):
-        self.client.cookies["django_language"] = "es"
-        response = self.client.get("/baptist-faith-and-message-2000/")
+        response = self.client.get("/es/baptist-faith-and-message-2000/")
 
         self.assertContains(response, "XVIII. La Familia")
         self.assertContains(response, "resumen original de Sojourn")
         self.assertContains(response, "bfandm.wpengine.com/es/fe-y-mensaje-bautistas/")
 
     def test_beliefs_pages_render_spanish_content(self):
-        self.client.cookies["django_language"] = "es"
-        response = self.client.get("/what-we-believe/")
+        response = self.client.get("/es/what-we-believe/")
 
         self.assertContains(response, '<html lang="es">', html=False)
         self.assertContains(response, "Lo que creemos")
@@ -511,3 +677,5 @@ class BeliefsPageTests(TestCase):
         self.assertContains(response, "/what-we-believe/")
         self.assertContains(response, "/nicene-creed/")
         self.assertContains(response, "/apostles-creed/")
+        self.assertContains(response, "/es/what-we-believe/")
+        self.assertContains(response, 'hreflang="es"', html=False)

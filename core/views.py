@@ -39,6 +39,17 @@ def home(request):
     ).first()
     if latest_sermon:
         localize_sermon(latest_sermon, get_language())
+    word_driven_sermon = None
+    if site_settings and site_settings.homepage_word_driven_sermon_id:
+        word_driven_sermon = with_spanish_translation(
+            Sermon.objects.filter(
+                pk=site_settings.homepage_word_driven_sermon_id,
+                is_published=True,
+                sermon_date__lte=timezone.localdate(),
+            )
+        ).first()
+        if word_driven_sermon:
+            localize_sermon(word_driven_sermon, get_language())
     return render(
         request,
         "home.html",
@@ -46,6 +57,7 @@ def home(request):
             "homepage_statements": homepage_statements,
             "homepage_statements_ready": homepage_statements_ready,
             "latest_sermon": latest_sermon,
+            "word_driven_sermon": word_driven_sermon,
         },
     )
 
@@ -138,6 +150,7 @@ def robots_txt(request):
         f"Allow: /\n"
         f"Disallow: /admin/\n"
         f"Disallow: /subscribe/\n"
+        f"Disallow: /es/subscribe/\n"
         f"Sitemap: {sitemap_url}\n",
         content_type="text/plain",
     )

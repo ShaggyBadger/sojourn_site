@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from sermons.models import Sermon, SermonCollection, SermonTag
+from sermons.models import Sermon, SermonCollection, SermonTag, SermonTranslation
 
 
 class SermonViewTests(TestCase):
@@ -80,6 +80,81 @@ class SermonViewTests(TestCase):
         self.assertContains(response, "God keeps his promises.")
         self.assertContains(response, "Welcome to the sermon.")
 
+    def test_spanish_detail_metadata_and_structured_data_use_translation(self):
+        SermonTranslation.objects.create(
+            sermon=self.published,
+            language=SermonTranslation.Language.SPANISH,
+            title="La promesa de Dios",
+            summary="Un resumen del mensaje.",
+            thesis="Dios cumple sus promesas.",
+            transcript="Bienvenidos al sermón.",
+        )
+
+        response = self.client.get(
+            f"/es{reverse('sermons:detail', kwargs={'slug': self.published.slug})}"
+        )
+
+        self.assertContains(response, "<title>La promesa de Dios | Sermones</title>", html=False)
+        self.assertContains(
+            response,
+            'name="description" content="Un resumen del mensaje."',
+            html=False,
+        )
+        self.assertContains(response, '"headline":"La promesa de Dios"', html=False)
+        self.assertContains(response, '"description":"Un resumen del mensaje."', html=False)
+        self.assertContains(response, '"inLanguage":"es"', html=False)
+        self.assertContains(
+            response,
+            f'"url":"https://sojourn-church.com/es/sermons/{self.published.slug}/"',
+            html=False,
+        )
+        self.assertContains(response, 'name="robots" content="index,follow"', html=False)
+        self.assertContains(
+            response,
+            f'rel="canonical" href="https://sojourn-church.com/es/sermons/{self.published.slug}/"',
+            html=False,
+        )
+        self.assertContains(response, 'hreflang="es"', html=False)
+
+    def test_incomplete_spanish_detail_is_not_indexed_as_an_english_duplicate(self):
+        response = self.client.get(
+            f"/es{reverse('sermons:detail', kwargs={'slug': self.published.slug})}"
+        )
+
+        self.assertContains(response, 'name="robots" content="noindex,follow"', html=False)
+        self.assertContains(
+            response,
+            f'rel="canonical" href="https://sojourn-church.com/sermons/{self.published.slug}/"',
+            html=False,
+        )
+        self.assertNotContains(response, 'hreflang="es"', html=False)
+
+    def test_sermon_sitemap_advertises_only_complete_spanish_translations(self):
+        complete = Sermon.objects.create(
+            title="A Complete Message",
+            speaker="Pastor Jordan",
+            sermon_date="2026-08-16",
+            summary="An English summary.",
+            thesis="An English thesis.",
+            main_scripture="Genesis 13",
+            transcript="An English transcript.",
+            media_file="sermons/audio/complete.mp3",
+            is_published=True,
+        )
+        SermonTranslation.objects.create(
+            sermon=complete,
+            language=SermonTranslation.Language.SPANISH,
+            title="Un mensaje completo",
+            summary="Un resumen completo.",
+            thesis="Una tesis completa.",
+            transcript="Una transcripción completa.",
+        )
+
+        response = self.client.get("/sitemap.xml")
+
+        self.assertContains(response, f"/es/sermons/{complete.slug}/")
+        self.assertNotContains(response, f"/es/sermons/{self.published.slug}/")
+
     def test_detail_shows_other_published_sermons_in_same_collection(self):
         related = Sermon.objects.create(
             title="Related Message",
@@ -136,10 +211,30 @@ class SermonViewTests(TestCase):
         self.assertNotContains(collection_response, "Private Draft", html=False)
         self.assertContains(tag_response, "God&#x27;s Promise", html=False)
 
-    def test_library_renders_spanish_interface_text(self):
-        self.client.cookies["django_language"] = "es"
+    def test_spanish_collection_and_tag_pages_are_not_indexed_without_translations(self):
+        collection_path = reverse(
+            "sermons:collection_detail",
+            kwargs={"slug": self.published.collection.slug},
+        )
+        tag_path = reverse(
+            "sermons:tag_detail", kwargs={"slug": self.published.tags.first().slug}
+        )
 
-        response = self.client.get(reverse("sermons:list"))
+        for path in (collection_path, tag_path):
+            with self.subTest(path=path):
+                english_response = self.client.get(path)
+                self.assertNotContains(english_response, 'hreflang="es"', html=False)
+
+                response = self.client.get(f"/es{path}")
+                self.assertContains(
+                    response,
+                    'name="robots" content="noindex,follow"',
+                    html=False,
+                )
+                self.assertNotContains(response, 'hreflang="es"', html=False)
+
+    def test_library_renders_spanish_interface_text(self):
+        response = self.client.get("/es/sermons/")
 
         self.assertContains(response, "Escucha y crece")
         self.assertContains(response, "Buscar sermones")
